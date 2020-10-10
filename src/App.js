@@ -1,8 +1,15 @@
 import React from 'react';
 import logo from './logo.svg';
+import axios from 'axios';
+
 import './App.css';
 
 function App() {
+  axios.get('http://localhost:3001/api/posts')
+  .then( res => res.data )
+  .then( data => data.map(post=> console.log(`${post.name} says: ${post.payload}`)))
+  .catch( err => console.log(err) )
+
   return (
     <div className="App">
       <header className="App-header">
