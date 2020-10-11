@@ -1,31 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
 import './App.css';
 
 function App() {
-  axios.get('http://localhost:3001/api/posts')
-  .then( res => res.data )
-  .then( data => data.map(post=> console.log(`${post.name} says: ${post.payload}`)))
-  .catch( err => console.log(err) )
+
+  const [posts, addPost] = useState();
+  const getPosts = async () => {
+    const data = await axios.get('http://localhost:3001/api/posts')
+    console.log(data.data);
+    addPost(data.data.map(post=>{
+      return <li key={post._id}>{post.payload}, {post.likes.length}</li>
+    }))
+  }
+
+  useEffect(()=> {getPosts()}, [])
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>hello</p>
+      {posts?posts:'no posts yet'}
     </div>
   );
 }

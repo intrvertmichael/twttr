@@ -1,0 +1,7 @@
+POST http://localhost:3001/api/like
+Content-Type: application/json
+
+{
+    "_id": "5f822323bc079911da3f0ddd",
+    "authorID": "5f82345e67e6d6189dbb2af0"
+}

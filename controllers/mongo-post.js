@@ -2,16 +2,18 @@ const mongoPostRouter = require('express').Router()
 const jwt = require('jsonwebtoken')
 const Post = require('../models/posts')
 
-mongoPostRouter.get('/posts', (request, response) => {
-    Post.find({}).then(posts => response.json(posts))
+// get all posts
+mongoPostRouter.get('/posts', async (request, response) => {
+    const posts = await Post.find({})
+    response.json(posts)
 })
 
-
+// create a post
 mongoPostRouter.post('/posts', async (request, response) => {
     if(!request.body.token){
         response
         .status(401)
-        .send("There was an issue with the token.")
+        .send("No token was found.")
     }
 
     const decodedToken = jwt.verify(request.body.token, process.env.JWT_KEY)
@@ -25,9 +27,25 @@ mongoPostRouter.post('/posts', async (request, response) => {
         date: new Date()
     })
 
-    post.save()
-        .then(savedNote => response.send('post was created successfully'))
-        .catch(error => console.log(error))
+    await post.save()
+    response.send('post was created successfully')
+})
+
+// add a like
+mongoPostRouter.post('/like', async (request, response)=>{
+    
+    // find existing liked post
+    const likedPost = await Post.findById(request.body._id).exec()
+
+    // if the person didn't like before add like
+    if(!likedPost.likes.includes(request.body.authorID)){
+        await Post.updateOne( {_id:request.body._id}, { $addToSet: { likes: request.body.authorID }})
+        response.status(200).send('like was added')
+    }
+    // otherwise send message
+    else{
+        response.status(401).send('this person already liked this post')
+    }
 })
 
 module.exports = mongoPostRouter;
