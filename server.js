@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('express-async-errors')
 
 const express = require('express')
 const mongoose = require('mongoose')
@@ -6,7 +7,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoUserRouter = require('./controllers/mongo-user')
 const mongoPostRouter = require('./controllers/mongo-post')
-const loginRouter = require('./controllers/login')
+const loginRouter = require('./controllers/mongo-login')
 const path = require('path');
 
 const app = express()
