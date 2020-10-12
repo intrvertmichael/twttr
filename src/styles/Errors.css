@@ -1,0 +1,12 @@
+.errors {
+    display: block;
+    background: #FFE1E1;
+    color: #B98383;
+    border: 1px solid #B98383;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 20px;
+    padding: 30px;
+    box-sizing: border-box;
+    cursor: pointer;
+}

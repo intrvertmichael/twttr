@@ -1,4 +1,5 @@
 import React from 'react'
+import LikeButton from './LikeButton';
 import {deleteRequest} from './Requests'
 import {likeRequest} from './Requests'
 
@@ -11,15 +12,6 @@ const Post = props => {
         const res = await deleteRequest({token:profile.token , _id:post._id})
         console.log(res);
         props.changeCurrentPage('update')
-    }
-
-    let counter = 0;
-    const handleLikeClick = async e => {
-        e.preventDefault();
-        const res = await likeRequest({token:profile.token , _id:post._id})
-        console.log(res);
-        counter++
-        props.changeCurrentPage(`update ${counter}`)
     }
 
     let deleteButton
@@ -49,11 +41,12 @@ const Post = props => {
             </div>
         </div>
         <div className='postButtons'>
-        <button className="like" onClick={event=>{
-            if(profile && (profile._id !== post.authorId) && !post.likes.includes(profile._id) ){
-                handleLikeClick(event)
-            }
-        }}>{post.likes.length} {'<3'}</button>
+            <LikeButton 
+                profile={profile} 
+                post={post} 
+                likeRequest={likeRequest}
+                changeCurrentPage={props.changeCurrentPage}
+            />
             {deleteButton}
         </div>
     </li>

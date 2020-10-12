@@ -43,12 +43,16 @@ inside the post
 }
 
 .info h3 {
-    color: rgb(115, 115, 115);
     text-transform: capitalize;
     font-weight: normal;
     padding: 0px;
     margin: 0px;
-    font-size: 16px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.info h3, p.date {
+    color: rgb(150, 150, 150);
 }
 
 .info p{
@@ -92,7 +96,7 @@ like and delete button
 
 .postButtons {
     /* border: 1px solid blue; */
-    width: 80px;
+    width: 50px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -103,4 +107,23 @@ like and delete button
     text-align: right;
     border: none;
     background: none;
+}
+
+.like {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 50px;
+    margin-top: -5px;
+    opacity: 0.2;
+}
+
+.like label {
+    padding-top: 3px;
+    font-size: 16px;
+}
+
+.heart {
+    width: 20px;
+    height: 20px;
 }

@@ -8,10 +8,13 @@ const Register = props => {
 
     const handleSubmit = async event =>{
     event.preventDefault()
-        console.log(registerInfo)
+    console.log(registerInfo)
+    if(!registerInfo || !registerInfo.name || !registerInfo.password || !registerInfo.rePassword || !registerInfo.color){
+        props.addErrorMessage('Error: You have to fill out all fields')
+    } else {
         if(registerInfo.password !== registerInfo.rePassword){
-            rePasswordEl.current.style.backgroundColor = "red";
-            console.log('passwords do not match')
+            rePasswordEl.current.style.backgroundColor = "#FFE1E1";
+            props.addErrorMessage('Error: Passwords do not match')
         } else {
             rePasswordEl.current.style.backgroundColor = "white";
             const response = await registerRequest(registerInfo)
@@ -24,6 +27,7 @@ const Register = props => {
                 props.changeCurrentPage('posts')
             }
         }
+    }
     }
 
     const onEnterPress = (e) => {
@@ -73,7 +77,10 @@ const Register = props => {
                 })}
             />
             <div className='btns'>
-                <button onClick={()=> props.changeCurrentPage('log in')}> Log In </button>
+                <button onClick={()=> {
+                    props.changeCurrentPage('log in')
+                    props.addErrorMessage('')
+                    }}> Log In </button>
                 <button className='btns'type='submit'>Submit</button>
             </div>
         </form>

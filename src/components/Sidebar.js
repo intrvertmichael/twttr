@@ -13,12 +13,18 @@ const Sidebar = props =>{
         return(
             <>
                 <div className="page-label">{props.currentPage}</div>
-                <button onClick={()=>props.changeCurrentPage('posts')}>Cancel</button>
+                <button onClick={()=>{
+                    props.changeCurrentPage('posts')
+                    props.addErrorMessage('')
+                }}>Cancel</button>
             </>)
     }
 
     else if(props.profile && props.currentPage==='compose'){
-        return(<button onClick={()=>props.changeCurrentPage('posts')}>Cancel</button>)
+        return(<button onClick={()=>{
+            props.changeCurrentPage('posts')
+            props.addErrorMessage('')
+        }}>Cancel</button>)
     }
 
     else{

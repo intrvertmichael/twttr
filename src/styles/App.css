@@ -1,13 +1,19 @@
-html, body {
+html, body, #root {
     min-height: 100%;
     font-family: Helvetica, Arial, sans-serif;
+    margin: 0px;
+    padding: 0px;
+}
+
+.global-app {
+    width: 800px;
+    margin: 50px auto;
+    box-sizing: border-box;
 }
 
 .App {
     width: 800px;
-    margin: 50px auto;
     display: flex;
-    box-sizing: border-box;
 }
 
 .container{

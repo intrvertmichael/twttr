@@ -7,13 +7,18 @@ const LogIn = props => {
 
     const handleSubmit = async event =>{
         event.preventDefault()
-        const response = await logInRequest(loginInfo)
-        if(typeof(response)=='string'){
-            console.log(response)
+        if(!loginInfo || !loginInfo.name || !loginInfo.password){
+            props.addErrorMessage('Error: You have to fill out both fields')
         } else {
-            console.log('Log in was successful')
-            props.addProfile(response);
-            props.changeCurrentPage('posts');
+            const response = await logInRequest(loginInfo)
+            if(typeof(response)=='string'){
+                console.log(response)
+                props.addErrorMessage(response)
+            } else {
+                console.log('Log in was successful')
+                props.addProfile(response);
+                props.changeCurrentPage('posts');
+            }
         }
     }
 
@@ -47,7 +52,10 @@ const LogIn = props => {
             />
 
             <div className='btns'>
-                <button className='btns' onClick={()=> props.changeCurrentPage('register')}> Register </button>
+                <button className='btns' onClick={()=> {
+                    props.addErrorMessage('')
+                    props.changeCurrentPage('register')
+                    }}> Register </button>
                 <button className='btns' type="submit">Submit</button>
             </div>
         </form>
