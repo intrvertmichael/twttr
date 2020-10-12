@@ -3,10 +3,23 @@
     margin: auto;
 }
 
+h3 {
+    text-transform: capitalize;
+}
+
 .loginForm {
-    padding: 50px;
+    padding: 20px 50px;
 }
 
 .loginForm input {
     margin: 30px;
+}
+
+.registerForm {
+    padding: 20px 50px;
+}
+
+.registerForm input {
+    display: block;
+    margin: 10px;
 }

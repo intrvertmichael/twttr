@@ -3,8 +3,9 @@ import React, {useState, useEffect} from 'react'
 import {getPostsRequest} from './Requests'
 import LogIn from './LogIn'
 import Profile from './Profile'
-
+import Register from './Register'
 import './App.css';
+import Posts from './Posts'
 
 function App() {
 
@@ -21,19 +22,11 @@ function App() {
 
   return (
     <div className="App">
-      <LogIn addProfile={addProfile} />
-      <Profile profile={profile} />
       <h1>twttr</h1>
-      <ul>
-      { posts? posts.map( post => {
-        return (
-        <li key={post._id}> 
-          <h3>{post.name}</h3>
-          <p>{post.payload}</p>
-        </li>)
-      }) : 'no posts yet' }
-      </ul>
-      
+      <LogIn addProfile={addProfile} />
+      <Register addProfile={addProfile}/>
+      <Profile profile={profile} />
+      <Posts posts={posts}/>
     </div>
   );
 }

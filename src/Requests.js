@@ -15,3 +15,10 @@ export const logInRequest = async (userInfo) => {
     .catch(err => message = `Error: ${err.response.data}`)
     return message!==''? message : response.data;
 }
+
+export const registerRequest = async (userInfo) => {
+    let message = '' ;
+    const response = await axios.post('http://localhost:3001/api/users', userInfo)
+    .catch(err => message = `Error: ${err.response.data}`)
+    return message!==''? message : response.data;
+}

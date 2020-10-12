@@ -5,37 +5,37 @@ const LogIn = props => {
     const [loginInfo, setLoginInfo] = useState();
 
     const handleSubmit = async event =>{
-    event.preventDefault()
-    if(loginInfo){
+        event.preventDefault()
         const response = await logInRequest(loginInfo)
         if(typeof(response)=='string'){
-            console.log('there is an error')
             console.log(response)
         } else {
-            console.log('log in was successful')
-            // console.log(response)
+            console.log('Log in was successful')
             props.addProfile(response);
         }
-    } else {
-        console.log(' or password dont work')
-    }
     }
 
     return (
         <form onSubmit={handleSubmit} className='loginForm'>
-            <label> Log In</label>
-            <input 
+            <label> Log In </label>
+            <input
                 type='text'
                 name="name"
                 placeholder="Enter your name"
-                onChange={(e)=> setLoginInfo({...loginInfo,name:e.target.value.toLowerCase()})}
+                onChange={(e)=> setLoginInfo({
+                    ...loginInfo,
+                    name:e.target.value.toLowerCase().trim()
+                })}
             />
 
             <input
                 type='password'
                 name="password"
                 placeholder="Enter your password"
-                onChange={(e)=> setLoginInfo({...loginInfo,password:e.target.value})}
+                onChange={(e)=> setLoginInfo({
+                    ...loginInfo,
+                    password:e.target.value.trim()
+                })}
             />
 
             <input type='submit' name="submit"/>
