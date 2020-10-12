@@ -33,7 +33,7 @@ mongoPostRouter.post('/posts', async (request, response) => {
 
 // add a like
 mongoPostRouter.post('/like', async (request, response)=>{
-    
+
     // find existing liked post
     const likedPost = await Post.findById(request.body._id).exec()
 

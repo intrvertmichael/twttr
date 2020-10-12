@@ -6,11 +6,12 @@ import Profile from './Profile'
 import Register from './Register'
 import './App.css';
 import Posts from './Posts'
+import Compose from './Compose'
 
 function App() {
 
-  const [posts, addPost] = useState();
   const [profile, addProfile] = useState();
+  const [posts, addPost] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +27,7 @@ function App() {
       <LogIn addProfile={addProfile} />
       <Register addProfile={addProfile}/>
       <Profile profile={profile} />
+      <Compose profile={profile}/>
       <Posts posts={posts}/>
     </div>
   );

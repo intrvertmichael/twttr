@@ -22,3 +22,10 @@ export const registerRequest = async (userInfo) => {
     .catch(err => message = `Error: ${err.response.data}`)
     return message!==''? message : response.data;
 }
+
+export const composeRequest = async (userInfo) => {
+    let message = '' ;
+    const response = await axios.post('http://localhost:3001/api/posts', userInfo)
+    .catch(err => message = `Error: ${err.response.data}`)
+    return message!==''? message : response.data;
+}
