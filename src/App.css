@@ -1,2 +1,12 @@
 .App {
+    width: 800px;
+    margin: auto;
+}
+
+.loginForm {
+    padding: 50px;
+}
+
+.loginForm input {
+    margin: 30px;
 }

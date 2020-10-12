@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {logInRequest} from './Requests'
 
-const LogIn = () => {
+const LogIn = props => {
     const [loginInfo, setLoginInfo] = useState();
 
     const handleSubmit = async event =>{
@@ -13,7 +13,8 @@ const LogIn = () => {
             console.log(response)
         } else {
             console.log('log in was successful')
-            console.log(response)
+            // console.log(response)
+            props.addProfile(response);
         }
     } else {
         console.log(' or password dont work')
@@ -21,12 +22,13 @@ const LogIn = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='loginForm'>
+            <label> Log In</label>
             <input 
                 type='text'
                 name="name"
                 placeholder="Enter your name"
-                onChange={(e)=> setLoginInfo({...loginInfo,name:e.target.value})}
+                onChange={(e)=> setLoginInfo({...loginInfo,name:e.target.value.toLowerCase()})}
             />
 
             <input

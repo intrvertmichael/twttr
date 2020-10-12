@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from 'react'
 
-import LogIn from './LogIn'
 import {getPostsRequest} from './Requests'
+import LogIn from './LogIn'
+import Profile from './Profile'
 
 import './App.css';
 
 function App() {
 
-  const [posts, addPost] = useState([]);
+  const [posts, addPost] = useState();
+  const [profile, addProfile] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,6 +21,8 @@ function App() {
 
   return (
     <div className="App">
+      <LogIn addProfile={addProfile} />
+      <Profile profile={profile} />
       <h1>twttr</h1>
       <ul>
       { posts? posts.map( post => {
@@ -29,7 +33,7 @@ function App() {
         </li>)
       }) : 'no posts yet' }
       </ul>
-      <LogIn />
+      
     </div>
   );
 }
