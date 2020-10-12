@@ -1,5 +1,6 @@
 import React, {useState, useRef} from 'react';
 import {registerRequest} from './Requests'
+import '../styles/Register.css';
 
 const Register = props => {
     const [registerInfo, setRegisterInfo] = useState();
@@ -10,22 +11,30 @@ const Register = props => {
         console.log(registerInfo)
         if(registerInfo.password !== registerInfo.rePassword){
             rePasswordEl.current.style.backgroundColor = "red";
+            console.log('passwords do not match')
         } else {
             rePasswordEl.current.style.backgroundColor = "white";
+            const response = await registerRequest(registerInfo)
+            if(typeof(response)=='string'){
+                console.log('there is an error')
+                console.log(response)
+            } else {
+                console.log('log in was successful')
+                props.addProfile(response);
+                props.changeCurrentPage('posts')
+            }
         }
-        const response = await registerRequest(registerInfo)
-        if(typeof(response)=='string'){
-            console.log('there is an error')
-            console.log(response)
-        } else {
-            console.log('log in was successful')
-            props.addProfile(response);
+    }
+
+    const onEnterPress = (e) => {
+        if(e.keyCode === 13) {
+            e.preventDefault();
+            handleSubmit(e);
         }
     }
 
     return (
-        <form onSubmit={handleSubmit} className='registerForm'>
-            <label> Register </label>
+        <form onSubmit={handleSubmit} className='registerForm' onKeyDown={onEnterPress}>
             <input
                 type='text'
                 name="name"
@@ -57,15 +66,16 @@ const Register = props => {
             <input
                 type='text'
                 name="color"
-                ref={rePasswordEl}
                 placeholder="Enter a Color"
                 onChange={(e)=> setRegisterInfo({
                     ...registerInfo,
                     color:e.target.value.trim()
                 })}
             />
-
-            <input type='submit' name="submit"/>
+            <div className='btns'>
+                <button onClick={()=> props.changeCurrentPage('log in')}> Log In </button>
+                <button className='btns'type='submit'>Submit</button>
+            </div>
         </form>
     )
 }

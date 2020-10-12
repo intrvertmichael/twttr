@@ -2,6 +2,6 @@ POST http://localhost:3001/api/like
 Content-Type: application/json
 
 {
-    "_id": "5f822323bc079911da3f0ddd",
-    "authorID": "5f82345e67e6d6189dbb2af0"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmODQ0MzExNWFkNmJmMGE3ZjUwZmVjMCIsIm5hbWUiOiJtaWNoYWVsIiwiY29sb3IiOiIjMDAwIiwiaWF0IjoxNjAyNTAzNDQxfQ.scyYsmp26xoJaY6JZGI6sgcyBHL_Ten42uhTaxrKdP4",
+    "_id": "5f84446ba1680d0ada6d736c"
 }

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {logInRequest} from './Requests'
+import '../styles/LogIn.css';
 
 const LogIn = props => {
     const [loginInfo, setLoginInfo] = useState();
@@ -12,12 +13,19 @@ const LogIn = props => {
         } else {
             console.log('Log in was successful')
             props.addProfile(response);
+            props.changeCurrentPage('posts');
+        }
+    }
+
+    const onEnterPress = (e) => {
+        if(e.keyCode === 13) {
+            e.preventDefault();
+            handleSubmit(e);
         }
     }
 
     return (
-        <form onSubmit={handleSubmit} className='loginForm'>
-            <label> Log In </label>
+        <form onSubmit={handleSubmit} className='loginForm' onKeyDown={onEnterPress}>
             <input
                 type='text'
                 name="name"
@@ -38,7 +46,10 @@ const LogIn = props => {
                 })}
             />
 
-            <input type='submit' name="submit"/>
+            <div className='btns'>
+                <button className='btns' onClick={()=> props.changeCurrentPage('register')}> Register </button>
+                <button className='btns' type="submit">Submit</button>
+            </div>
         </form>
     )
 }

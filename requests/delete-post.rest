@@ -1,0 +1,7 @@
+POST http://localhost:3001/api/posts
+Content-Type: application/json
+
+{
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmODIzMjcwMWE0NDg4MTgwYzU0MzkzZCIsIm5hbWUiOiJZYWZpcmEiLCJjb2xvciI6IiNGMkYyRjIiLCJpYXQiOjE2MDIzNjgxMTJ9.3LNjyDsUYETAf5Lk0shBtKDu_t6gjIzuGcQYFAN9PsM",
+    "_id": "5f843ad8ec22e607f7c1b0e7"
+}

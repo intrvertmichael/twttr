@@ -1,0 +1,29 @@
+.loginForm input, .btns button{
+    box-sizing: border-box;
+    padding: 30px;
+    border: none;
+    border-top:1px solid black;
+    font-size: 20px;
+    display: block;
+    width: 100%;
+}
+
+.loginForm input:nth-child(1){
+    border-top: none;
+}
+
+.btns{
+    width: 100%;
+    display: flex;
+}
+
+.btns button {
+    width: 100%;
+    border-left:1px solid black !important;
+    cursor: pointer;
+}
+
+.btns button:nth-child(1){
+    border-left: none !important;
+    background: none;
+}

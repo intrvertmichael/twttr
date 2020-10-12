@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const User = require('../models/users')
 
 loginRouter.post('/login', async (request, response) => {
-    console.log('server received', request.body)
     const savedUser = await User.find({ name:request.body.name });
 
     if(savedUser.length>0){

@@ -1,0 +1,106 @@
+/*
+container
+*/
+
+.container ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+.post {
+    /* border:1px solid red; */
+    border-top: 1px solid black;
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 10px;
+}
+
+.post:nth-child(1){
+    border-top: none;
+}
+
+.content {
+    /* border:1px solid green; */
+    width: 420px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+/*
+inside the post
+*/
+
+.info {
+    /* border: 1px solid blue; */
+    width:100%;
+    padding: 0px 20px;
+    box-sizing: border-box;
+}
+
+.info h3 {
+    color: rgb(115, 115, 115);
+    text-transform: capitalize;
+    font-weight: normal;
+    padding: 0px;
+    margin: 0px;
+    font-size: 16px;
+}
+
+.info p{
+    font-size: 20px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.info p.date {
+    margin-top: 20px;
+}
+
+p.date, .delete {
+    font-size: 14px;
+}
+
+.delete {
+    color: red;
+    cursor: pointer;
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100%;
+}
+
+.icon-color {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
+
+
+
+/*
+like and delete button
+*/
+
+.postButtons {
+    /* border: 1px solid blue; */
+    width: 80px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between
+}
+
+.postButtons button {
+    text-align: right;
+    border: none;
+    background: none;
+}

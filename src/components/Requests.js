@@ -1,6 +1,4 @@
-// import React from 'react'
 import axios from 'axios'
-
 
 export const getPostsRequest = async () => {
     let message = '' ;
@@ -23,9 +21,23 @@ export const registerRequest = async (userInfo) => {
     return message!==''? message : response.data;
 }
 
-export const composeRequest = async (userInfo) => {
+export const composeRequest = async (postInfo) => {
     let message = '' ;
-    const response = await axios.post('http://localhost:3001/api/posts', userInfo)
+    const response = await axios.post('http://localhost:3001/api/posts', postInfo)
+    .catch(err => message = `Error: ${err.response.data}`)
+    return message!==''? message : response.data;
+}
+
+export const deleteRequest = async (postInfo) => {
+    let message = '' ;
+    const response = await axios.post('http://localhost:3001/api/delete', postInfo)
+    .catch(err => message = `Error: ${err.response.data}`)
+    return message!==''? message : response.data;
+}
+
+export const likeRequest = async (postInfo) => {
+    let message = '' ;
+    const response = await axios.post('http://localhost:3001/api/like', postInfo)
     .catch(err => message = `Error: ${err.response.data}`)
     return message!==''? message : response.data;
 }
