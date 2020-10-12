@@ -22,8 +22,8 @@ const Compose = props => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
+        <form className='composeForm' onSubmit={handleSubmit}>
+            <textarea
                 type='text'
                 name="text"
                 placeholder="Enter your message"
