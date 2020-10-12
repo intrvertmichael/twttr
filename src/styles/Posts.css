@@ -7,6 +7,15 @@ container
     padding: 0px;
 }
 
+.emptyPosts{
+    text-align: center;
+    font-size: 20px;
+}
+
+.emptyPosts img {
+    width: 100%;
+}
+
 .post {
     /* border:1px solid red; */
     border-top: 1px solid black;

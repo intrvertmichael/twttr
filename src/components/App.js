@@ -13,7 +13,7 @@ function App() {
 
   const [currentPage, changeCurrentPage] = useState('posts');
   const [profile, addProfile] = useState();
-  const [posts, addPost] = useState();
+  const [posts, addPost] = useState([]);
   const [errorMessage, addErrorMessage] = useState();
 
   useEffect(() => {
