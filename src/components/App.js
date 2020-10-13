@@ -5,6 +5,7 @@ import LogIn from './LogIn'
 import Sidebar from './Sidebar'
 import Register from './Register'
 import '../styles/App.css';
+import '../styles/MediaQueries.css';
 import Posts from './Posts'
 import Compose from './Compose'
 import Errors from './Errors'
