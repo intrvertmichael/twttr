@@ -4,24 +4,37 @@ import '../styles/Register.css';
 
 const Register = props => {
     const [registerInfo, setRegisterInfo] = useState();
+    const [colorPressed, setColorPressed] = useState(0);
     const rePasswordEl = useRef();
 
+    // when submit button is pressed
     const handleSubmit = async event =>{
     event.preventDefault()
     console.log(registerInfo)
+
+    //make sure everything is filled out
     if(!registerInfo || !registerInfo.name || !registerInfo.password || !registerInfo.rePassword || !registerInfo.color){
+        // if its not then send error
         props.addErrorMessage('Error: You have to fill out all fields')
     } else {
+        // if it is make sure passwords match
         if(registerInfo.password !== registerInfo.rePassword){
             rePasswordEl.current.style.backgroundColor = "#FFE1E1";
             props.addErrorMessage('Error: Passwords do not match')
         } else {
             rePasswordEl.current.style.backgroundColor = "white";
+
+            // if everything matches and is good then
+            // send request to register user
             const response = await registerRequest(registerInfo)
+
+            // if response is a string it's an error
             if(typeof(response)=='string'){
                 console.log('there is an error')
                 console.log(response)
             } else {
+
+                // if it's an object it was successful
                 console.log('log in was successful')
                 props.addProfile(response);
                 props.changeCurrentPage('posts')
@@ -67,6 +80,8 @@ const Register = props => {
                     rePassword:e.target.value.trim()
                 })}
             />
+
+            {/* enter your own color
             <input
                 type='text'
                 name="color"
@@ -75,7 +90,65 @@ const Register = props => {
                     ...registerInfo,
                     color:e.target.value.trim()
                 })}
-            />
+            /> */}
+
+            <div className='color-btns'>
+                <div className='color-btns-label'>
+                    Choose a color:
+                </div>
+                <div className='color-btns-choices'>
+                    <button
+                        onClick={e=>{
+                            // set orange
+                            e.preventDefault()
+                            setColorPressed(1)
+                            setRegisterInfo({
+                                ...registerInfo,
+                                color:'#FFDAC5'
+                            })
+                        }}
+                        className={colorPressed===1 ? 'selected' : null}
+                    />
+                    <button
+                        onClick={e=>{
+                            // set green
+                            e.preventDefault()
+                            setColorPressed(2)
+                            setRegisterInfo({
+                                ...registerInfo,
+                                color:'#C5FFD1'
+                            })
+                        }}
+                        className={colorPressed===2 ? 'selected' : null}
+                    />
+                    <button
+                        onClick={e=>{
+                            // set blue
+                            e.preventDefault()
+                            setColorPressed(3)
+                            setRegisterInfo({
+                                ...registerInfo,
+                                color:'#C5DCFF'
+                            })
+                        }}
+                        className={colorPressed===3 ? 'selected' : null}
+                    />
+                    <button
+                        onClick={e=>{
+                            // set purple
+                            e.preventDefault()
+                            setColorPressed(4)
+                            setRegisterInfo({
+                                ...registerInfo,
+                                color:'#F0C5FF'
+                            })
+                        }}
+                        className={colorPressed===4 ? 'selected' : null}
+                    />
+                </div>
+            </div>
+
+
             <div className='btns'>
                 <button onClick={()=> {
                     props.changeCurrentPage('log in')

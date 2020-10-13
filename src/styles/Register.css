@@ -10,3 +10,45 @@
 .registerForm input:nth-child(1){
     border-top: none;
 }
+
+.color-btns {
+    width: 100%;
+    font-size: 20px;
+    border-top: 1px solid black;
+    color: gray;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.color-btns-label {
+    padding: 30px;
+    width: 150px;
+}
+
+.color-btns-choices{
+    width: 330px;
+    display: flex;
+    flex-direction: row;
+}
+.color-btns-choices button {
+    width: 100%;
+    border: none;
+    border-left: 1px solid black;
+}
+
+.color-btns-choices button:nth-child(1) {
+    background: #FFDAC5;
+}
+.color-btns-choices button:nth-child(2) {
+    background: #C5FFD1;
+}
+.color-btns-choices button:nth-child(3) {
+    background: #C5DCFF;
+}
+.color-btns-choices button:nth-child(4) {
+    background: #F0C5FF;
+}
+
+.selected {
+    border-bottom: 5px solid red !important;
+}
