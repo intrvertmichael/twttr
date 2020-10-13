@@ -18,6 +18,7 @@ const LogIn = props => {
                 console.log('Log in was successful')
                 props.addProfile(response);
                 props.changeCurrentPage('posts');
+                props.addErrorMessage('')
             }
         }
     }
