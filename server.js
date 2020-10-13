@@ -18,13 +18,15 @@ app.use(bodyParser.json())
 app.use(express.static('build'))
 
 // connect
-mongoose.connect(process.env.MONGO_URL , {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-    .then(result => console.log('connected to MongoDB'))
-    .catch((error) => console.log('error connecting to MongoDB:', error.message))
+const connectMongo = async () => {
+    await mongoose.connect(process.env.MONGO_URL , {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
 
+    console.log('connected to MongoDB')
+}
+connectMongo();
 // routes
 app.get('/', (req, res)=>{
     res.sendFile(path.join(__dirname, 'build', 'index.html'));

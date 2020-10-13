@@ -20,9 +20,10 @@ container
     /* border:1px solid red; */
     border-top: 1px solid black;
     display: flex;
+    justify-content: space-between;
     width: 100%;
     box-sizing: border-box;
-    padding: 20px 10px;
+    padding: 20px;
 }
 
 .post:nth-child(1){
@@ -56,7 +57,6 @@ inside the post
     font-weight: normal;
     padding: 0px;
     margin: 0px;
-    margin-bottom: 10px;
     font-size: 20px;
 }
 
@@ -64,18 +64,17 @@ inside the post
     color: rgb(150, 150, 150);
 }
 
-.info p{
+.info p.text{
     font-size: 20px;
+    line-height: 30px;
     margin: 0px;
-    padding: 0px;
-}
-
-.info p.date {
-    margin-top: 20px;
+    padding: 5px 0px 10px 0px;
 }
 
 p.date, .delete {
     font-size: 14px;
+    margin: 0px;
+    padding: 0px;
 }
 
 .delete {
@@ -87,8 +86,7 @@ p.date, .delete {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
-    height: 100%;
+    width: 75px;
 }
 
 .icon-color {
@@ -105,11 +103,11 @@ like and delete button
 
 .postButtons {
     /* border: 1px solid blue; */
-    width: 50px;
+    width: 35px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: space-between
+    justify-content: space-between;
 }
 
 .postButtons button {
@@ -122,9 +120,10 @@ like and delete button
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 50px;
-    margin-top: -5px;
-    opacity: 0.2;
+    width: 35px;
+    margin: 0px;
+    padding: 0px;
+    opacity: 0.3;
 }
 
 .like label {

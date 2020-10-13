@@ -4,8 +4,9 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/users')
 
 // get all users
-mongoUserRouter.get('/users', (request, response) => {
-    User.find({}).then(users => response.json(users))
+mongoUserRouter.get('/users', async (request, response) => {
+    const users = await User.find({})
+    response.json(users)
 })
 
 // creating user

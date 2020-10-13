@@ -16,7 +16,13 @@ const Posts = props => {
     return (
     <ul>
     {
-        props.posts.slice(0).reverse().map(post => <Post key={post._id} profile={profile} post={post} changeCurrentPage={props.changeCurrentPage}/>)
+        props.posts.slice(0).reverse().map(post => <Post
+            key={post._id}
+            profile={profile}
+            post={post}
+            changeCurrentPage={props.changeCurrentPage}
+            fetchData={props.fetchData}
+            />)
     }
     </ul>
     )

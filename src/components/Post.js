@@ -7,26 +7,35 @@ const Post = props => {
     const {post} = props;
     const {profile} = props;
 
+    if(!post){
+        return <div></div>
+    }
+
+    // handle delete button pressed
     const handleDeleteClick = async e => {
         e.preventDefault();
-        const res = await deleteRequest({token:profile.token , _id:post._id})
+        const res = await deleteRequest({
+            token:profile.token,
+            _id:post._id
+        })
         console.log(res);
-        props.changeCurrentPage('update')
+        props.fetchData();
     }
 
     let deleteButton
     if(profile && profile._id === post.authorId){
-        deleteButton = <button className="delete" onClick={handleDeleteClick}>delete</button>
+        deleteButton = <button
+        className="delete"
+        onClick={handleDeleteClick}
+        > Delete </button>
     }
 
     const months=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-    let fullDate
-    if(post){
-        const d = new Date(post.date);
-        let ampm = d.getHours() >= 12 ? 'pm' : 'am';
-        fullDate =`${months[d.getMonth()]} ${d.getDate()} , ${d.getFullYear()} | ${d.getHours()}:${d.getMinutes()} ${ampm}`
-    }
+    const d = new Date(post.date);
+    let ampm = d.getHours() >= 12 ? 'pm' : 'am';
+    const fullDate =`${months[d.getMonth()]} ${d.getDate()} , ${d.getFullYear()} | ${d.getHours()}:${d.getMinutes()} ${ampm}`
+
 
     return (
     <li className='post'>
@@ -36,7 +45,7 @@ const Post = props => {
             </div>
             <div className='info'>
                 <h3>{post.name}</h3>
-                <p>{post.payload}</p>
+                <p className='text'>{post.payload}</p>
                 <p className='date'>{fullDate}</p>
             </div>
         </div>
@@ -46,6 +55,7 @@ const Post = props => {
                 post={post} 
                 likeRequest={likeRequest}
                 changeCurrentPage={props.changeCurrentPage}
+                fetchData={props.fetchData}
             />
             {deleteButton}
         </div>
