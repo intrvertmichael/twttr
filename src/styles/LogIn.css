@@ -15,12 +15,14 @@
 .btns{
     width: 100%;
     display: flex;
+    margin: 0px;
 }
 
 .btns button {
     width: 100%;
     border-left:1px solid black !important;
     cursor: pointer;
+    margin: 0px;
 }
 
 .btns button:nth-child(1){

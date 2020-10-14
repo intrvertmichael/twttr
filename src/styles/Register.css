@@ -44,6 +44,7 @@
     width: 100%;
     border: none;
     border-left: 1px solid black;
+    margin: 0px;
 }
 
 .color-btns-choices button:nth-child(1) {
