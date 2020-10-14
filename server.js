@@ -19,12 +19,17 @@ app.use(express.static('build'))
 
 // connect
 const connectMongo = async () => {
-    await mongoose.connect(process.env.MONGO_URL , {
+    const connected = await mongoose.connect(process.env.MONGO_URL , {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
 
-    console.log('connected to MongoDB')
+    if(connected){
+        console.log('connected to MongoDB')
+    } else {
+        console.log('there was an issue connecting to MongoDB')
+    }
+
 }
 connectMongo();
 // routes
