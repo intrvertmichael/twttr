@@ -94,7 +94,7 @@ const Register = props => {
 
             <div className='color-btns'>
                 <div className='color-btns-label'>
-                    Choose a color:
+                    <p> Choose a color: </p>
                 </div>
                 <div className='color-btns-choices'>
                     <button

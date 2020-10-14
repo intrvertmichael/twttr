@@ -3,5 +3,5 @@
     * { width: 100% !important }
     .App { flex-direction: column }
     .global-app { padding: 0px }
-    .sidebar { border-bottom: none }
+    .sidebar { border-bottom: none; border-right:1px solid black }
 }
