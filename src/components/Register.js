@@ -153,9 +153,9 @@ const Register = props => {
 
             <div className='btns'>
                 <button onClick={()=> {
-                    props.changeCurrentPage('log in')
+                    props.changeCurrentPage('posts')
                     props.addErrorMessage('')
-                    }}> Log In </button>
+                    }}> Cancel </button>
                 <button className='btns'type='submit'>Submit</button>
             </div>
         </form>

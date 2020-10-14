@@ -13,10 +13,18 @@ const Sidebar = props =>{
         return(
             <>
                 <div className="page-label">{props.currentPage}</div>
-                <button onClick={()=>{
-                    props.changeCurrentPage('posts')
-                    props.addErrorMessage('')
-                }}> Cancel </button>
+                {
+                    props.currentPage==='log in'?
+                    <button onClick={()=>{
+                        props.changeCurrentPage('register')
+                        props.addErrorMessage('')
+                    }}> Register </button> :
+                    <button onClick={()=>{
+                        props.changeCurrentPage('log in')
+                        props.addErrorMessage('')
+                    }}> Log In </button>
+                }
+
             </>)
     }
 
