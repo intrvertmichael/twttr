@@ -4,4 +4,7 @@
     .App { flex-direction: column }
     .global-app { padding: 0px }
     .sidebar { border-bottom: none; border-right:1px solid black }
+    .post{ padding:15px 10px !important}
+    .postButtons { width: 70px !important }
+    .icon { width: 65px !important }
 }
