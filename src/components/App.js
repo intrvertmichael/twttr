@@ -19,7 +19,12 @@ function App() {
 
   const fetchData = async () => {
     const requestedPosts =  await getPostsRequest()
-    addPost(requestedPosts)
+    if(requestedPosts){
+      addPost(requestedPosts)
+    } else {
+      console.log('There was an issue getting the posts')
+      addErrorMessage('There was a connection error with the DB.')
+    }
   }
 
   useEffect(() => {
