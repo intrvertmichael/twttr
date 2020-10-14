@@ -35,7 +35,6 @@ const Compose = props => {
                     } else {
                         textAreaEl.current.style.backgroundColor = "white";
                     }
-
                 }}
             />
 
