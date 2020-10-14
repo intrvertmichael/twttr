@@ -6,6 +6,7 @@
     font-size: 20px;
     display: block;
     width: 100%;
+    margin: 0px;
 }
 
 .loginForm input:nth-child(1){
