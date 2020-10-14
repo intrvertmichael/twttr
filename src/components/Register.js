@@ -4,7 +4,7 @@ import '../styles/Register.css';
 
 const Register = props => {
     const [registerInfo, setRegisterInfo] = useState();
-    const [colorPressed, setColorPressed] = useState(0);
+    const [colorPressed, setColorPressed] = useState();
     const rePasswordEl = useRef();
 
     // when submit button is pressed
@@ -13,12 +13,14 @@ const Register = props => {
     console.log(registerInfo)
 
     //make sure everything is filled out
-    if(!registerInfo || !registerInfo.name || !registerInfo.password || !registerInfo.rePassword || !registerInfo.color){
+    const everythingNotFilled = !registerInfo || !registerInfo.name || !registerInfo.password || !registerInfo.rePassword || !registerInfo.color;
+    if(everythingNotFilled){
         // if its not then send error
         props.addErrorMessage('Error: You have to fill out all fields')
     } else {
         // if it is make sure passwords match
-        if(registerInfo.password !== registerInfo.rePassword){
+        const passwordsDontMatch = registerInfo.password !== registerInfo.rePassword
+        if(passwordsDontMatch){
             rePasswordEl.current.style.backgroundColor = "#FFE1E1";
             props.addErrorMessage('Error: Passwords do not match')
         } else {

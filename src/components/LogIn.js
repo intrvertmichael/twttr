@@ -7,7 +7,8 @@ const LogIn = props => {
 
     const handleSubmit = async event =>{
         event.preventDefault()
-        if(!loginInfo || !loginInfo.name || !loginInfo.password){
+        const everythingNotFilled = !loginInfo || !loginInfo.name || !loginInfo.password;
+        if(everythingNotFilled){
             props.addErrorMessage('Error: You have to fill out both fields')
         } else {
             const response = await logInRequest(loginInfo)
