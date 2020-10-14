@@ -16,28 +16,28 @@ export const logInRequest = async (userInfo) => {
 
 export const registerRequest = async (userInfo) => {
     let message = '' ;
-    const response = await axios.post('http://localhost:3001/api/users', userInfo)
+    const response = await axios.post('/api/users', userInfo)
     .catch(err => message = `Error: ${err.response.data}`)
     return message!==''? message : response.data;
 }
 
 export const composeRequest = async (postInfo) => {
     let message = '' ;
-    const response = await axios.post('http://localhost:3001/api/posts', postInfo)
+    const response = await axios.post('/api/posts', postInfo)
     .catch(err => message = `Error: ${err.response.data}`)
     return message!==''? message : response.data;
 }
 
 export const deleteRequest = async (postInfo) => {
     let message = '' ;
-    const response = await axios.post('http://localhost:3001/api/delete', postInfo)
+    const response = await axios.post('/api/delete', postInfo)
     .catch(err => message = `Error: ${err.response.data}`)
     return message!==''? message : response.data;
 }
 
 export const likeRequest = async (postInfo) => {
     let message = '' ;
-    const response = await axios.post('http://localhost:3001/api/like', postInfo)
+    const response = await axios.post('/api/like', postInfo)
     .catch(err => message = `Error: ${err.response.data}`)
     return message!==''? message : response.data;
 }
