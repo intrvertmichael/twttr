@@ -34,7 +34,7 @@ const Post = props => {
 
     const d = new Date(post.date);
     let ampm = d.getHours() >= 12 ? 'pm' : 'am';
-    const fullDate =`${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} | ${d.getHours()%12>0?d.getHours():d.getHours()/12}:${(d.getMinutes() < 10 ? '0' : '')}${d.getMinutes()} ${ampm}`
+    const fullDate =`${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} | ${d.getHours()%12>1?d.getHours():d.getHours()/12}:${(d.getMinutes() < 10 ? '0' : '')}${d.getMinutes()} ${ampm}`
 
 
     return (
