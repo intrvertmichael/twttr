@@ -30,16 +30,6 @@ container
     border-top: none;
 }
 
-.content {
-    /* border:1px solid green; */
-    width: 420px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-
 
 /*
 inside the post
@@ -48,8 +38,12 @@ inside the post
 .info {
     /* border: 1px solid blue; */
     width:100%;
-    padding: 0px 20px;
+    padding: 0px;
     box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-right: 20px;
 }
 
 .info h3 {
@@ -68,7 +62,7 @@ inside the post
     font-size: 20px;
     line-height: 30px;
     margin: 0px;
-    padding: 5px 0px 10px 0px;
+    padding: 10px 0px;
 }
 
 p.date, .delete {
@@ -82,17 +76,16 @@ p.date, .delete {
     cursor: pointer;
 }
 
-.icon {
+.info-name{
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 75px;
 }
 
 .icon-color {
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    margin-right: 10px;
 }
 
 

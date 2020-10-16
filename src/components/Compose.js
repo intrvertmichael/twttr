@@ -3,6 +3,7 @@ import {composeRequest} from './Requests'
 import '../styles/Compose.css';
 
 const Compose = props => {
+    const {profile, changeCurrentPage} = props
     const [compose, setCompose] = useState('');
     const textAreaEl = useRef();
     const tweetLength = 280;
@@ -11,14 +12,18 @@ const Compose = props => {
         e.preventDefault()
         if(compose.trim('').length>2 && compose.trim('').length<tweetLength &&props.profile){
             const res = await composeRequest({
-                token:props.profile.token,
+                token:profile.token,
                 payload:compose
             })
             console.log(res)
-            props.changeCurrentPage('posts')
+            changeCurrentPage('posts')
         } else {
             console.log('either the text is too short or theres no profile')
         }
+    }
+    const handleCancelClicked = e => {
+        e.preventDefault()
+        changeCurrentPage('posts')
     }
 
     return (
@@ -37,8 +42,10 @@ const Compose = props => {
                     }
                 }}
             />
-
-            <input type='submit' name="submit"/>
+            <div className='btns'>
+                <button name="cancel" className='submit' onClick={handleCancelClicked}>Cancel</button>
+                <button type='submit' name="submit" className='submit'>Submit</button>
+            </div>
         </form>
     )
 }

@@ -5,37 +5,21 @@ const Sidebar = props =>{
 
     // if posts page show login/register button
     if(!props.profile && props.currentPage==='posts'){
-        return <button className="login-btn" onClick={()=>props.changeCurrentPage('log in')}>Log In / Register</button>
+        return (
+        <>
+        <button className="login-btn" onClick={()=>props.changeCurrentPage('log in')}>Log In </button>
+        <button className="register-btn" onClick={()=>props.changeCurrentPage('register')}>Register </button>
+        </>
+        )
     }
 
-    // if login or register page show current page and cancel button
-    else if(!props.profile && (props.currentPage==='log in'||props.currentPage==='register')){
-        return(
-            <>
-                <div className="page-label">{props.currentPage}</div>
-                {
-                    props.currentPage==='log in'?
-                    <button onClick={()=>{
-                        props.changeCurrentPage('register')
-                        props.addErrorMessage('')
-                    }}> Register </button> :
-                    <button onClick={()=>{
-                        props.changeCurrentPage('log in')
-                        props.addErrorMessage('')
-                    }}> Log In </button>
-                }
-
-            </>)
-    }
-
-    // if compose page show cancel button
-    else if(props.profile && props.currentPage==='compose'){
-        return(
-        <button 
-            onClick={()=>{
-            props.changeCurrentPage('posts')
-            props.addErrorMessage('')
-        }}> Cancel </button>)
+    // if login, register, or compose  page show current page and cancel button
+    else if( 
+        props.currentPage==='log in'||
+        props.currentPage==='register'||
+        props.currentPage==='compose'
+        ){
+        return( <div className="page-label">{props.currentPage}</div> )
     }
 
     // else person is logged in

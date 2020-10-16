@@ -3,23 +3,24 @@ import {logInRequest} from './Requests'
 import '../styles/LogIn.css';
 
 const LogIn = props => {
+    const {changeCurrentPage, addProfile, addErrorMessage} = props
     const [loginInfo, setLoginInfo] = useState();
 
     const handleSubmit = async event =>{
         event.preventDefault()
         const everythingNotFilled = !loginInfo || !loginInfo.name || !loginInfo.password;
         if(everythingNotFilled){
-            props.addErrorMessage('Error: You have to fill out both fields')
+            addErrorMessage('Error: You have to fill out both fields')
         } else {
             const response = await logInRequest(loginInfo)
             if(typeof(response)=='string'){
                 console.log(response)
-                props.addErrorMessage(response)
+                addErrorMessage(response)
             } else {
                 console.log('Log in was successful')
-                props.addProfile(response);
-                props.changeCurrentPage('posts');
-                props.addErrorMessage('')
+                addProfile(response);
+                changeCurrentPage('posts');
+                addErrorMessage('')
             }
         }
     }
@@ -55,10 +56,10 @@ const LogIn = props => {
 
             <div className='btns'>
                 <button className='btns' onClick={()=> {
-                    props.addErrorMessage('')
-                    props.changeCurrentPage('posts')
+                    addErrorMessage('')
+                    changeCurrentPage('posts')
                     }}> Cancel </button>
-                <button className='btns' type="submit">Submit</button>
+                <button className='btns submit' type="submit">Submit</button>
             </div>
         </form>
     )

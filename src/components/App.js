@@ -17,76 +17,80 @@ function App() {
   const [posts, addPost] = useState([]);
   const [errorMessage, addErrorMessage] = useState();
 
-  const fetchData = async () => {
+  const fetchPosts = async () => {
     const requestedPosts =  await getPostsRequest()
-    if(requestedPosts){
-      addPost(requestedPosts)
-    } else {
-      console.log('There was an issue getting the posts')
+    if(typeof requestedPosts === 'string'){
       addErrorMessage('There was a connection error with the DB.')
+      addPost([])
+    } else {
+      addPost(requestedPosts)
     }
   }
 
   useEffect(() => {
-    fetchData();
+    fetchPosts();
   }, [currentPage])
 
   // depending on currentPage show adequate component;
   let currentComponent
   switch(currentPage) {
     case 'log in':
-      currentComponent = <LogIn
-                            changeCurrentPage={changeCurrentPage}
-                            addProfile={addProfile}
-                            addErrorMessage={addErrorMessage}
+      currentComponent = <LogIn {...{
+                              addProfile,
+                              changeCurrentPage,
+                              addErrorMessage
+                            }}
                           />
       break;
 
     case 'register':
-      currentComponent = <Register
-                            addProfile={addProfile}
-                            changeCurrentPage={changeCurrentPage}
-                            addErrorMessage={addErrorMessage}
+      currentComponent = <Register {...{
+                              addProfile,
+                              changeCurrentPage,
+                              addErrorMessage
+                            }}
                           />
       break;
 
     case 'compose':
-      currentComponent = <Compose
-                            profile={profile}
-                            changeCurrentPage={changeCurrentPage}
+      currentComponent = <Compose {...{
+                              profile,
+                              changeCurrentPage
+                            }}
                           />
       break;
 
     default:
-      currentComponent = <Posts
-                            profile={profile}
-                            posts={posts}
-                            changeCurrentPage={changeCurrentPage}
-                            fetchData={fetchData}
+      currentComponent = <Posts {...{
+                              profile,
+                              posts,
+                              changeCurrentPage,
+                              fetchPosts
+                            }}
                           />
   }
 
 
   return (
   <div className="global-app">
-    {
-    // if there's an error message show Errors component
+
+    { // if there's an error message show Errors component
     errorMessage?
-      <Errors
-        errorMessage={errorMessage}
-        addErrorMessage={addErrorMessage}
-      /> : ''
+      <Errors {...{errorMessage, addErrorMessage}} /> : ''
     }
+
     <div className='App'>
       <div className='sidebar'>
-        <Sidebar
-          profile={profile}
-          currentPage={currentPage}
-          changeCurrentPage={changeCurrentPage}
-          addProfile={addProfile}
-          addErrorMessage={addErrorMessage}
+        <Sidebar {...{
+          profile,
+          addProfile,
+          currentPage,
+          changeCurrentPage,
+          addErrorMessage
+          }}
         />
       </div>
+
       <div className='container'>
         {currentComponent}
       </div>

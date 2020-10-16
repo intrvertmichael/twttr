@@ -12,12 +12,15 @@ const LikeButton = props => {
             _id:post._id
         })
         console.log(res);
-        props.fetchData();
+        props.fetchPosts();
     }
 
     // if user is able to like, make it red
     let style = {};
     if(post && profile && post.authorId !== profile._id && !post.likes.includes(profile._id)){
+        style = {color:'black', cursor:'pointer', opacity:1}
+    }
+    else if(post && profile && post.authorId !== profile._id && post.likes.includes(profile._id)){
         style = {color:'red', cursor:'pointer', opacity:1}
     }
 

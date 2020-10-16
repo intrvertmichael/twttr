@@ -3,9 +3,9 @@ import Post from './Post'
 import '../styles/Posts.css';
 
 const Posts = props => {
-    const {profile} = props
+    const {profile, posts, changeCurrentPage, fetchPosts} = props
 
-    if(props.posts && props.posts.length===0){
+    if(posts && posts.length === 0){
         return (
             <div className='emptyPosts'> 
                 <img src='https://media.giphy.com/media/26hkhPJ5hmdD87HYA/giphy.gif' alt='none found'/>
@@ -16,12 +16,14 @@ const Posts = props => {
     return (
     <ul>
     {
-        props.posts.slice(0).reverse().map(post => <Post
-            key={post._id}
-            profile={profile}
-            post={post}
-            changeCurrentPage={props.changeCurrentPage}
-            fetchData={props.fetchData}
+        posts.slice(0).reverse().map(post => <Post
+                key={post._id}
+                {...{
+                    profile,
+                    post,
+                    changeCurrentPage,
+                    fetchPosts
+                }}
             />)
     }
     </ul>

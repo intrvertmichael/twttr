@@ -1,8 +1,11 @@
 import React, {useState, useRef} from 'react';
+import { TwitterPicker } from 'react-color';
+
 import {registerRequest} from './Requests'
 import '../styles/Register.css';
 
 const Register = props => {
+    const {addProfile, changeCurrentPage, addErrorMessage} = props
     const [registerInfo, setRegisterInfo] = useState();
     const [colorPressed, setColorPressed] = useState();
     const rePasswordEl = useRef();
@@ -16,13 +19,13 @@ const Register = props => {
     const everythingNotFilled = !registerInfo || !registerInfo.name || !registerInfo.password || !registerInfo.rePassword || !registerInfo.color;
     if(everythingNotFilled){
         // if its not then send error
-        props.addErrorMessage('Error: You have to fill out all fields')
+        addErrorMessage('Error: You have to fill out all fields')
     } else {
         // if it is make sure passwords match
         const passwordsDontMatch = registerInfo.password !== registerInfo.rePassword
         if(passwordsDontMatch){
             rePasswordEl.current.style.backgroundColor = "#FFE1E1";
-            props.addErrorMessage('Error: Passwords do not match')
+            addErrorMessage('Error: Passwords do not match')
         } else {
             rePasswordEl.current.style.backgroundColor = "white";
 
@@ -38,8 +41,8 @@ const Register = props => {
 
                 // if it's an object it was successful
                 console.log('log in was successful')
-                props.addProfile(response);
-                props.changeCurrentPage('posts')
+                addProfile(response);
+                changeCurrentPage('posts')
             }
         }
     }
@@ -52,6 +55,7 @@ const Register = props => {
         }
     }
 
+    console.log(registerInfo)
     return (
         <form onSubmit={handleSubmit} className='registerForm' onKeyDown={onEnterPress}>
             <input
@@ -83,23 +87,22 @@ const Register = props => {
                 })}
             />
 
-            {/* enter your own color
-            <input
-                type='text'
-                name="color"
-                placeholder="Enter a Color"
-                onChange={(e)=> setRegisterInfo({
-                    ...registerInfo,
-                    color:e.target.value.trim()
-                })}
-            /> */}
-
             <div className='color-btns'>
                 <div className='color-btns-label'>
                     <p> Choose a color: </p>
                 </div>
                 <div className='color-btns-choices'>
-                    <button
+
+                    <TwitterPicker
+                        triangle='hide'
+                        onChangeComplete={(color, event)=>{
+                            setRegisterInfo({
+                                ...registerInfo,
+                                color:color.hex
+                            })
+                    }}/>
+
+                    {/* <button
                         onClick={e=>{
                             // set orange
                             e.preventDefault()
@@ -146,17 +149,17 @@ const Register = props => {
                             })
                         }}
                         className={colorPressed===4 ? 'selected' : null}
-                    />
+                    /> */}
                 </div>
             </div>
 
 
             <div className='btns'>
                 <button onClick={()=> {
-                    props.changeCurrentPage('posts')
-                    props.addErrorMessage('')
+                    changeCurrentPage('posts')
+                    addErrorMessage('')
                     }}> Cancel </button>
-                <button className='btns'type='submit'>Submit</button>
+                <button className='btns submit'type='submit'>Submit</button>
             </div>
         </form>
     )

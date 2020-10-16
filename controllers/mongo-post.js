@@ -22,6 +22,7 @@ mongoPostRouter.post('/posts', async (request, response) => {
 
     const decodedToken = jwt.verify(request.body.token, process.env.JWT_KEY)
 
+    // error handle decoded token so if token is not valid doesnt make post
     const post = new Post({
         name: decodedToken.name,
         color: decodedToken.color,

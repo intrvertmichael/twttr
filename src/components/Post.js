@@ -4,12 +4,7 @@ import {deleteRequest} from './Requests'
 import {likeRequest} from './Requests'
 
 const Post = props => {
-    const {post} = props;
-    const {profile} = props;
-
-    if(!post){
-        return <div></div>
-    }
+    const {post, profile, changeCurrentPage, fetchPosts} = props;
 
     // handle delete button pressed
     const handleDeleteClick = async e => {
@@ -19,7 +14,7 @@ const Post = props => {
             _id:post._id
         })
         console.log(res);
-        props.fetchData();
+        fetchPosts();
     }
 
     let deleteButton
@@ -30,32 +25,36 @@ const Post = props => {
         > Delete </button>
     }
 
+    // creating the formatted date for post
     const months=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-    const d = new Date(post.date);
-    let ampm = d.getHours() >= 12 ? 'pm' : 'am';
-    const fullDate =`${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} | ${d.getHours()>12?d.getHours()-12:d.getHours()}:${(d.getMinutes() < 10 ? '0' : '')}${d.getMinutes()} ${ampm}`
-
+    const d = new Date(post.date)
+    const date =`${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
+    const timeHours = d.getHours() > 12 ? d.getHours() - 12 : d.getHours()
+    const timeMinutes = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes()
+    const ampm = d.getHours() >= 12 ? 'pm' : 'am';
+    const fullDate =`${date} | ${timeHours}:${timeMinutes} ${ampm}`
 
     return (
     <li className='post'>
-        <div className='content'>
-            <div className='icon'>
-                <div className='icon-color' style={{background:post.color}}></div>
-            </div>
-            <div className='info'>
+
+        <div className='info'>
+            <div className='info-name'>
+                <div className='icon-color' style={{background:post.color}} />
                 <h3>{post.name}</h3>
-                <p className='text'>{post.payload}</p>
-                <p className='date'>{fullDate}</p>
             </div>
+            <p className='text'>{post.payload}</p>
+            <p className='date'>{fullDate}</p>
         </div>
+
         <div className='postButtons'>
-            <LikeButton 
-                profile={profile} 
-                post={post} 
-                likeRequest={likeRequest}
-                changeCurrentPage={props.changeCurrentPage}
-                fetchData={props.fetchData}
+            <LikeButton {...{
+                profile,
+                post,
+                likeRequest,
+                changeCurrentPage,
+                fetchPosts
+                }}
             />
             {deleteButton}
         </div>
