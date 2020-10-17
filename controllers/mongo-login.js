@@ -10,9 +10,7 @@ loginRouter.post('/login', async (request, response) => {
         if(decrypted){
             response.json({
                 token: savedUser[0].token,
-                _id: savedUser[0]._id,
-                name: savedUser[0].name,
-                color: savedUser[0].color
+                _id: savedUser[0]._id
             })
         } else {
             response.status(401).send('That is the incorrect password')

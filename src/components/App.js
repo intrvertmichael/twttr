@@ -95,6 +95,7 @@ function App() {
     <div className='App'>
       <div className='sidebar'>
         <Sidebar {...{
+          users,
           profile,
           addProfile,
           currentPage,

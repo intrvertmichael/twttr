@@ -34,11 +34,7 @@ async (err, count)=> {
         })
 
         // save sensitive info into a token
-        const tokenInfo = {
-            id: note._id,
-            name:note.name,
-            color: note.color
-        }
+        const tokenInfo = { id: note._id }
 
         note.token = jwt.sign(tokenInfo, process.env.JWT_KEY)
 

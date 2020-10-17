@@ -7,7 +7,15 @@ const Post = require('../models/posts')
 // get all posts
 mongoPostRouter.get('/posts', async (request, response) => {
     const posts = await Post.find({})
-    response.json(posts)
+    response.json(posts.map(post=>{
+        return {
+            _id: post._id,
+            authorId: post.authorId,
+            payload: post.payload,
+            date: post.date,
+            likes: post.likes
+        }
+    }))
 })
 
 
@@ -22,16 +30,21 @@ mongoPostRouter.post('/posts', async (request, response) => {
 
     const decodedToken = jwt.verify(request.body.token, process.env.JWT_KEY)
 
-    // error handle decoded token so if token is not valid doesnt make post
-    const post = new Post({
-        authorId: decodedToken.id,
-        payload: request.body.payload,
-        likes: [],
-        date: new Date()
-    })
+    if(decodedToken.id){
+        // error handle decoded token so if token is not valid doesnt make post
+        const post = new Post({
+            authorId: decodedToken.id,
+            payload: request.body.payload,
+            likes: [],
+            date: new Date()
+        })
 
-    await post.save()
-    response.sendStatus(200)
+        await post.save()
+        response.sendStatus(200)
+    } else {
+        response.status(401).send('token was not valid')
+    }
+
 })
 
 

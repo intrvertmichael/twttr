@@ -2,7 +2,12 @@ import React from 'react'
 import '../styles/Sidebar.css';
 
 const Sidebar = props =>{
-    const {profile, currentPage, addProfile, changeCurrentPage} = props
+    const {profile, currentPage, addProfile, changeCurrentPage, users} = props
+
+    let userProfile = {}
+    if(profile){
+        userProfile = users.find(user=> user._id === profile._id)
+    }
 
     // if not logged in and posts page
     // show login/register button
@@ -32,10 +37,10 @@ const Sidebar = props =>{
         return (
         <div className='profile'>
             <div className='profile-name' style={{
-                background: profile ?
-                profile.color : 'red'
+                background: userProfile ?
+                userProfile.color : 'black'
                 }}>
-            { profile ? profile.name : '' }
+            { userProfile ? userProfile.name : '' }
             </div>
 
         <button onClick={()=>changeCurrentPage('compose')}> Compose </button>

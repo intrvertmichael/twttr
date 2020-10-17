@@ -46,25 +46,6 @@
     box-sizing: border-box;
     border-right: 1px solid white;
 }
-.color-btns-choices button {
-    width: 100%;
-    border: none;
-    border-left: 1px solid black;
-    margin: 0px;
-}
-
-.color-btns-choices button:nth-child(1) {
-    background: #FFDAC5;
-}
-.color-btns-choices button:nth-child(2) {
-    background: #C5FFD1;
-}
-.color-btns-choices button:nth-child(3) {
-    background: #C5DCFF;
-}
-.color-btns-choices button:nth-child(4) {
-    background: #F0C5FF;
-}
 
 .selected {
     border-bottom: 5px solid red !important;
