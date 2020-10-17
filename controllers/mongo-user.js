@@ -6,7 +6,9 @@ const User = require('../models/users')
 // get all users
 mongoUserRouter.get('/users', async (request, response) => {
     const users = await User.find({})
-    response.json(users)
+    response.json(users.map(user=>{
+        return {_id:user._id, name:user.name, color:user.color}
+    }))
 })
 
 // creating user

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-import {getPostsRequest} from './Requests'
+import {getPostsRequest, getUsersRequest} from './Requests'
 import LogIn from './LogIn'
 import Sidebar from './Sidebar'
 import Register from './Register'
@@ -15,9 +15,10 @@ function App() {
   const [currentPage, changeCurrentPage] = useState('posts');
   const [profile, addProfile] = useState();
   const [posts, addPost] = useState([]);
+  const [users, addUsers] = useState([]);
   const [errorMessage, addErrorMessage] = useState();
 
-  const fetchPosts = async () => {
+  const server_GetPostsRequest = async () => {
     const requestedPosts =  await getPostsRequest()
     if(typeof requestedPosts === 'string'){
       addErrorMessage('There was a connection error with the DB.')
@@ -27,8 +28,18 @@ function App() {
     }
   }
 
+  const server_GetUsersRequest = async () => {
+    const response =  await getUsersRequest()
+    if(typeof response === 'string'){
+      console(response)
+    } else {
+      addUsers(response)
+    }
+  }
+
   useEffect(() => {
-    fetchPosts();
+    server_GetUsersRequest()
+    server_GetPostsRequest()
   }, [currentPage])
 
   // depending on currentPage show adequate component;
@@ -55,7 +66,8 @@ function App() {
     case 'compose':
       currentComponent = <Compose {...{
                               profile,
-                              changeCurrentPage
+                              changeCurrentPage,
+                              addErrorMessage
                             }}
                           />
       break;
@@ -64,8 +76,9 @@ function App() {
       currentComponent = <Posts {...{
                               profile,
                               posts,
+                              users,
                               changeCurrentPage,
-                              fetchPosts
+                              server_GetPostsRequest
                             }}
                           />
   }

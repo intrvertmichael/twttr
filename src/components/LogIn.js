@@ -9,19 +9,24 @@ const LogIn = props => {
     const handleSubmit = async event =>{
         event.preventDefault()
         const everythingNotFilled = !loginInfo || !loginInfo.name || !loginInfo.password;
+
         if(everythingNotFilled){
             addErrorMessage('Error: You have to fill out both fields')
         } else {
-            const response = await logInRequest(loginInfo)
-            if(typeof(response)=='string'){
-                console.log(response)
-                addErrorMessage(response)
-            } else {
-                console.log('Log in was successful')
-                addProfile(response);
-                changeCurrentPage('posts');
-                addErrorMessage('')
-            }
+            server_LogInRequest()
+        }
+    }
+
+    const server_LogInRequest = async () => {
+        const response = await logInRequest(loginInfo)
+        if(typeof(response)=='string'){
+            console.log(response)
+            addErrorMessage(response)
+        } else {
+            console.log('Log in was successful')
+            addProfile(response);
+            changeCurrentPage('posts');
+            addErrorMessage('')
         }
     }
 

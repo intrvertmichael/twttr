@@ -3,27 +3,35 @@ import {composeRequest} from './Requests'
 import '../styles/Compose.css';
 
 const Compose = props => {
-    const {profile, changeCurrentPage} = props
+    const {profile, changeCurrentPage, addErrorMessage} = props
     const [compose, setCompose] = useState('');
     const textAreaEl = useRef();
-    const tweetLength = 280;
+    const tweetLength = 120;
 
     const handleSubmit = async e =>{
         e.preventDefault()
-        if(compose.trim('').length>2 && compose.trim('').length<tweetLength &&props.profile){
-            const res = await composeRequest({
-                token:profile.token,
-                payload:compose
-            })
-            console.log(res)
-            changeCurrentPage('posts')
+        const correctLength = compose.trim('').length > 2 && compose.trim('').length < tweetLength;
+
+        if(correctLength){
+            server_composeRequest();
         } else {
-            console.log('either the text is too short or theres no profile')
+            addErrorMessage('Error: Text is not the right length')
         }
     }
-    const handleCancelClicked = e => {
-        e.preventDefault()
-        changeCurrentPage('posts')
+
+    const server_composeRequest = async () => {
+        const response = await composeRequest({
+            token : profile.token,
+            payload : compose
+        })
+
+        if(response !== 'OK'){
+            addErrorMessage(response)
+        }
+        else {
+            console.log('Post was created.')
+            changeCurrentPage('posts')
+        }
     }
 
     return (
@@ -43,7 +51,10 @@ const Compose = props => {
                 }}
             />
             <div className='btns'>
-                <button name="cancel" className='submit' onClick={handleCancelClicked}>Cancel</button>
+                <button name="cancel" className='submit' onClick={e => {
+                    e.preventDefault()
+                    changeCurrentPage('posts')
+                }}>Cancel</button>
                 <button type='submit' name="submit" className='submit'>Submit</button>
             </div>
         </form>

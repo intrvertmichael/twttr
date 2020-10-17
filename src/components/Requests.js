@@ -7,6 +7,13 @@ export const getPostsRequest = async () => {
     return message!==''? message : response.data;
 }
 
+export const getUsersRequest = async () => {
+    let message = '' ;
+    const response = await axios.get('/api/users')
+    .catch(err => message = `Error: , ${err.response.data}`)
+    return message!==''? message : response.data;
+}
+
 export const logInRequest = async (userInfo) => {
     let message = '' ;
     const response = await axios.post('/api/login', userInfo)
@@ -38,6 +45,13 @@ export const deleteRequest = async (postInfo) => {
 export const likeRequest = async (postInfo) => {
     let message = '' ;
     const response = await axios.post('/api/like', postInfo)
+    .catch(err => message = `Error: ${err.response.data}`)
+    return message!==''? message : response.data;
+}
+
+export const dislikeRequest = async (postInfo) => {
+    let message = '' ;
+    const response = await axios.post('/api/dislike', postInfo)
     .catch(err => message = `Error: ${err.response.data}`)
     return message!==''? message : response.data;
 }

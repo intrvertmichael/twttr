@@ -24,8 +24,6 @@ mongoPostRouter.post('/posts', async (request, response) => {
 
     // error handle decoded token so if token is not valid doesnt make post
     const post = new Post({
-        name: decodedToken.name,
-        color: decodedToken.color,
         authorId: decodedToken.id,
         payload: request.body.payload,
         likes: [],
@@ -33,7 +31,7 @@ mongoPostRouter.post('/posts', async (request, response) => {
     })
 
     await post.save()
-    response.send('post was created successfully')
+    response.sendStatus(200)
 })
 
 
@@ -43,7 +41,7 @@ mongoPostRouter.post('/delete', async (request, response)=>{
     const decodedToken = jwt.verify(request.body.token, process.env.JWT_KEY)
     if(decodedToken.id){
         await Post.findByIdAndDelete(request.body._id);
-        response.status(200).send('post was deleted')
+        response.sendStatus(200)
     } else {
         response.status(401).send('token was not valid')
     }
@@ -61,7 +59,7 @@ mongoPostRouter.post('/like', async (request, response)=>{
         // if the person didn't like before add like
         if(!likedPost.likes.includes(decodedToken.id)){
             await Post.updateOne( {_id:request.body._id}, { $addToSet: { likes: decodedToken.id }})
-            response.status(200).send('like was added')
+            response.sendStatus(200)
         }
         // otherwise send message
         else{
@@ -74,6 +72,26 @@ mongoPostRouter.post('/like', async (request, response)=>{
 
 
 
+// remove a like
+mongoPostRouter.post('/dislike', async (request, response)=>{
+    const decodedToken = jwt.verify(request.body.token, process.env.JWT_KEY)
+    if(decodedToken.id){
+        // find existing liked post
+        const likedPost = await Post.findById(request.body._id).exec()
+
+        // if the person didn't like before add like
+        if(likedPost.likes.includes(decodedToken.id)){
+            await Post.updateOne( {_id:request.body._id}, { $pull: { likes: decodedToken.id }})
+            response.sendStatus(200)
+        }
+        // otherwise send message
+        else{
+            response.status(401).send('Was not able to dislike')
+        }
+    }else{
+        response.status(401).send('The token is invalid')
+    }
+})
 
 
 

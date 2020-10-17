@@ -2,24 +2,27 @@ import React from 'react'
 import '../styles/Sidebar.css';
 
 const Sidebar = props =>{
+    const {profile, currentPage, addProfile, changeCurrentPage} = props
 
-    // if posts page show login/register button
-    if(!props.profile && props.currentPage==='posts'){
+    // if not logged in and posts page
+    // show login/register button
+    if(!profile && currentPage==='posts'){
         return (
         <>
-        <button className="login-btn" onClick={()=>props.changeCurrentPage('log in')}>Log In </button>
-        <button className="register-btn" onClick={()=>props.changeCurrentPage('register')}>Register </button>
+        <button className="login-btn" onClick={()=>changeCurrentPage('log in')}>Log In </button>
+        <button className="register-btn" onClick={()=>changeCurrentPage('register')}>Register </button>
         </>
         )
     }
 
-    // if login, register, or compose  page show current page and cancel button
-    else if( 
-        props.currentPage==='log in'||
-        props.currentPage==='register'||
-        props.currentPage==='compose'
+    // if login, register, or compose page
+    // show current page and cancel button
+    else if(
+        currentPage==='log in'||
+        currentPage==='register'||
+        currentPage==='compose'
         ){
-        return( <div className="page-label">{props.currentPage}</div> )
+        return( <div className="page-label">{currentPage}</div> )
     }
 
     // else person is logged in
@@ -29,20 +32,18 @@ const Sidebar = props =>{
         return (
         <div className='profile'>
             <div className='profile-name' style={{
-                background:props.profile ?
-                props.profile.color : 'red'
+                background: profile ?
+                profile.color : 'red'
                 }}>
-            {
-                props.profile ?
-                props.profile.name : ''
-            }
+            { profile ? profile.name : '' }
             </div>
 
-        <button onClick={()=>props.changeCurrentPage('compose')}> Compose </button>
+        <button onClick={()=>changeCurrentPage('compose')}> Compose </button>
 
         <button onClick={()=>{
-            props.addProfile(null)
-            props.changeCurrentPage('posts')
+            addProfile(null)
+            changeCurrentPage('posts')
+            console.log('Logged out.')
             }}>Log Out</button>
         </div>
         )

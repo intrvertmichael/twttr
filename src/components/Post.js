@@ -1,20 +1,38 @@
 import React from 'react'
 import LikeButton from './LikeButton';
 import {deleteRequest} from './Requests'
-import {likeRequest} from './Requests'
 
 const Post = props => {
-    const {post, profile, changeCurrentPage, fetchPosts} = props;
+    const {post, profile, users, changeCurrentPage, server_GetPostsRequest} = props;
+
+    let authorProfile = users.find(user => user._id === post.authorId)
+
+    if(!authorProfile){
+        authorProfile = {
+            name:'User no longer exists',
+            color: 'red'
+        }
+    }
 
     // handle delete button pressed
     const handleDeleteClick = async e => {
         e.preventDefault();
-        const res = await deleteRequest({
+        server_DeleteRequest()
+    }
+
+    const server_DeleteRequest = async () => {
+        const response =  await await deleteRequest({
             token:profile.token,
             _id:post._id
         })
-        console.log(res);
-        fetchPosts();
+
+        if(response !== 'OK'){
+            console.log(response)
+        }
+        else {
+            console.log('Post was successfully deleted.')
+            server_GetPostsRequest()
+        }
     }
 
     let deleteButton
@@ -40,8 +58,8 @@ const Post = props => {
 
         <div className='info'>
             <div className='info-name'>
-                <div className='icon-color' style={{background:post.color}} />
-                <h3>{post.name}</h3>
+                <div className='icon-color' style={{background:authorProfile.color}} />
+                <h3>{authorProfile.name}</h3>
             </div>
             <p className='text'>{post.payload}</p>
             <p className='date'>{fullDate}</p>
@@ -51,9 +69,8 @@ const Post = props => {
             <LikeButton {...{
                 profile,
                 post,
-                likeRequest,
                 changeCurrentPage,
-                fetchPosts
+                server_GetPostsRequest
                 }}
             />
             {deleteButton}

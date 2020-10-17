@@ -7,45 +7,43 @@ import '../styles/Register.css';
 const Register = props => {
     const {addProfile, changeCurrentPage, addErrorMessage} = props
     const [registerInfo, setRegisterInfo] = useState();
-    const [colorPressed, setColorPressed] = useState();
     const rePasswordEl = useRef();
 
     // when submit button is pressed
-    const handleSubmit = async event =>{
-    event.preventDefault()
-    console.log(registerInfo)
+    const handleSubmit = event => {
+        console.log(registerInfo)
+        event.preventDefault()
 
-    //make sure everything is filled out
-    const everythingNotFilled = !registerInfo || !registerInfo.name || !registerInfo.password || !registerInfo.rePassword || !registerInfo.color;
-    if(everythingNotFilled){
-        // if its not then send error
-        addErrorMessage('Error: You have to fill out all fields')
-    } else {
-        // if it is make sure passwords match
-        const passwordsDontMatch = registerInfo.password !== registerInfo.rePassword
-        if(passwordsDontMatch){
-            rePasswordEl.current.style.backgroundColor = "#FFE1E1";
-            addErrorMessage('Error: Passwords do not match')
-        } else {
-            rePasswordEl.current.style.backgroundColor = "white";
+        const everythingNotFilled = !registerInfo || !registerInfo.name || !registerInfo.password || !registerInfo.rePassword || !registerInfo.color;
 
-            // if everything matches and is good then
-            // send request to register user
-            const response = await registerRequest(registerInfo)
+        if(everythingNotFilled){
+            addErrorMessage('Error: You have to fill out all fields')
+        }
+        else {
+            const passwordsDontMatch = registerInfo.password !== registerInfo.rePassword
 
-            // if response is a string it's an error
-            if(typeof(response)=='string'){
-                console.log('there is an error')
-                console.log(response)
-            } else {
-
-                // if it's an object it was successful
-                console.log('log in was successful')
-                addProfile(response);
-                changeCurrentPage('posts')
+            if(passwordsDontMatch){
+                rePasswordEl.current.style.backgroundColor = "#FFE1E1";
+                addErrorMessage('Error: Passwords do not match')
+            }
+            else {
+                rePasswordEl.current.style.backgroundColor = "white";
+                server_RegisterRequest()
             }
         }
     }
+
+    // send request to register user
+    const server_RegisterRequest = async () =>{
+        const response = await registerRequest(registerInfo)
+        if(typeof(response)=='string'){
+            console.log(response)
+            addErrorMessage(response)
+        } else {
+            console.log('Log in was successful')
+            addProfile(response);
+            changeCurrentPage('posts')
+        }
     }
 
     const onEnterPress = (e) => {
@@ -55,7 +53,6 @@ const Register = props => {
         }
     }
 
-    console.log(registerInfo)
     return (
         <form onSubmit={handleSubmit} className='registerForm' onKeyDown={onEnterPress}>
             <input
@@ -64,7 +61,7 @@ const Register = props => {
                 placeholder="Enter your name"
                 onChange={(e)=> setRegisterInfo({
                     ...registerInfo,
-                    name:e.target.value.toLowerCase().trim()
+                    name : e.target.value.toLowerCase().trim()
                 })}
             />
             <input
@@ -73,7 +70,7 @@ const Register = props => {
                 placeholder="Enter your password"
                 onChange={(e)=> setRegisterInfo({
                     ...registerInfo,
-                    password:e.target.value.trim()
+                    password : e.target.value.trim()
                 })}
             />
             <input
@@ -83,7 +80,7 @@ const Register = props => {
                 placeholder="Re-enter your password"
                 onChange={(e)=> setRegisterInfo({
                     ...registerInfo,
-                    rePassword:e.target.value.trim()
+                    rePassword : e.target.value.trim()
                 })}
             />
 
@@ -92,64 +89,14 @@ const Register = props => {
                     <p> Choose a color: </p>
                 </div>
                 <div className='color-btns-choices'>
-
-                    <TwitterPicker
-                        triangle='hide'
-                        onChangeComplete={(color, event)=>{
-                            setRegisterInfo({
-                                ...registerInfo,
-                                color:color.hex
-                            })
-                    }}/>
-
-                    {/* <button
-                        onClick={e=>{
-                            // set orange
-                            e.preventDefault()
-                            setColorPressed(1)
-                            setRegisterInfo({
-                                ...registerInfo,
-                                color:'#FFDAC5'
-                            })
-                        }}
-                        className={colorPressed===1 ? 'selected' : null}
-                    />
-                    <button
-                        onClick={e=>{
-                            // set green
-                            e.preventDefault()
-                            setColorPressed(2)
-                            setRegisterInfo({
-                                ...registerInfo,
-                                color:'#C5FFD1'
-                            })
-                        }}
-                        className={colorPressed===2 ? 'selected' : null}
-                    />
-                    <button
-                        onClick={e=>{
-                            // set blue
-                            e.preventDefault()
-                            setColorPressed(3)
-                            setRegisterInfo({
-                                ...registerInfo,
-                                color:'#C5DCFF'
-                            })
-                        }}
-                        className={colorPressed===3 ? 'selected' : null}
-                    />
-                    <button
-                        onClick={e=>{
-                            // set purple
-                            e.preventDefault()
-                            setColorPressed(4)
-                            setRegisterInfo({
-                                ...registerInfo,
-                                color:'#F0C5FF'
-                            })
-                        }}
-                        className={colorPressed===4 ? 'selected' : null}
-                    /> */}
+                <TwitterPicker
+                    triangle='hide'
+                    onChangeComplete={(color, event)=>{
+                        setRegisterInfo({
+                            ...registerInfo,
+                            color : color.hex
+                        })
+                }}/>
                 </div>
             </div>
 
