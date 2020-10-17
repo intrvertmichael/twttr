@@ -34,10 +34,11 @@ function App() {
       console(response)
     } else {
       const storediD = localStorage.getItem('storediD');
+      const storedToken = localStorage.getItem('storedToken');
 
       if(storediD){
         const f = response.find(user=> user._id === storediD)
-        addProfile(f)
+        addProfile({...f, token:storedToken})
       }
 
       addUsers(response)

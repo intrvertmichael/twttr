@@ -28,6 +28,7 @@ const LogIn = props => {
             changeCurrentPage('posts');
             addErrorMessage('')
             localStorage.setItem('storediD', response._id);
+            localStorage.setItem('storedToken', response.token);
         }
     }
 
