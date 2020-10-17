@@ -33,6 +33,13 @@ function App() {
     if(typeof response === 'string'){
       console(response)
     } else {
+      const storediD = localStorage.getItem('storediD');
+
+      if(storediD){
+        const f = response.find(user=> user._id === storediD)
+        addProfile(f)
+      }
+
       addUsers(response)
     }
   }
@@ -42,11 +49,13 @@ function App() {
     server_GetPostsRequest()
   }, [currentPage])
 
+
   // depending on currentPage show adequate component;
   let currentComponent
   switch(currentPage) {
     case 'log in':
       currentComponent = <LogIn {...{
+                              profile,
                               addProfile,
                               changeCurrentPage,
                               addErrorMessage

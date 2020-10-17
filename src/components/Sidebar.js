@@ -47,6 +47,7 @@ const Sidebar = props =>{
 
         <button onClick={()=>{
             addProfile(null)
+            localStorage.removeItem('storediD');
             changeCurrentPage('posts')
             console.log('Logged out.')
             }}>Log Out</button>

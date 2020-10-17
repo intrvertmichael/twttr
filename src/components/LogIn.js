@@ -3,7 +3,7 @@ import {logInRequest} from './Requests'
 import '../styles/LogIn.css';
 
 const LogIn = props => {
-    const {changeCurrentPage, addProfile, addErrorMessage} = props
+    const {changeCurrentPage, profile, addProfile, addErrorMessage} = props
     const [loginInfo, setLoginInfo] = useState();
 
     const handleSubmit = async event =>{
@@ -27,6 +27,7 @@ const LogIn = props => {
             addProfile(response);
             changeCurrentPage('posts');
             addErrorMessage('')
+            localStorage.setItem('storediD', response._id);
         }
     }
 
