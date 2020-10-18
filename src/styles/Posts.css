@@ -65,11 +65,13 @@ inside the post
     padding: 10px 0px;
 }
 
-.info a {
+.info button {
+    border: none;
     background:  #e4e4e4;
     color: #929292;
-    border-radius: 2px;
-    padding: 5px;
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 5px 10px;
     margin: 0px 5px;
 }
 

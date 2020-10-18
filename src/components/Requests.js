@@ -55,3 +55,10 @@ export const dislikeRequest = async (postInfo) => {
     .catch(err => message = `Error: ${err.response.data}`)
     return message!==''? message : response.data;
 }
+
+export const searchRequest = async (postInfo) => {
+    let message = '' ;
+    const response = await axios.post('/api/search', postInfo)
+    .catch(err => message = `Error: ${err.response.data}`)
+    return message!==''? message : response.data;
+}

@@ -16,12 +16,12 @@ const Post = props => {
 
     // handle delete button pressed
     const handleDeleteClick = async e => {
-        e.preventDefault();
+        e.preventDefault()
         server_DeleteRequest()
     }
 
     const server_DeleteRequest = async () => {
-        const response =  await await deleteRequest({
+        const response =  await deleteRequest({
             token:profile.token,
             _id:post._id
         })
@@ -55,13 +55,11 @@ const Post = props => {
 
     let finalText = <> {post.payload.split(' ').map(word => {
         if(word.startsWith('#')){
-            return <a>{word}</a> 
+            return <button>{word}</button>
         } else {
             return word + ' '
         }
     })}</>
-
-    console.log(finalText)
 
     return (
     <li className='post'>

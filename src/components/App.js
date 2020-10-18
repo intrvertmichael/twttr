@@ -15,6 +15,7 @@ function App() {
   const [currentPage, changeCurrentPage] = useState('posts');
   const [profile, addProfile] = useState();
   const [posts, addPost] = useState([]);
+  const [allPosts, setAllPost] = useState([]);
   const [users, addUsers] = useState([]);
   const [errorMessage, addErrorMessage] = useState();
 
@@ -25,6 +26,7 @@ function App() {
       addPost([])
     } else {
       addPost(requestedPosts)
+      setAllPost(requestedPosts)
     }
   }
 
@@ -110,7 +112,10 @@ function App() {
           addProfile,
           currentPage,
           changeCurrentPage,
-          addErrorMessage
+          addErrorMessage,
+          addPost,
+          allPosts,
+          server_GetPostsRequest
           }}
         />
       </div>

@@ -12,6 +12,7 @@
 
 .profile {
     width: 100%;
+    cursor: pointer;
 }
 
 
@@ -40,6 +41,21 @@
     box-sizing: border-box;
     cursor: pointer;
     margin: 0px;
+}
+
+.sidebar form {
+    width: 100%;
+}
+
+.sidebar input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    background: #ffebb1;
+    color: #b78d11;
+    border-top: 1px solid black;
 }
 
 .page-label {

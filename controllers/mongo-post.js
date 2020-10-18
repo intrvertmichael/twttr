@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const Post = require('../models/posts')
 const Hashtags = require('../models/hashtags')
+const e = require('express')
 
 
 // get all posts
@@ -25,6 +26,23 @@ mongoPostRouter.get('/hashtags', async (request, response) => {
     response.json(hashtags)
 })
 
+// search hashtags
+mongoPostRouter.post('/search', async (request, response) => {
+    const received = request.body.payload.split(' ');
+
+    const envelope = await Promise.all(received.map( async hashtag => {
+        const postsWithHashtag = await Hashtags.find({name:hashtag})
+        if(postsWithHashtag.length>0){
+            return postsWithHashtag
+        }
+    }))
+
+    if(envelope[0]){
+        response.json(envelope)
+    } else {
+        response.status(400).send('no posts match that hashtag')
+    }
+})
 
 // create a post
 mongoPostRouter.post('/posts', async (request, response) => {
@@ -51,33 +69,37 @@ mongoPostRouter.post('/posts', async (request, response) => {
 
 
         // create hashtag
-        const hashtag = request.body.payload.split(' ').find(word => {
-            return word.startsWith('#')
-        }).substring(1)
-        const postID = post._id
+        const allHashtags = request.body.payload.split(' ').filter(word => {
+            if(word.startsWith('#')){
+                return word
+            }
+        })
 
-        // check if hashtag exists.
-        const hashtagPost = await Hashtags.find({name: hashtag}).exec()
+        allHashtags.map( async hashtag =>{
+            hashtag = hashtag.substring(1).toLowerCase()
+            const postID = post._id
 
-        // if exists then
-        // add the post id to the list of postsWith
-        if(hashtagPost.length !== 0){
-            await Hashtags.updateOne( {name:hashtag}, { $addToSet: { postsWith: postID }})
+            // check if hashtag exists.
+            const hashtagPost = await Hashtags.find({name: hashtag}).exec()
 
-            response.sendStatus(200)
-        }
+            // if exists then
+            // add the post id to the list of postsWith
+            if(hashtagPost.length !== 0){
+                await Hashtags.updateOne( {name:hashtag}, { $addToSet: { postsWith: postID }})
+            }
 
-        // if does not exist then
-        // create hashtag with first post id
-        else {
-            const createdHashtag = new Hashtags({
-                name: hashtag,
-                postsWith:[postID]
-            })
-            await createdHashtag.save()
+            // if does not exist then
+            // create hashtag with first post id
+            else {
+                const createdHashtag = new Hashtags({
+                    name: hashtag,
+                    postsWith:[postID]
+                })
+                await createdHashtag.save()
+            }
+        })
+        response.sendStatus(200)
 
-            response.sendStatus(200)
-        }
     } else {
         response.status(401).send('token was not valid')
     }
@@ -91,25 +113,31 @@ mongoPostRouter.post('/delete', async (request, response)=>{
     const decodedToken = jwt.verify(request.body.token, process.env.JWT_KEY)
     if(decodedToken.id){
         const post = await Post.findById(request.body._id)
-        const hashtag = post.payload.split(' ').find(word => {
-            return word.startsWith('#')
-        }).substring(1)
-
-        const savedHashtag = await Hashtags.findOne({name:hashtag}).exec()
-
-        savedHashtag.postsWith = savedHashtag.postsWith.filter(HashtagPost=>{
-            return String(HashtagPost) !== request.body._id
+        const allHashtags = post.payload.split(' ').filter(word => {
+            if(word.startsWith('#')){
+                return word
+            }
         })
 
-        if(savedHashtag.postsWith.length === 0){
-            await Hashtags.findByIdAndDelete(savedHashtag._id);
-        } else {
-            await savedHashtag.save()
-        }
+        allHashtags.map( async hashtag => {
+            hashtag = hashtag.substring(1)
+
+            const savedHashtag = await Hashtags.findOne({name:hashtag}).exec()
+            if(savedHashtag) {
+                savedHashtag.postsWith = savedHashtag.postsWith.filter(HashtagPost=>{
+                    return String(HashtagPost) !== request.body._id
+                })
+
+                if(savedHashtag.postsWith.length === 0){
+                    await Hashtags.findByIdAndDelete(savedHashtag._id);
+                } else {
+                    await savedHashtag.save()
+                }
+            }
+        })
 
         await Post.findByIdAndDelete(request.body._id);
         response.sendStatus(200)
-
     } else {
         response.status(401).send('token was not valid')
     }

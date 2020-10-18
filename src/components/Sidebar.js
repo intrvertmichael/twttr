@@ -1,8 +1,53 @@
-import React from 'react'
+import React, {useState} from 'react'
 import '../styles/Sidebar.css';
+import {searchRequest} from './Requests'
 
 const Sidebar = props =>{
-    const {profile, currentPage, addProfile, changeCurrentPage, users} = props
+    const [searchText, setSearchText] = useState('');
+
+    const {profile, currentPage, addProfile, changeCurrentPage, users, addErrorMessage, addPost, allPosts, server_GetPostsRequest} = props
+
+    const handleSearch = async e =>{
+        e.preventDefault()
+
+        if(searchText === ''){
+            server_GetPostsRequest()
+        } else {
+
+            const response = await searchRequest({payload:searchText.toLowerCase()})
+            if(typeof response === 'string'){
+                console.log(response)
+                addErrorMessage(response)
+            } else {
+                addErrorMessage('')
+                let allHashtags = response.flatMap(hashtags => {
+                    return hashtags.flatMap(post =>{
+                        return post.postsWith
+                    })
+                })
+
+                const final = allPosts.filter(post => {
+                    for(let i=0; i<allHashtags.length; i++){
+                        if (allHashtags[i] === post._id){
+                            return post
+                        }
+                    }
+                })
+
+                addPost(final)
+            }
+        }
+    }
+    const searchField = <input 
+    type='text'
+    name='search'
+    placeholder="Search for Hashtag here"
+    onChange = {text =>{
+        setSearchText(text.target.value)
+
+    }}
+    value={searchText}
+    />
 
     let userProfile = {}
     if(profile){
@@ -16,6 +61,9 @@ const Sidebar = props =>{
         <>
         <button className="login-btn" onClick={()=>changeCurrentPage('log in')}>Log In </button>
         <button className="register-btn" onClick={()=>changeCurrentPage('register')}>Register </button>
+        <form onSubmit={handleSearch}>
+            {searchField}
+        </form>
         </>
         )
     }
@@ -36,9 +84,15 @@ const Sidebar = props =>{
     else{
         return (
         <div className='profile'>
-            <div className='profile-name' style={{
+            <div 
+                className='profile-name' 
+                onClick={()=>{
+                    setSearchText('')
+                    server_GetPostsRequest()
+                }}
+                style={{
                 background: userProfile ?
-                userProfile.color : 'black'
+                    userProfile.color : 'black'
                 }}>
             { userProfile ? userProfile.name : '' }
             </div>
@@ -52,9 +106,15 @@ const Sidebar = props =>{
             changeCurrentPage('posts')
             console.log('Logged out.')
             }}>Log Out</button>
+
+        <form onSubmit={handleSearch}>
+            {searchField}
+        </form>
+
         </div>
         )
     }
 }
+
 
 export default Sidebar
