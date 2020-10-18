@@ -53,6 +53,16 @@ const Post = props => {
     const ampm = d.getHours() >= 12 ? 'pm' : 'am';
     const fullDate =`${date} | ${timeHours}:${timeMinutes} ${ampm}`
 
+    let finalText = <> {post.payload.split(' ').map(word => {
+        if(word.startsWith('#')){
+            return <a>{word}</a> 
+        } else {
+            return word + ' '
+        }
+    })}</>
+
+    console.log(finalText)
+
     return (
     <li className='post'>
 
@@ -61,7 +71,7 @@ const Post = props => {
                 <div className='icon-color' style={{background:authorProfile.color}} />
                 <h3>{authorProfile.name}</h3>
             </div>
-            <p className='text'>{post.payload}</p>
+            <p className='text'>{finalText}</p>
             <p className='date'>{fullDate}</p>
         </div>
 

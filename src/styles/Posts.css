@@ -65,6 +65,14 @@ inside the post
     padding: 10px 0px;
 }
 
+.info a {
+    background:  #e4e4e4;
+    color: #929292;
+    border-radius: 2px;
+    padding: 5px;
+    margin: 0px 5px;
+}
+
 p.date, .delete {
     font-size: 14px;
     margin: 0px;
