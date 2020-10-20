@@ -20,30 +20,6 @@ mongoPostRouter.get('/posts', async (request, response) => {
     }))
 })
 
-// get all hashtags
-mongoPostRouter.get('/hashtags', async (request, response) => {
-    const hashtags = await Hashtags.find({})
-    response.json(hashtags)
-})
-
-// search hashtags
-mongoPostRouter.post('/search', async (request, response) => {
-    const received = request.body.payload.split(' ');
-
-    const envelope = await Promise.all(received.map( async hashtag => {
-        const postsWithHashtag = await Hashtags.find({name:hashtag})
-        if(postsWithHashtag.length>0){
-            return postsWithHashtag
-        }
-    }))
-
-    if(envelope[0]){
-        response.json(envelope)
-    } else {
-        response.status(400).send('no posts match that hashtag')
-    }
-})
-
 // create a post
 mongoPostRouter.post('/posts', async (request, response) => {
     if(!request.body.token){

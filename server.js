@@ -8,6 +8,7 @@ const cors = require('cors')
 const mongoUserRouter = require('./controllers/mongo-user')
 const mongoPostRouter = require('./controllers/mongo-post')
 const loginRouter = require('./controllers/mongo-login')
+const searchRouter = require('./controllers/mongo-hashtags')
 const path = require('path');
 
 const app = express()
@@ -40,6 +41,7 @@ app.get('/', (req, res)=>{
 app.use("/api", mongoUserRouter)
 app.use("/api", mongoPostRouter)
 app.use("/api", loginRouter)
+app.use("/api", searchRouter)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3000
 app.listen(PORT,() => console.log('listening on port:', PORT));

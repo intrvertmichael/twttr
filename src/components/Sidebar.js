@@ -20,15 +20,10 @@ const Sidebar = props =>{
                 addErrorMessage(response)
             } else {
                 addErrorMessage('')
-                let allHashtags = response.flatMap(hashtags => {
-                    return hashtags.flatMap(post =>{
-                        return post.postsWith
-                    })
-                })
 
                 const final = allPosts.filter(post => {
-                    for(let i=0; i<allHashtags.length; i++){
-                        if (allHashtags[i] === post._id){
+                    for(let i=0; i<response.length; i++){
+                        if (response[i] === post._id){
                             return post
                         }
                     }
@@ -38,7 +33,7 @@ const Sidebar = props =>{
             }
         }
     }
-    const searchField = <input 
+    const searchField = <input
     type='text'
     name='search'
     placeholder="Search for Hashtag here"
