@@ -55,7 +55,7 @@ const Post = props => {
 
     let finalText = <> {post.payload.split(' ').map(word => {
         if(word.startsWith('#')){
-            return <button>{word}</button>
+            return <button className='hashtag'>{word}</button>
         } else {
             return word + ' '
         }
@@ -63,17 +63,11 @@ const Post = props => {
 
     return (
     <li className='post'>
-
-        <div className='info'>
+        <div className='post-header'>
             <div className='info-name'>
                 <div className='icon-color' style={{background:authorProfile.color}} />
                 <h3>{authorProfile.name}</h3>
             </div>
-            <p className='text'>{finalText}</p>
-            <p className='date'>{fullDate}</p>
-        </div>
-
-        <div className='postButtons'>
             <LikeButton {...{
                 profile,
                 post,
@@ -81,6 +75,14 @@ const Post = props => {
                 server_GetPostsRequest
                 }}
             />
+        </div>
+
+        <div className='post-body'>
+            <p className='text'>{finalText}</p>
+        </div>
+
+        <div className='post-footer'>
+            <p className='date'>{fullDate}</p>
             {deleteButton}
         </div>
     </li>

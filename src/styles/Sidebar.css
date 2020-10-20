@@ -53,9 +53,10 @@
     padding: 10px;
     font-size: 14px;
     border: none;
-    background: #ffebb1;
-    color: #b78d11;
+    /* background: #ffebb1; */
+    /* color: #b78d11; */
     border-top: 1px solid black;
+    margin: 0px;
 }
 
 .page-label {

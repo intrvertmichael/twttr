@@ -19,34 +19,38 @@ container
 .post {
     /* border:1px solid red; */
     border-top: 1px solid black;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
     box-sizing: border-box;
     padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .post:nth-child(1){
     border-top: none;
 }
 
+.post button {
+    border: none;
+}
+
 
 /*
-inside the post
+post-header
 */
 
-.info {
+.post-header, .post-footer {
     /* border: 1px solid blue; */
     width:100%;
     padding: 0px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
-    margin-right: 20px;
+    flex-direction: row;
+    /* border: 1px solid green; */
 }
 
-.info h3 {
+.post-header h3 {
     text-transform: capitalize;
     font-weight: normal;
     padding: 0px;
@@ -54,36 +58,29 @@ inside the post
     font-size: 20px;
 }
 
-.info h3, p.date {
-    color: rgb(150, 150, 150);
-}
-
-.info p.text{
-    font-size: 20px;
-    line-height: 30px;
-    margin: 0px;
-    padding: 10px 0px;
-}
-
-.info button {
-    border: none;
-    background:  #e4e4e4;
-    color: #929292;
-    font-size: 15px;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin: 0px 5px;
-}
-
-p.date, .delete {
-    font-size: 14px;
+.like {
+    display: flex;
+    align-items: center;
     margin: 0px;
     padding: 0px;
+    opacity: 0.3;
+    background: none;
 }
 
-.delete {
-    color: red;
-    cursor: pointer;
+.like label {
+    padding-top: 3px;
+    font-size: 16px;
+}
+
+.heart {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+}
+
+
+.post-header h3, p.date {
+    color: rgb(150, 150, 150);
 }
 
 .info-name{
@@ -101,40 +98,41 @@ p.date, .delete {
 
 
 /*
-like and delete button
+post-body
 */
 
-.postButtons {
-    /* border: 1px solid blue; */
-    width: 35px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.post-body {
+    font-size: 20px;
+    line-height: 30px;
+    margin: 0px;
+    padding: 0px;
 }
 
-.postButtons button {
+.hashtag {
+    border: none;
+    background:  #e4e4e4;
+    color: #929292;
+    font-size: 15px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-right: 5px;
+}
+
+
+/*
+post-footer
+*/
+
+p.date, .delete {
+    font-size: 14px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.delete {
     text-align: right;
     border: none;
     background: none;
-}
-
-.like {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 35px;
-    margin: 0px;
-    padding: 0px;
-    opacity: 0.3;
-}
-
-.like label {
-    padding-top: 3px;
-    font-size: 16px;
-}
-
-.heart {
-    width: 20px;
-    height: 20px;
+    color: red;
+    cursor: pointer;
 }
