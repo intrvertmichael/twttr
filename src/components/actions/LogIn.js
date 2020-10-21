@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {logInRequest} from './Requests'
-import '../styles/LogIn.css';
+import {logInRequest} from '../utilities/Requests'
+import '../../styles/LogIn.css';
 
 const LogIn = props => {
     const {changeCurrentPage, profile, addProfile, addErrorMessage} = props

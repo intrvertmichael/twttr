@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaRegHeart } from "react-icons/fa"
-import {likeRequest, dislikeRequest} from './Requests'
+import {likeRequest, dislikeRequest} from '../utilities/Requests'
 
 const LikeButton = props => {
     const {profile, post, server_GetPostsRequest} = props;

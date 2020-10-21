@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/Errors.css'
+import '../../styles/Errors.css'
 
 const Errors = props => {
     return (

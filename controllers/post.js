@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const Post = require('../models/posts')
 const Hashtags = require('../models/hashtags')
-const e = require('express')
+
 
 
 // get all posts
@@ -20,6 +20,9 @@ mongoPostRouter.get('/posts', async (request, response) => {
     }))
 })
 
+
+
+// - - - - - - - - - - - - - - - - - - - - - - -
 // create a post
 mongoPostRouter.post('/posts', async (request, response) => {
     if(!request.body.token){
@@ -32,6 +35,8 @@ mongoPostRouter.post('/posts', async (request, response) => {
 
     // error handle decoded token so if token is not valid doesnt make post
     if(decodedToken.id){
+
+
         // create post
         const post = new Post({
             authorId: decodedToken.id,
@@ -74,8 +79,9 @@ mongoPostRouter.post('/posts', async (request, response) => {
                 await createdHashtag.save()
             }
         })
-        response.sendStatus(200)
 
+
+        response.sendStatus(200)
     } else {
         response.status(401).send('token was not valid')
     }
@@ -84,6 +90,7 @@ mongoPostRouter.post('/posts', async (request, response) => {
 
 
 
+// - - - - - - - - - - - - - - - - - - - - - - -
 // delete a post
 mongoPostRouter.post('/delete', async (request, response)=>{
     const decodedToken = jwt.verify(request.body.token, process.env.JWT_KEY)
@@ -118,59 +125,6 @@ mongoPostRouter.post('/delete', async (request, response)=>{
         response.status(401).send('token was not valid')
     }
 })
-
-
-
-// add a like
-mongoPostRouter.post('/like', async (request, response)=>{
-    const decodedToken = jwt.verify(request.body.token, process.env.JWT_KEY)
-    if(decodedToken.id){
-        // find existing liked post
-        const likedPost = await Post.findById(request.body._id).exec()
-
-        // if the person didn't like before add like
-        if(!likedPost.likes.includes(decodedToken.id)){
-            await Post.updateOne(
-                {_id:request.body._id},
-                { $addToSet: { likes: decodedToken.id }
-            })
-            response.sendStatus(200)
-        }
-        // otherwise send message
-        else{
-            response.status(401).send('this person already liked this post')
-        }
-    }else{
-        response.status(401).send('the token is invalid')
-    }
-})
-
-
-
-// remove a like
-mongoPostRouter.post('/dislike', async (request, response)=>{
-    const decodedToken = jwt.verify(request.body.token, process.env.JWT_KEY)
-    if(decodedToken.id){
-        // find existing liked post
-        const likedPost = await Post.findById(request.body._id).exec()
-
-        if(likedPost.likes.includes(decodedToken.id)){
-            await Post.updateOne(
-                {_id:request.body._id},
-                { $pull: { likes: decodedToken.id }}
-            )
-            response.sendStatus(200)
-        }
-        // otherwise send message
-        else{
-            response.status(401).send('Was not able to dislike')
-        }
-    }else{
-        response.status(401).send('The token is invalid')
-    }
-})
-
-
 
 
 module.exports = mongoPostRouter;

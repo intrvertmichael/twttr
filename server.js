@@ -5,10 +5,11 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const mongoUserRouter = require('./controllers/mongo-user')
-const mongoPostRouter = require('./controllers/mongo-post')
-const loginRouter = require('./controllers/mongo-login')
-const searchRouter = require('./controllers/mongo-hashtags')
+const mongoUserRouter = require('./controllers/user')
+const mongoPostRouter = require('./controllers/post')
+const loginRouter = require('./controllers/login')
+const searchRouter = require('./controllers/hashtags')
+const likesRouter = require('./controllers/likes')
 const path = require('path');
 
 const app = express()
@@ -42,6 +43,7 @@ app.use("/api", mongoUserRouter)
 app.use("/api", mongoPostRouter)
 app.use("/api", loginRouter)
 app.use("/api", searchRouter)
+app.use("/api", likesRouter)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT,() => console.log('listening on port:', PORT));

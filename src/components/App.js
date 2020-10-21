@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react'
 
-import {getPostsRequest, getUsersRequest} from './Requests'
-import LogIn from './LogIn'
-import Sidebar from './Sidebar'
-import Register from './Register'
+import {getPostsRequest, getUsersRequest} from './utilities/Requests'
+import LogIn from './actions/LogIn'
+import Sidebar from './sidebar/Sidebar'
+import Register from './actions/Register'
 import '../styles/App.css';
 import '../styles/MediaQueries.css';
 import Posts from './Posts'
-import Compose from './Compose'
-import Errors from './Errors'
+import Compose from './actions/Compose'
+import Errors from './utilities/Errors'
 
 function App() {
 

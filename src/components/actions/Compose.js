@@ -1,6 +1,6 @@
 import React, {useState, useRef} from 'react'
-import {composeRequest} from './Requests'
-import '../styles/Compose.css';
+import {composeRequest} from '../utilities/Requests'
+import '../../styles/Compose.css';
 
 const Compose = props => {
     const {profile, changeCurrentPage, addErrorMessage} = props

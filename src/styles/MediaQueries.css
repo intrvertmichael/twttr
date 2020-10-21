@@ -2,9 +2,11 @@
 @media only screen and (max-width: 650px) {
     .sidebar, .container { width: 100% !important }
     .App { flex-direction: column }
-    .global-app { padding: 0px }
+    .global-app { padding: 10px }
     .sidebar { border-bottom: none; border-right:1px solid black }
-    .post{ padding:15px 10px !important}
+    .post{ padding:15px !important}
     .postButtons { width: 70px !important }
     .icon-color { width: 30px !important }
+    .color-btns-label p {padding-left: 25px}
+    .color-btns-choices {width:61% !important}
 }

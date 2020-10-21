@@ -1,8 +1,8 @@
 import React, {useState, useRef} from 'react';
 import { TwitterPicker } from 'react-color';
 
-import {registerRequest} from './Requests'
-import '../styles/Register.css';
+import {registerRequest} from '../utilities/Requests'
+import '../../styles/Register.css';
 
 const Register = props => {
     const {addProfile, changeCurrentPage, addErrorMessage} = props

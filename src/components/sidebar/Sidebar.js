@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import '../styles/Sidebar.css';
-import {searchRequest} from './Requests'
+import '../../styles/Sidebar.css';
+import {searchRequest} from '../utilities/Requests'
 
 const Sidebar = props =>{
     const [searchText, setSearchText] = useState('');
