@@ -31,7 +31,7 @@ const Post = props => {
         </div>
 
         <div className='post-body'>
-            <p className='text'>{getFinalText(post.payload)}</p>
+            <p className='text'>{getFinalText(post.payload, users)}</p>
         </div>
 
         <div className='post-footer'>
@@ -60,12 +60,23 @@ const getFullDate = (postDate) => {
     return `${date} | ${timeHours}:${timeMinutes} ${ampm}`
 }
 
-const getFinalText = (postText) => {
+const getFinalText = (postText, users) => {
     return (
         <>
         {postText.split(' ').map(word => {
             if(word.startsWith('#')){
                 return <button className='hashtag'>{word}</button>
+            } else if(word.startsWith('@')){
+                const mentioned = users.find(user=> user.name === word.toLowerCase().substring(1))
+
+                const style = {background:mentioned.color, color: 'black'}
+
+                return (<button
+                            style={style}
+                            className='hashtag'
+                            >
+                                {word}
+                            </button>)
             } else {
                 return word + ' '
             }

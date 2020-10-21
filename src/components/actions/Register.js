@@ -22,9 +22,14 @@ const Register = props => {
         else {
             const passwordsDontMatch = registerInfo.password !== registerInfo.rePassword
 
+            const nameHasBlank = registerInfo.name.split('').includes(' ')
+
             if(passwordsDontMatch){
                 rePasswordEl.current.style.backgroundColor = "#FFE1E1";
                 addErrorMessage('Error: Passwords do not match')
+            }
+            else if(nameHasBlank) {
+                addErrorMessage('Error: Name can\'t have any spaces')
             }
             else {
                 rePasswordEl.current.style.backgroundColor = "white";
