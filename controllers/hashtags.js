@@ -9,7 +9,7 @@ searchRouter.get('/hashtags', async (request, response) => {
 
 // search hashtags
 searchRouter.post('/search', async (request, response) => {
-    const received = request.body.payload.split(' ');
+    const received = request.body.payload.split(/\s+/);
 
     // map through received hashtags array
     const allHashtagsallPosts = await Promise.all(

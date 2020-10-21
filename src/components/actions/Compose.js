@@ -10,7 +10,7 @@ const Compose = props => {
 
     const handleSubmit = async e =>{
         e.preventDefault()
-        const correctLength = compose.trim('').length > 2 && compose.trim('').length < tweetLength;
+        const correctLength = compose.trim().length > 2 && compose.trim().length < tweetLength;
 
         if(correctLength){
             server_composeRequest();
@@ -22,7 +22,7 @@ const Compose = props => {
     const server_composeRequest = async () => {
         const response = await composeRequest({
             token : profile.token,
-            payload : compose
+            payload : compose.trim()
         })
 
         if(response !== 'OK'){
@@ -34,6 +34,7 @@ const Compose = props => {
         }
     }
 
+
     return (
         <form className='composeForm' onSubmit={handleSubmit}>
             <textarea
@@ -41,9 +42,9 @@ const Compose = props => {
                 name="text"
                 placeholder="Enter your message"
                 ref={textAreaEl}
-                onChange={(e)=> {
-                    setCompose(e.target.value.trim())
-                    if(compose.trim('').length>tweetLength){
+                onChange={ e => {
+                    setCompose(e.target.value)
+                    if(compose.trim().length>tweetLength){
                         textAreaEl.current.style.backgroundColor = "red";
                     } else {
                         textAreaEl.current.style.backgroundColor = "white";

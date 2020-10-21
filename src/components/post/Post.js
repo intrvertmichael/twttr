@@ -63,7 +63,8 @@ const getFullDate = (postDate) => {
 const getFinalText = (postText, users) => {
     return (
         <>
-        {postText.split(' ').map(word => {
+        {postText.split(/\s+/).map(word => {
+            
             if(word.startsWith('#')){
                 return <button className='hashtag'>{word}</button>
             } else if(word.startsWith('@')){
