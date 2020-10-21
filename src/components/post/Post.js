@@ -69,7 +69,12 @@ const getFinalText = (postText, users) => {
             } else if(word.startsWith('@')){
                 const mentioned = users.find(user=> user.name === word.toLowerCase().substring(1))
 
-                const style = {background:mentioned.color, color: 'black'}
+                let style={}
+
+                if(mentioned){
+                    style = {background:mentioned.color, color: 'black'}
+                }
+
 
                 return (<button
                             style={style}
