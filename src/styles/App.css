@@ -30,4 +30,5 @@ button {
 
 input {
     border-radius: 0px;
+    -webkit-appearance: none;
 }
