@@ -9,8 +9,9 @@ searchRouter.get('/hashtags', async (request, response) => {
 
 // search hashtags
 searchRouter.post('/search', async (request, response) => {
-    const received = request.body.payload.split(/\s+/);
-    const includesAndSymbol = received.includes('&')
+    let received = request.body.payload.split(/\s+/).map(hash => hash.startsWith('#')? hash.substring(1): hash);
+
+    const includesAndSymbol = received.includes('&') || received.includes('and')
 
     let final
     if(!includesAndSymbol){

@@ -12,7 +12,6 @@ const Search = props => {
         if(searchText === ''){
             server_GetPostsRequest()
         } else {
-
             const response = await searchRequest({
                 payload : searchText.toLowerCase()
             })
