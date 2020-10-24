@@ -88,6 +88,7 @@ function App() {
       currentComponent = <Posts {...{
                               profile,
                               posts,
+                              addPost,
                               users,
                               changeCurrentPage,
                               server_GetPostsRequest

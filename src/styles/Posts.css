@@ -116,6 +116,7 @@ post-body
     border-radius: 5px;
     padding: 5px 10px;
     margin-right: 5px;
+    cursor: pointer;
 }
 
 

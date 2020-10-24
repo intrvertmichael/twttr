@@ -3,7 +3,7 @@ import Post from './post/Post'
 import '../styles/Posts.css';
 
 const Posts = props => {
-    const {profile, posts, users, changeCurrentPage, server_GetPostsRequest} = props
+    const {profile, posts, users, changeCurrentPage, server_GetPostsRequest,addPost} = props
 
     if(posts && posts.length === 0){
         return (
@@ -21,8 +21,10 @@ const Posts = props => {
                 {...{
                     profile,
                     post,
+                    posts,
                     users,
                     changeCurrentPage,
+                    addPost,
                     server_GetPostsRequest
                 }}
             />)
