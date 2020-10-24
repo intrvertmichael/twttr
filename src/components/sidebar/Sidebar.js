@@ -1,48 +1,17 @@
 import React, {useState} from 'react'
 import '../../styles/Sidebar.css';
-import {searchRequest} from '../utilities/Requests'
+import Search from './Search'
 
 const Sidebar = props =>{
-    const [searchText, setSearchText] = useState('');
 
     const {profile, currentPage, addProfile, changeCurrentPage, users, addErrorMessage, addPost, allPosts, server_GetPostsRequest} = props
 
-    const handleSearch = async e =>{
-        e.preventDefault()
-
-        if(searchText === ''){
-            server_GetPostsRequest()
-        } else {
-
-            const response = await searchRequest({payload:searchText.toLowerCase()})
-            if(typeof response === 'string'){
-                console.log(response)
-                addErrorMessage(response)
-            } else {
-                addErrorMessage('')
-
-                const final = allPosts.filter(post => {
-                    for(let i=0; i<response.length; i++){
-                        if (response[i] === post._id){
-                            return post
-                        }
-                    }
-                })
-
-                addPost(final)
-            }
-        }
-    }
-    const searchField = <input
-    type='text'
-    name='search'
-    placeholder="Search for Hashtag here"
-    onChange = {text =>{
-        setSearchText(text.target.value)
-
-    }}
-    value={searchText}
-    />
+    const searchField = <Search {...{
+        server_GetPostsRequest,
+        addErrorMessage,
+        allPosts,
+        addPost
+    }}/>
 
     let userProfile = {}
     if(profile){
@@ -56,15 +25,13 @@ const Sidebar = props =>{
         <>
         <button className="login-btn" onClick={()=>changeCurrentPage('log in')}>Log In </button>
         <button className="register-btn" onClick={()=>changeCurrentPage('register')}>Register </button>
-        <form onSubmit={handleSearch}>
-            {searchField}
-        </form>
+        {searchField}
         </>
         )
     }
 
-    // if login, register, or compose page
-    // show current page and cancel button
+    // if login, register, or compose
+    // show current page label
     else if(
         currentPage==='log in'||
         currentPage==='register'||
@@ -79,10 +46,10 @@ const Sidebar = props =>{
     else{
         return (
         <div className='profile'>
-            <div 
-                className='profile-name' 
+            <div
+                className='profile-name'
                 onClick={()=>{
-                    setSearchText('')
+                    // setSearchText('')
                     server_GetPostsRequest()
                 }}
                 style={{
@@ -100,12 +67,9 @@ const Sidebar = props =>{
             localStorage.removeItem('storedToken');
             changeCurrentPage('posts')
             console.log('Logged out.')
-            }}>Log Out</button>
+            }}> Log Out</button>
 
-        <form onSubmit={handleSearch}>
             {searchField}
-        </form>
-
         </div>
         )
     }
