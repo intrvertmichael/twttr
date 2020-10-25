@@ -10,23 +10,21 @@ import Posts from './Posts'
 import Compose from './actions/Compose'
 import Errors from './utilities/Errors'
 
-function App() {
+import {connect} from 'react-redux'
+import {addPostsAction, addUsersAction} from '../reduxStore/actions/mongoDb'
+import {setProfileAction} from '../reduxStore/actions/profile'
+import {setErrorMessageAction} from '../reduxStore/actions/page'
 
-  const [currentPage, changeCurrentPage] = useState('posts');
-  const [profile, addProfile] = useState();
-  const [posts, addPost] = useState([]);
-  const [allPosts, setAllPost] = useState([]);
-  const [users, addUsers] = useState([]);
-  const [errorMessage, addErrorMessage] = useState();
+const App = props => {
+  const {setProfile, reduXcurrentPage, reduXaddPosts, reduXaddUsers, setErrorMessage} = props
 
   const server_GetPostsRequest = async () => {
     const requestedPosts =  await getPostsRequest()
     if(typeof requestedPosts === 'string'){
-      addErrorMessage('There was a connection error with the DB.')
-      addPost([])
+      setErrorMessage('There was a connection error with the DB.')
+      reduXaddPosts([])
     } else {
-      addPost(requestedPosts)
-      setAllPost(requestedPosts)
+      reduXaddPosts(requestedPosts)
     }
   }
 
@@ -40,82 +38,47 @@ function App() {
 
       if(storediD){
         const f = response.find(user=> user._id === storediD)
-        addProfile({...f, token:storedToken})
+        setProfile({...f, token:storedToken})
       }
 
-      addUsers(response)
+      reduXaddUsers(response)
     }
   }
 
   useEffect(() => {
     server_GetUsersRequest()
     server_GetPostsRequest()
-  }, [currentPage])
+  }, [reduXcurrentPage])
 
 
   // depending on currentPage show adequate component;
   let currentComponent
-  switch(currentPage) {
+  switch(reduXcurrentPage) {
     case 'log in':
-      currentComponent = <LogIn {...{
-                              profile,
-                              addProfile,
-                              changeCurrentPage,
-                              addErrorMessage
-                            }}
-                          />
+      currentComponent = <LogIn />
       break;
 
     case 'register':
-      currentComponent = <Register {...{
-                              addProfile,
-                              changeCurrentPage,
-                              addErrorMessage
-                            }}
-                          />
+      currentComponent = <Register />
       break;
 
     case 'compose':
-      currentComponent = <Compose {...{
-                              profile,
-                              changeCurrentPage,
-                              addErrorMessage
-                            }}
-                          />
+      currentComponent = <Compose />
       break;
 
     default:
-      currentComponent = <Posts {...{
-                              profile,
-                              posts,
-                              addPost,
-                              users,
-                              changeCurrentPage,
-                              server_GetPostsRequest
-                            }}
-                          />
+      currentComponent = <Posts />
   }
 
 
   return (
   <div className="global-app">
 
-    { // if there's an error message show Errors component
-    errorMessage?
-      <Errors {...{errorMessage, addErrorMessage}} /> : ''
-    }
+    <Errors />
 
     <div className='App'>
       <div className='sidebar'>
         <Sidebar {...{
-          users,
-          profile,
-          addProfile,
-          currentPage,
-          changeCurrentPage,
-          addErrorMessage,
-          addPost,
-          allPosts,
           server_GetPostsRequest
           }}
         />
@@ -129,4 +92,24 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  console.log(state)
+
+  return {
+    reduXprofile: state.profile,
+    allUsers: state.mongoDb.allUsers,
+    reduXcurrentPage: state.page.currentPage,
+    reduXerrorMessage: state.page.errorMessage
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    reduXaddPosts: posts => dispatch(addPostsAction(posts)),
+    reduXaddUsers: users => dispatch(addUsersAction(users)),
+    setProfile: profile => dispatch(setProfileAction(profile)),
+    setErrorMessage: message => dispatch(setErrorMessageAction(message))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

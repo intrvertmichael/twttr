@@ -1,30 +1,23 @@
 import React, {useState} from 'react'
+import _ from 'lodash'
 import '../../styles/Sidebar.css';
 import Search from './Search'
+import {connect} from 'react-redux'
+import {setProfileAction, removeProfileAction} from '../../reduxStore/actions/profile'
+import {setCurrentPageAction, setSearchAction, setSearchResultsAction} from '../../reduxStore/actions/page'
 
 const Sidebar = props =>{
+    const {removeProfile, reduXprofile, reduXcurrentPage, setCurrentPage, setSearch, setSearchResults} = props
 
-    const {profile, currentPage, addProfile, changeCurrentPage, users, addErrorMessage, addPost, allPosts, server_GetPostsRequest} = props
-
-    const searchField = <Search {...{
-        server_GetPostsRequest,
-        addErrorMessage,
-        allPosts,
-        addPost
-    }}/>
-
-    let userProfile = {}
-    if(profile){
-        userProfile = users.find(user=> user._id === profile._id)
-    }
+    const searchField = <Search />
 
     // if not logged in and posts page
     // show login/register button
-    if(!profile && currentPage==='posts'){
+    if(_.isEmpty(reduXprofile) && reduXcurrentPage==='posts'){
         return (
         <>
-        <button className="login-btn" onClick={()=>changeCurrentPage('log in')}>Log In </button>
-        <button className="register-btn" onClick={()=>changeCurrentPage('register')}>Register </button>
+        <button className="login-btn" onClick={()=>setCurrentPage('log in')}>Log In </button>
+        <button className="register-btn" onClick={()=>setCurrentPage('register') }>Register </button>
         {searchField}
         </>
         )
@@ -33,11 +26,11 @@ const Sidebar = props =>{
     // if login, register, or compose
     // show current page label
     else if(
-        currentPage==='log in'||
-        currentPage==='register'||
-        currentPage==='compose'
+        reduXcurrentPage==='log in'||
+        reduXcurrentPage==='register'||
+        reduXcurrentPage==='compose'
         ){
-        return( <div className="page-label">{currentPage}</div> )
+        return( <div className="page-label">{reduXcurrentPage}</div> )
     }
 
     // else person is logged in
@@ -49,24 +42,23 @@ const Sidebar = props =>{
             <div
                 className='profile-name'
                 onClick={()=>{
-                    // setSearchText('')
-                    server_GetPostsRequest()
+                    setSearch(null)
+                    setSearchResults(null)
+                    setCurrentPage('posts')
                 }}
-                style={{
-                background: userProfile ?
-                    userProfile.color : 'black'
-                }}>
-            { userProfile ? userProfile.name : '' }
+                style={{background: reduXprofile.color}}
+            >
+            {reduXprofile.name}
             </div>
 
-        <button onClick={()=>changeCurrentPage('compose')}> Compose </button>
+        <button onClick={()=>setCurrentPage('compose')}> Compose </button>
 
         <button onClick={()=>{
-            addProfile(null)
+            console.log('Logged out.')
+            removeProfile()
             localStorage.removeItem('storediD');
             localStorage.removeItem('storedToken');
-            changeCurrentPage('posts')
-            console.log('Logged out.')
+            setCurrentPage('posts')
             }}> Log Out</button>
 
             {searchField}
@@ -75,5 +67,22 @@ const Sidebar = props =>{
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        allUsers: state.mongoDb.allUsers,
+        reduXprofile: state.profile,
+        reduXcurrentPage: state.page.currentPage
+    }
+}
 
-export default Sidebar
+const mapDispatchToProps = dispatch => {
+    return {
+        setProfile: profile => dispatch(setProfileAction(profile)),
+        removeProfile: () => dispatch(removeProfileAction()),
+        setCurrentPage: page => dispatch(setCurrentPageAction(page)),
+        setSearch: text => dispatch(setSearchAction(text)),
+        setSearchResults: payload => dispatch(setSearchResultsAction(payload))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)

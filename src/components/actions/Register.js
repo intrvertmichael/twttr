@@ -1,11 +1,13 @@
 import React, {useState, useRef} from 'react';
 import { TwitterPicker } from 'react-color';
-
+import {connect} from 'react-redux'
 import {registerRequest} from '../utilities/Requests'
 import '../../styles/Register.css';
+import {setProfileAction} from '../../reduxStore/actions/profile'
+import {setCurrentPageAction, setErrorMessageAction} from '../../reduxStore/actions/page'
 
 const Register = props => {
-    const {addProfile, changeCurrentPage, addErrorMessage} = props
+    const {setProfile, setCurrentPage, setErrorMessage} = props
     const [registerInfo, setRegisterInfo] = useState();
     const rePasswordEl = useRef();
 
@@ -17,7 +19,7 @@ const Register = props => {
         const everythingNotFilled = !registerInfo || !registerInfo.name || !registerInfo.password || !registerInfo.rePassword || !registerInfo.color;
 
         if(everythingNotFilled){
-            addErrorMessage('Error: You have to fill out all fields')
+            setErrorMessage('Error: You have to fill out all fields')
         }
         else {
             const passwordsDontMatch = registerInfo.password !== registerInfo.rePassword
@@ -26,10 +28,10 @@ const Register = props => {
 
             if(passwordsDontMatch){
                 rePasswordEl.current.style.backgroundColor = "#FFE1E1";
-                addErrorMessage('Error: Passwords do not match')
+                setErrorMessage('Error: Passwords do not match')
             }
             else if(nameHasBlank) {
-                addErrorMessage('Error: Name can\'t have any spaces')
+                setErrorMessage('Error: Name can\'t have any spaces')
             }
             else {
                 rePasswordEl.current.style.backgroundColor = "white";
@@ -43,11 +45,11 @@ const Register = props => {
         const response = await registerRequest(registerInfo)
         if(typeof(response)=='string'){
             console.log(response)
-            addErrorMessage(response)
+            setErrorMessage(response)
         } else {
             console.log('Log in was successful')
-            addProfile(response);
-            changeCurrentPage('posts')
+            setProfile(response)
+            setCurrentPage('posts')
         }
     }
 
@@ -108,8 +110,8 @@ const Register = props => {
 
             <div className='btns'>
                 <button onClick={()=> {
-                    changeCurrentPage('posts')
-                    addErrorMessage('')
+                    setCurrentPage('posts')
+                    setErrorMessage(null)
                     }}> Cancel </button>
                 <button className='btns submit'type='submit'>Submit</button>
             </div>
@@ -117,4 +119,20 @@ const Register = props => {
     )
 }
 
-export default Register;
+
+const mapStateToProps = state => {
+    return {
+        allUsers: state.mongoDb.allUsers,
+        reduXprofile: state.profile
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setProfile: profile => dispatch(setProfileAction(profile)),
+        setCurrentPage: page => dispatch(setCurrentPageAction(page)),
+        setErrorMessage: message => dispatch(setErrorMessageAction(message))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

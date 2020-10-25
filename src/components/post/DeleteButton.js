@@ -1,7 +1,9 @@
 import React from 'react'
 import {deleteRequest} from '../utilities/Requests'
+import {connect} from 'react-redux'
 
 const DeleteButton = props => {
+    const {reduXprofile} = props
     const {profile, post, server_GetPostsRequest} = props
 
     // handle delete button pressed
@@ -12,7 +14,7 @@ const DeleteButton = props => {
 
     const server_DeleteRequest = async () => {
         const response =  await deleteRequest({
-            token:profile.token,
+            token:reduXprofile.token,
             _id:post._id
         })
 
@@ -34,4 +36,16 @@ const DeleteButton = props => {
         )
 }
 
-export default DeleteButton
+
+const mapStateToProps = state => {
+    return {
+        allUsers: state.mongoDb.allUsers,
+        reduXprofile: state.profile
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteButton)

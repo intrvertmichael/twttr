@@ -1,12 +1,16 @@
 import React from 'react'
+import {connect} from 'react-redux'
+
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
-import {singlepostRequest, searchRequest} from '../utilities/Requests'
+import {singlepostRequest} from '../utilities/Requests'
+import {setSearchAction} from '../../reduxStore/actions/page'
 
 const Post = props => {
-    const {post, posts, profile, users, changeCurrentPage, server_GetPostsRequest, addPost} = props
+    const {setSearch, allUsers, reduXprofile} = props
+    const {post, profile, changeCurrentPage, server_GetPostsRequest} = props
 
-    let authorProfile = users.find(user => user._id === post.authorId)
+    let authorProfile = allUsers.find(user => user._id === post.authorId)
 
     if(!authorProfile){
         authorProfile = {
@@ -16,15 +20,22 @@ const Post = props => {
     }
 
 
-    const getFinalText = (postText, users) => {
+    const getFinalText = (postText, allUsers) => {
         return (
             <>
             {postText.split(/\s+/).map(word => {
     
                 if(word.startsWith('#')){
-                    return <button onClick={()=>hashtagClick(word)} className='hashtag'>{word}</button>
-                } else if(word.startsWith('@')){
-                    const mentioned = users.find(user=> user.name === word.toLowerCase().substring(1))
+                    return (
+                        <button
+                            onClick={()=>hashtagClick(word)}
+                            className='hashtag'
+                        >
+                        {word}
+                        </button>)
+                } 
+                else if(word.startsWith('@')){
+                    const mentioned = allUsers.find(user=> user.name === word.toLowerCase().substring(1))
     
                     let style={}
     
@@ -51,24 +62,14 @@ const Post = props => {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    const postClick = async () => {
-        const res = await singlepostRequest(post._id)
-        console.log(res.payload)
-    }
+    // const postClick = async () => {
+    //     const res = await singlepostRequest(post._id)
+    //     console.log(res.payload)
+    // }
 
-    const hashtagClick = async (hashtag) => {
-        const response = await searchRequest({
-            payload : hashtag.toLowerCase()
-        })
-
-        const all = posts.filter(p => response.includes(p._id))
-
-        console.log('response', response)
-        console.log('all', all)
-
-        if(all.length>0){
-            addPost(all)
-        }
+    const hashtagClick = hashtag => {
+        console.log('hashtag', hashtag)
+        setSearch(hashtag)
     }
 
     return (
@@ -89,13 +90,13 @@ const Post = props => {
         </div>
 
         <div className='post-body'>
-            <p className='text'>{getFinalText(post.payload, users)}</p>
+            <p className='text'>{getFinalText(post.payload, allUsers)}</p>
         </div>
 
         <div className='post-footer'>
             <p className='date'>{getFullDate(post.date)}</p>
 
-            {profile && profile._id === post.authorId?
+            {reduXprofile && reduXprofile._id === post.authorId?
             <DeleteButton {...{
                 profile,
                 post,
@@ -118,4 +119,18 @@ const getFullDate = (postDate) => {
     return `${date} | ${timeHours}:${timeMinutes} ${ampm}`
 }
 
-export default Post
+const mapStateToProps = state => {
+    return {
+        allPosts: state.mongoDb.allPosts,
+        allUsers: state.mongoDb.allUsers,
+        reduXprofile: state.profile
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setSearch: text => dispatch(setSearchAction(text)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post)

@@ -1,9 +1,11 @@
 import React, {useState, useRef} from 'react'
 import {composeRequest} from '../utilities/Requests'
 import '../../styles/Compose.css';
+import {connect} from 'react-redux'
+import {setCurrentPageAction, setErrorMessageAction} from '../../reduxStore/actions/page'
 
 const Compose = props => {
-    const {profile, changeCurrentPage, addErrorMessage} = props
+    const {reduXprofile, setCurrentPage, setErrorMessage} = props
     const [compose, setCompose] = useState('');
     const textAreaEl = useRef();
     const tweetLength = 120;
@@ -15,22 +17,22 @@ const Compose = props => {
         if(correctLength){
             server_composeRequest();
         } else {
-            addErrorMessage('Error: Text is not the right length')
+            setErrorMessage('Error: Text is not the right length')
         }
     }
 
     const server_composeRequest = async () => {
         const response = await composeRequest({
-            token : profile.token,
+            token : reduXprofile.token,
             payload : compose.trim()
         })
 
         if(response !== 'OK'){
-            addErrorMessage(response)
+            setErrorMessage(response)
         }
         else {
             console.log('Post was created.')
-            changeCurrentPage('posts')
+            setCurrentPage('posts')
         }
     }
 
@@ -54,7 +56,8 @@ const Compose = props => {
             <div className='btns'>
                 <button name="cancel" className='submit' onClick={e => {
                     e.preventDefault()
-                    changeCurrentPage('posts')
+                    setErrorMessage(null)
+                    setCurrentPage('posts')
                 }}>Cancel</button>
                 <button type='submit' name="submit" className='submit'>Submit</button>
             </div>
@@ -62,4 +65,18 @@ const Compose = props => {
     )
 }
 
-export default Compose;
+const mapStateToProps = state => {
+    return {
+        allUsers: state.mongoDb.allUsers,
+        reduXprofile: state.profile
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setCurrentPage: page => dispatch(setCurrentPageAction(page)),
+        setErrorMessage: message => dispatch(setErrorMessageAction(message))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Compose)

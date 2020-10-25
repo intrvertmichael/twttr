@@ -1,38 +1,50 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {searchRequest} from '../utilities/Requests'
+import {connect} from 'react-redux'
+import {setErrorMessageAction, setSearchAction, setSearchResultsAction} from '../../reduxStore/actions/page'
 
 const Search = props => {
-    const [searchText, setSearchText] = useState('');
+    const {setErrorMessage, setSearch, search, allPosts, setSearchResults} = props
 
-    const {server_GetPostsRequest, addErrorMessage, allPosts, addPost} = props
+    const [SearchInputText, setSearchInputText] = useState()
+
+    const getSearchResults = async searchText => {
+        console.log(`Searching for posts with ${searchText} hashtag`)
+        const response = await searchRequest({
+            payload : searchText.toLowerCase()
+        })
+
+        if(typeof response === 'string'){
+            console.log(response)
+            setErrorMessage(response)
+        } else {
+            setErrorMessage(null)
+
+            const final = allPosts.filter(post => {
+                for(let i=0; i<response.length; i++){
+                    if (response[i] === post._id){
+                        return post
+                    }
+                }
+            })
+
+            setSearchResults(final)
+        }
+    }
+
+    useEffect(()=>{
+        if(search === ''){
+            setSearch(null)
+            setSearchResults(null)
+        } else if(search) {
+            getSearchResults(search)
+        }
+    }, [search])
 
     const handleSearch = async e =>{
         e.preventDefault()
-
-        if(searchText === ''){
-            server_GetPostsRequest()
-        } else {
-            const response = await searchRequest({
-                payload : searchText.toLowerCase()
-            })
-
-            if(typeof response === 'string'){
-                console.log(response)
-                addErrorMessage(response)
-            } else {
-                addErrorMessage('')
-
-                const final = allPosts.filter(post => {
-                    for(let i=0; i<response.length; i++){
-                        if (response[i] === post._id){
-                            return post
-                        }
-                    }
-                })
-
-                addPost(final)
-            }
-        }
+        console.log(`search submitted ${SearchInputText}`)
+        setSearch(SearchInputText)
     }
 
     return (
@@ -42,12 +54,27 @@ const Search = props => {
                 name='search'
                 placeholder="Search for Hashtag here"
                 onChange = {text =>{
-                    setSearchText(text.target.value)
+                    setSearchInputText(text.target.value)
                 }}
-                value={searchText}
+                value={SearchInputText}
             />
         </form>
     )
 }
 
-export default Search
+const mapStateToProps = state => {
+    return {
+        allPosts: state.mongoDb.allPosts,
+        search: state.page.search
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setErrorMessage: message => dispatch(setErrorMessageAction(message)),
+        setSearch: text => dispatch(setSearchAction(text)),
+        setSearchResults: payload => dispatch(setSearchResultsAction(payload))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search)

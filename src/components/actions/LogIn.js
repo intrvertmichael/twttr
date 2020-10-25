@@ -1,9 +1,16 @@
 import React, {useState} from 'react';
+import _ from 'lodash'
 import {logInRequest} from '../utilities/Requests'
 import '../../styles/LogIn.css';
 
+import {connect} from 'react-redux'
+import {setProfileAction} from '../../reduxStore/actions/profile'
+import {setCurrentPageAction, setErrorMessageAction} from '../../reduxStore/actions/page'
+
+
 const LogIn = props => {
-    const {changeCurrentPage, profile, addProfile, addErrorMessage} = props
+    const {allUsers, setProfile, setCurrentPage, setErrorMessage} = props
+    // const {addErrorMessage} = props
     const [loginInfo, setLoginInfo] = useState();
 
     const handleSubmit = async event =>{
@@ -11,7 +18,7 @@ const LogIn = props => {
         const everythingNotFilled = !loginInfo || !loginInfo.name || !loginInfo.password;
 
         if(everythingNotFilled){
-            addErrorMessage('Error: You have to fill out both fields')
+            setErrorMessage('Error: You have to fill out both fields')
         } else {
             server_LogInRequest()
         }
@@ -21,12 +28,18 @@ const LogIn = props => {
         const response = await logInRequest(loginInfo)
         if(typeof(response)=='string'){
             console.log(response)
-            addErrorMessage(response)
+            setErrorMessage(response)
         } else {
             console.log('Log in was successful')
-            addProfile(response);
-            changeCurrentPage('posts');
-            addErrorMessage('')
+
+            const userProfile = allUsers.find(user=> user._id === response._id)
+            console.log('-> ', userProfile, response.token)
+            // if(_.isEmpty(reduXprofile)){
+                setProfile({...userProfile, token: response.token})
+            // }
+
+            setCurrentPage('posts');
+            setErrorMessage(null)
             localStorage.setItem('storediD', response._id);
             localStorage.setItem('storedToken', response.token);
         }
@@ -63,8 +76,8 @@ const LogIn = props => {
 
             <div className='btns'>
                 <button className='btns' onClick={()=> {
-                    addErrorMessage('')
-                    changeCurrentPage('posts')
+                    setErrorMessage(null)
+                    setCurrentPage('posts')
                     }}> Cancel </button>
                 <button className='btns submit' type="submit">Submit</button>
             </div>
@@ -72,4 +85,19 @@ const LogIn = props => {
     )
 }
 
-export default LogIn;
+const mapStateToProps = state => {
+    return {
+        allUsers: state.mongoDb.allUsers,
+        reduXprofile: state.profile
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setProfile: profile => dispatch(setProfileAction(profile)),
+        setCurrentPage: page => dispatch(setCurrentPageAction(page)),
+        setErrorMessage: message => dispatch(setErrorMessageAction(message))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn)
