@@ -2,9 +2,10 @@ import React from 'react'
 import {deleteRequest} from '../utilities/Requests'
 import {connect} from 'react-redux'
 import {updateAllPostsAction} from '../../reduxStore/actions/mongoDb'
+import {setCurrentPageAction} from '../../reduxStore/actions/page'
 
 const DeleteButton = props => {
-    const {reduXprofile, updateAllPosts} = props
+    const {reduXprofile, updateAllPosts, currentPage, setCurrentPage} = props
     const {profile, post} = props
 
     // handle delete button pressed
@@ -25,6 +26,7 @@ const DeleteButton = props => {
         else {
             console.log('Post was successfully deleted.')
             updateAllPosts()
+            setCurrentPage('posts')
         }
     }
 
@@ -41,13 +43,15 @@ const DeleteButton = props => {
 const mapStateToProps = state => {
     return {
         allUsers: state.mongoDb.allUsers,
-        reduXprofile: state.profile
+        reduXprofile: state.profile,
+        currentPage: state.page.currentPage
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateAllPosts: () => dispatch(updateAllPostsAction())
+        updateAllPosts: () => dispatch(updateAllPostsAction()),
+        setCurrentPage: page => dispatch(setCurrentPageAction(page))
     }
 }
 
