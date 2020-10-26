@@ -1,6 +1,4 @@
-import React, {useState, useEffect} from 'react'
-
-import {getPostsRequest, getUsersRequest} from './utilities/Requests'
+import React, {useEffect} from 'react'
 
 import LogIn from './actions/LogIn'
 import Sidebar from './sidebar/Sidebar'
@@ -15,34 +13,15 @@ import Compose from './actions/Compose'
 import Errors from './utilities/Errors'
 
 import {connect} from 'react-redux'
-import {addPostsAction, addUsersAction, updateAllPostsAction} from '../reduxStore/actions/mongoDb'
+import {addPostsAction, addUsersAction, updateAllPostsAction, updateAllUsersAction} from '../reduxStore/actions/mongoDb'
 import {setProfileAction} from '../reduxStore/actions/profile'
 import {setErrorMessageAction} from '../reduxStore/actions/page'
 
 const App = props => {
-  const {setProfile, reduXcurrentPage, reduXaddPosts, reduXaddUsers, setErrorMessage, updateAllPosts} = props
-
-  
-
-  const server_GetUsersRequest = async () => {
-    const response =  await getUsersRequest()
-    if(typeof response === 'string'){
-      console(response)
-    } else {
-      const storediD = localStorage.getItem('storediD');
-      const storedToken = localStorage.getItem('storedToken');
-
-      if(storediD){
-        const f = response.find(user=> user._id === storediD)
-        setProfile({...f, token:storedToken})
-      }
-
-      reduXaddUsers(response)
-    }
-  }
+  const {reduXcurrentPage, updateAllPosts, updateAllUsers} = props
 
   useEffect(() => {
-    server_GetUsersRequest()
+    updateAllUsers()
     updateAllPosts()
   }, [reduXcurrentPage])
 
@@ -61,7 +40,7 @@ const App = props => {
     case 'compose':
       currentComponent = <Compose />
       break;
-    
+
     case 'single-page':
       currentComponent = <SinglePage />
       break;
@@ -106,7 +85,8 @@ const mapDispatchToProps = dispatch => {
     reduXaddUsers: users => dispatch(addUsersAction(users)),
     setProfile: profile => dispatch(setProfileAction(profile)),
     setErrorMessage: message => dispatch(setErrorMessageAction(message)),
-    updateAllPosts: () => dispatch(updateAllPostsAction())
+    updateAllPosts: () => dispatch(updateAllPostsAction()),
+    updateAllUsers: () => dispatch(updateAllUsersAction())
   }
 }
 

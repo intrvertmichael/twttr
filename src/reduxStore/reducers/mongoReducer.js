@@ -26,6 +26,12 @@ const postReducer = (state = initialState, action) => {
         allUsers: action.payload
       }
 
+    case 'UPDATE_ALL_USERS':
+        return {
+          ...state,
+          allUsers: action.payload
+        }
+
     default:
       return state
   }
