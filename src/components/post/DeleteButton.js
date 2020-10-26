@@ -5,8 +5,8 @@ import {updateAllPostsAction} from '../../reduxStore/actions/mongoDb'
 import {setCurrentPageAction} from '../../reduxStore/actions/page'
 
 const DeleteButton = props => {
-    const {reduXprofile, updateAllPosts, currentPage, setCurrentPage} = props
-    const {profile, post} = props
+    const {reduXprofile, updateAllPosts, setCurrentPage} = props
+    const {post} = props
 
     // handle delete button pressed
     const handleDeleteClick = async e => {
@@ -43,8 +43,7 @@ const DeleteButton = props => {
 const mapStateToProps = state => {
     return {
         allUsers: state.mongoDb.allUsers,
-        reduXprofile: state.profile,
-        currentPage: state.page.currentPage
+        reduXprofile: state.profile
     }
 }
 

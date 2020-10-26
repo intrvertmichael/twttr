@@ -8,7 +8,7 @@ import {updateAllPostsAction} from '../../reduxStore/actions/mongoDb'
 
 const Post = props => {
     const {setSearch, allUsers, reduXprofile, setCurrentPage, setSinglePost, currentPage} = props
-    const {post, profile} = props
+    const {post} = props
 
     let authorProfile = allUsers.find(user => user._id === post.authorId)
 
@@ -75,14 +75,13 @@ const Post = props => {
     <li className='post'>
         <div className='post-header'>
             <div className='info-name'>
-                <div className='icon-color' style={{background:authorProfile.color}} />
+                <div
+                    className='icon-color'
+                    style={{background:authorProfile.color}}
+                />
                 <h3>{authorProfile.name}</h3>
             </div>
-            <LikeButton {...{
-                profile,
-                post
-                }}
-            />
+            <LikeButton post={post} />
         </div>
 
         <div className='post-body'>
@@ -94,18 +93,16 @@ const Post = props => {
                 <p className='date'>{getFullDate(post.date)}</p>
 
                 {
-                currentPage==='posts'? 
+                currentPage==='posts'?
                 <el onClick={postClick} className='comments'>
                     Comments
                 </el> : ''
                 }
 
             </div>
-            {reduXprofile && reduXprofile._id === post.authorId?
-            <DeleteButton {...{
-                profile,
-                post
-            }}/> : ''
+            {
+            reduXprofile && reduXprofile._id === post.authorId?
+            <DeleteButton post={post} /> : ''
             }
 
         </div>
