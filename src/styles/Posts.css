@@ -58,24 +58,25 @@ post-header
     font-size: 20px;
 }
 
-.like {
-    display: flex;
-    align-items: center;
+.like, .comments {
+    /* display: flex; */
+    /* align-items: center; */
     margin: 0px;
     padding: 0px;
     opacity: 0.3;
     background: none;
+    display: flex;
+    align-items: center;
 }
 
 .like label {
-    padding-top: 3px;
     font-size: 16px;
 }
 
-.heart {
+.heart, .commentbox {
     width: 20px;
     height: 20px;
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
 
@@ -95,6 +96,20 @@ post-header
     margin-right: 10px;
 }
 
+.like-comment-icons{
+    display: flex;
+    align-items: center;
+}
+
+.comments {
+    cursor: pointer;
+}
+
+.commentbox {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
 
 
 /*
@@ -129,11 +144,6 @@ post-footer
     display: flex;
     color: rgb(150, 150, 150);
     font-size: 14px;
-}
-
-.comments {
-    margin-left: 10px;
-    cursor: pointer;
 }
 
 p.date, .delete {

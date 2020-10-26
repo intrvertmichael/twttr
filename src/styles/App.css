@@ -32,3 +32,7 @@ input {
     border-radius: 0px;
     -webkit-appearance: none;
 }
+
+label {
+    font-family: Helvetica, Arial, sans-serif;
+}

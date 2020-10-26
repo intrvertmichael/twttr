@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-
+import {FaRegCommentAlt} from 'react-icons/fa'
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
 import {setSearchAction, setCurrentPageAction, setSinglePostAction} from '../../reduxStore/actions/page'
@@ -43,12 +43,13 @@ const Post = props => {
                         style = {background:mentioned.color, color: 'black'}
                     }
 
-                    return (<button
-                                style={style}
-                                className='hashtag'
-                                >
-                                {word}
-                                </button>)
+                    return (
+                        <button
+                            style={style}
+                            className='hashtag'
+                        >
+                        {word}
+                        </button>)
                 }
 
                 else {
@@ -81,7 +82,16 @@ const Post = props => {
                 />
                 <h3>{authorProfile.name}</h3>
             </div>
+            <div className='like-comment-icons'>
+            {
+            currentPage==='posts'?
+            <el onClick={postClick} className='comments'>
+                <label> 1 </label>
+                <FaRegCommentAlt className='commentbox'/>
+            </el> : ''
+            }
             <LikeButton post={post} />
+            </div>
         </div>
 
         <div className='post-body'>
@@ -91,14 +101,6 @@ const Post = props => {
         <div className='post-footer'>
             <div className='date-comments'>
                 <p className='date'>{getFullDate(post.date)}</p>
-
-                {
-                currentPage==='posts'?
-                <el onClick={postClick} className='comments'>
-                    Comments
-                </el> : ''
-                }
-
             </div>
             {
             reduXprofile && reduXprofile._id === post.authorId?

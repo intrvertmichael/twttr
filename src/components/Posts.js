@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 
 const Posts = props => {
     const {allPosts, searchResults} = props
-    const {profile, addPost} = props
+    const {addPost} = props
 
     let postsToShow = allPosts;
     if(searchResults) { postsToShow = searchResults }
@@ -19,7 +19,6 @@ const Posts = props => {
                 postsToShow.slice(0).reverse().map(post => <Post
                         key={post._id}
                         {...{
-                            profile,
                             post,
                             addPost
                         }}

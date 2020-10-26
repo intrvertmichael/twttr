@@ -5,10 +5,10 @@ import Search from './Search'
 import {connect} from 'react-redux'
 import {FaTwitter} from 'react-icons/fa'
 import {setProfileAction, removeProfileAction} from '../../reduxStore/actions/profile'
-import {setCurrentPageAction, setSearchAction, setSearchResultsAction} from '../../reduxStore/actions/page'
+import {setCurrentPageAction, setErrorMessageAction, setSearchAction, setSearchResultsAction} from '../../reduxStore/actions/page'
 
 const Sidebar = props =>{
-    const {removeProfile, reduXprofile, reduXcurrentPage, setCurrentPage, setSearch, setSearchResults} = props
+    const {removeProfile, reduXprofile, reduXcurrentPage, setCurrentPage, setSearch, setSearchResults, setErrorMessage} = props
 
     const searchField = <Search />
 
@@ -16,6 +16,7 @@ const Sidebar = props =>{
         e.preventDefault()
         setSearch(null)
         setSearchResults(null)
+        setErrorMessage(null)
         setCurrentPage('posts')
     }
 
@@ -98,7 +99,8 @@ const mapDispatchToProps = dispatch => {
         removeProfile: () => dispatch(removeProfileAction()),
         setCurrentPage: page => dispatch(setCurrentPageAction(page)),
         setSearch: text => dispatch(setSearchAction(text)),
-        setSearchResults: payload => dispatch(setSearchResultsAction(payload))
+        setSearchResults: payload => dispatch(setSearchResultsAction(payload)),
+        setErrorMessage: message => dispatch(setErrorMessageAction(message))
     }
 }
 
