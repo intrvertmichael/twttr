@@ -3,6 +3,7 @@ import _ from 'lodash'
 import '../../styles/Sidebar.css';
 import Search from './Search'
 import {connect} from 'react-redux'
+import {FaTwitter} from 'react-icons/fa'
 import {setProfileAction, removeProfileAction} from '../../reduxStore/actions/profile'
 import {setCurrentPageAction, setSearchAction, setSearchResultsAction} from '../../reduxStore/actions/page'
 
@@ -11,12 +12,25 @@ const Sidebar = props =>{
 
     const searchField = <Search />
 
+    const handleLogoClick = e =>{
+        e.preventDefault()
+        setSearch(null)
+        setSearchResults(null)
+        setCurrentPage('posts')
+    }
+
+    const twitterLogo = <div className='page-logo' onClick={handleLogoClick}> <FaTwitter/> </div>
+
+
     // if not logged in and posts page
     // show login/register button
-    if(_.isEmpty(reduXprofile) && reduXcurrentPage==='posts'){
+    if( _.isEmpty(reduXprofile) &&
+        (reduXcurrentPage==='posts' || reduXcurrentPage==='single-page')
+    ){
         return (
         <>
-        <button className="login-btn" onClick={()=>setCurrentPage('log in')}>Log In </button>
+        {twitterLogo}
+        <button className="login-btn" onClick={()=>setCurrentPage('log-in')}>Log In </button>
         <button className="register-btn" onClick={()=>setCurrentPage('register') }>Register </button>
         {searchField}
         </>
@@ -26,11 +40,18 @@ const Sidebar = props =>{
     // if login, register, or compose
     // show current page label
     else if(
-        reduXcurrentPage==='log in'||
+        reduXcurrentPage==='log-in'||
         reduXcurrentPage==='register'||
         reduXcurrentPage==='compose'
         ){
-        return( <div className="page-label">{reduXcurrentPage}</div> )
+        return(
+        <>
+        {reduXcurrentPage!=='compose'? twitterLogo: ''}
+        <div className="page-label">
+            {reduXcurrentPage==='log-in'? 'Log In': reduXcurrentPage}
+        </div>
+        </>
+        )
     }
 
     // else person is logged in
@@ -41,11 +62,7 @@ const Sidebar = props =>{
         <div className='profile'>
             <div
                 className='profile-name'
-                onClick={()=>{
-                    setSearch(null)
-                    setSearchResults(null)
-                    setCurrentPage('posts')
-                }}
+                onClick={handleLogoClick}
                 style={{background: reduXprofile.color}}
             >
             {reduXprofile.name}

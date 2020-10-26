@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 
 const Posts = props => {
     const {allPosts, searchResults} = props
-    const {profile, changeCurrentPage, server_GetPostsRequest,addPost} = props
+    const {profile, addPost} = props
 
     let postsToShow = allPosts;
     if(searchResults) { postsToShow = searchResults }
@@ -21,9 +21,7 @@ const Posts = props => {
                         {...{
                             profile,
                             post,
-                            changeCurrentPage,
-                            addPost,
-                            server_GetPostsRequest
+                            addPost
                         }}
                     />)
             }

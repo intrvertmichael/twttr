@@ -2,10 +2,11 @@ import React from 'react'
 import { FaRegHeart } from "react-icons/fa"
 import {likeRequest, dislikeRequest} from '../utilities/Requests'
 import {connect} from 'react-redux'
+import {updateAllPostsAction} from '../../reduxStore/actions/mongoDb'
 
 const LikeButton = props => {
-    const {reduXprofile} = props
-    const {profile, post, server_GetPostsRequest} = props;
+    const {reduXprofile, updateAllPosts} = props
+    const {post} = props;
 
     const server_AddLike = async (e) => {
         e.preventDefault()
@@ -20,7 +21,7 @@ const LikeButton = props => {
         }
         else {
             console.log('Like was added.')
-            server_GetPostsRequest()
+            updateAllPosts()
         }
     }
 
@@ -37,7 +38,7 @@ const LikeButton = props => {
         }
         else {
             console.log('Like was removed.')
-            server_GetPostsRequest()
+            updateAllPosts()
         }
     }
 
@@ -79,7 +80,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return {}
+    return {
+        updateAllPosts: () => dispatch(updateAllPostsAction())
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LikeButton)

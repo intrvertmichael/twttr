@@ -10,6 +10,22 @@
     border-right: none;
 }
 
+.page-logo {
+    background: #1DA1F2;
+    color: white;
+    width: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+    text-align: center;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+}
+
+.page-logo svg {
+    width: 30px;
+    height: 30px;
+}
+
 .profile {
     width: 100%;
     cursor: pointer;

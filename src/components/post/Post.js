@@ -4,11 +4,12 @@ import {connect} from 'react-redux'
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
 import {singlepostRequest} from '../utilities/Requests'
-import {setSearchAction} from '../../reduxStore/actions/page'
+import {setSearchAction, setCurrentPageAction} from '../../reduxStore/actions/page'
+import {updateAllPostsAction} from '../../reduxStore/actions/mongoDb'
 
 const Post = props => {
-    const {setSearch, allUsers, reduXprofile} = props
-    const {post, profile, changeCurrentPage, server_GetPostsRequest} = props
+    const {setSearch, allUsers, reduXprofile, setCurrentPage} = props
+    const {post, profile} = props
 
     let authorProfile = allUsers.find(user => user._id === post.authorId)
 
@@ -62,10 +63,12 @@ const Post = props => {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    // const postClick = async () => {
-    //     const res = await singlepostRequest(post._id)
-    //     console.log(res.payload)
-    // }
+    const postClick = async () => {
+        const res = await singlepostRequest(post._id)
+        console.log('single page post')
+        console.log(res)
+        setCurrentPage('single-page')
+    }
 
     const hashtagClick = hashtag => {
         console.log('hashtag', hashtag)
@@ -74,7 +77,6 @@ const Post = props => {
 
     return (
     <li className='post'>
-    {/* <li className='post' onClick={postClick}> */}
         <div className='post-header'>
             <div className='info-name'>
                 <div className='icon-color' style={{background:authorProfile.color}} />
@@ -82,9 +84,7 @@ const Post = props => {
             </div>
             <LikeButton {...{
                 profile,
-                post,
-                changeCurrentPage,
-                server_GetPostsRequest
+                post
                 }}
             />
         </div>
@@ -94,15 +94,19 @@ const Post = props => {
         </div>
 
         <div className='post-footer'>
-            <p className='date'>{getFullDate(post.date)}</p>
-
+            <div className='date-comments'>
+                <p className='date'>{getFullDate(post.date)}</p>
+                <el onClick={postClick} className='comments'>
+                    Comments
+                </el>
+            </div>
             {reduXprofile && reduXprofile._id === post.authorId?
             <DeleteButton {...{
                 profile,
-                post,
-                server_GetPostsRequest,
+                post
             }}/> : ''
             }
+
         </div>
     </li>
     )
@@ -130,6 +134,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setSearch: text => dispatch(setSearchAction(text)),
+        setCurrentPage: page => dispatch(setCurrentPageAction(page)),
+        updateAllPosts: () => dispatch(updateAllPostsAction())
     }
 }
 

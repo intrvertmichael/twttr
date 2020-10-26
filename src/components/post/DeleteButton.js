@@ -1,10 +1,11 @@
 import React from 'react'
 import {deleteRequest} from '../utilities/Requests'
 import {connect} from 'react-redux'
+import {updateAllPostsAction} from '../../reduxStore/actions/mongoDb'
 
 const DeleteButton = props => {
-    const {reduXprofile} = props
-    const {profile, post, server_GetPostsRequest} = props
+    const {reduXprofile, updateAllPosts} = props
+    const {profile, post} = props
 
     // handle delete button pressed
     const handleDeleteClick = async e => {
@@ -23,7 +24,7 @@ const DeleteButton = props => {
         }
         else {
             console.log('Post was successfully deleted.')
-            server_GetPostsRequest()
+            updateAllPosts()
         }
     }
 
@@ -45,7 +46,9 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-    return {}
+    return {
+        updateAllPosts: () => dispatch(updateAllPostsAction())
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteButton)

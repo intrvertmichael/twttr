@@ -124,6 +124,18 @@ post-body
 post-footer
 */
 
+
+.date-comments {
+    display: flex;
+    color: rgb(150, 150, 150);
+    font-size: 14px;
+}
+
+.comments {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
 p.date, .delete {
     font-size: 14px;
     margin: 0px;

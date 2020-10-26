@@ -1,32 +1,28 @@
 import React, {useState, useEffect} from 'react'
 
 import {getPostsRequest, getUsersRequest} from './utilities/Requests'
+
 import LogIn from './actions/LogIn'
 import Sidebar from './sidebar/Sidebar'
 import Register from './actions/Register'
+import SinglePage from './actions/SinglePage'
+
 import '../styles/App.css';
 import '../styles/MediaQueries.css';
+
 import Posts from './Posts'
 import Compose from './actions/Compose'
 import Errors from './utilities/Errors'
 
 import {connect} from 'react-redux'
-import {addPostsAction, addUsersAction} from '../reduxStore/actions/mongoDb'
+import {addPostsAction, addUsersAction, updateAllPostsAction} from '../reduxStore/actions/mongoDb'
 import {setProfileAction} from '../reduxStore/actions/profile'
 import {setErrorMessageAction} from '../reduxStore/actions/page'
 
 const App = props => {
-  const {setProfile, reduXcurrentPage, reduXaddPosts, reduXaddUsers, setErrorMessage} = props
+  const {setProfile, reduXcurrentPage, reduXaddPosts, reduXaddUsers, setErrorMessage, updateAllPosts} = props
 
-  const server_GetPostsRequest = async () => {
-    const requestedPosts =  await getPostsRequest()
-    if(typeof requestedPosts === 'string'){
-      setErrorMessage('There was a connection error with the DB.')
-      reduXaddPosts([])
-    } else {
-      reduXaddPosts(requestedPosts)
-    }
-  }
+  
 
   const server_GetUsersRequest = async () => {
     const response =  await getUsersRequest()
@@ -47,14 +43,14 @@ const App = props => {
 
   useEffect(() => {
     server_GetUsersRequest()
-    server_GetPostsRequest()
+    updateAllPosts()
   }, [reduXcurrentPage])
 
 
   // depending on currentPage show adequate component;
   let currentComponent
   switch(reduXcurrentPage) {
-    case 'log in':
+    case 'log-in':
       currentComponent = <LogIn />
       break;
 
@@ -64,6 +60,10 @@ const App = props => {
 
     case 'compose':
       currentComponent = <Compose />
+      break;
+    
+    case 'single-page':
+      currentComponent = <SinglePage />
       break;
 
     default:
@@ -78,10 +78,7 @@ const App = props => {
 
     <div className='App'>
       <div className='sidebar'>
-        <Sidebar {...{
-          server_GetPostsRequest
-          }}
-        />
+        <Sidebar />
       </div>
 
       <div className='container'>
@@ -108,7 +105,8 @@ const mapDispatchToProps = dispatch => {
     reduXaddPosts: posts => dispatch(addPostsAction(posts)),
     reduXaddUsers: users => dispatch(addUsersAction(users)),
     setProfile: profile => dispatch(setProfileAction(profile)),
-    setErrorMessage: message => dispatch(setErrorMessageAction(message))
+    setErrorMessage: message => dispatch(setErrorMessageAction(message)),
+    updateAllPosts: () => dispatch(updateAllPostsAction())
   }
 }
 
