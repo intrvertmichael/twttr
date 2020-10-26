@@ -3,25 +3,28 @@ import { FaRegHeart } from "react-icons/fa"
 import {likeRequest, dislikeRequest} from '../utilities/Requests'
 import {connect} from 'react-redux'
 import {updateAllPostsAction} from '../../reduxStore/actions/mongoDb'
+import {setSinglePostAction} from '../../reduxStore/actions/page'
 
 const LikeButton = props => {
-    const {reduXprofile, updateAllPosts} = props
+    const {reduXprofile, updateAllPosts, currentPage, setSinglePost} = props
     const {post} = props;
 
     const server_AddLike = async (e) => {
         e.preventDefault()
-
         const response = await likeRequest({
             token:reduXprofile.token,
             _id:post._id
         })
 
-        if(response !== 'OK'){
-            console.log(response)
-        }
+        if(response !== 'OK'){ console.log(response) }
         else {
             console.log('Like was added.')
-            updateAllPosts()
+            if(currentPage==='posts'){
+                updateAllPosts()
+            }
+            else if(currentPage==='single-page') {
+                await setSinglePost(post._id)
+            }
         }
     }
 
@@ -38,7 +41,12 @@ const LikeButton = props => {
         }
         else {
             console.log('Like was removed.')
-            updateAllPosts()
+            if(currentPage==='posts'){
+                updateAllPosts()
+            }
+            else if(currentPage==='single-page') {
+                await setSinglePost(post._id)
+            }
         }
     }
 
@@ -75,13 +83,15 @@ const LikeButton = props => {
 const mapStateToProps = state => {
     return {
         allUsers: state.mongoDb.allUsers,
-        reduXprofile: state.profile
+        reduXprofile: state.profile,
+        currentPage: state.page.currentPage
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateAllPosts: () => dispatch(updateAllPostsAction())
+        updateAllPosts: () => dispatch(updateAllPostsAction()),
+        setSinglePost: postId => dispatch(setSinglePostAction(postId))
     }
 }
 

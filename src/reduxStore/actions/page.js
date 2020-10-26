@@ -1,3 +1,5 @@
+import {singlepostRequest} from '../../components/utilities/Requests'
+
 export const setCurrentPageAction = (page) => {
 	return (dispatch, getState) => {
 		dispatch({
@@ -31,5 +33,23 @@ export const setSearchResultsAction = (payload) => {
 			type: 'SET_SEARCH_RESULTS',
 			payload: payload
 		})
+	}
+}
+export const setSinglePostAction = (postId) => {
+	if(postId){
+		return async (dispatch, getState) => {
+			const response = await singlepostRequest(postId)
+			dispatch({
+				type: 'SET_SINGLE_POST',
+				payload: response
+			})
+		}
+	} else {
+		return (dispatch, getState) => {
+			dispatch({
+				type: 'SET_SINGLE_POST',
+				payload: null
+			})
+		}
 	}
 }

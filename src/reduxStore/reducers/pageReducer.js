@@ -17,6 +17,9 @@ switch (action.type) {
 
     case 'SET_SEARCH_RESULTS':
         return {...state, searchResults: action.payload}
+    
+    case 'SET_SINGLE_POST':
+        return {...state, singlePost: action.payload}
 
     default:
         return state

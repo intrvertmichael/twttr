@@ -3,12 +3,11 @@ import {connect} from 'react-redux'
 
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
-import {singlepostRequest} from '../utilities/Requests'
-import {setSearchAction, setCurrentPageAction} from '../../reduxStore/actions/page'
+import {setSearchAction, setCurrentPageAction, setSinglePostAction} from '../../reduxStore/actions/page'
 import {updateAllPostsAction} from '../../reduxStore/actions/mongoDb'
 
 const Post = props => {
-    const {setSearch, allUsers, reduXprofile, setCurrentPage} = props
+    const {setSearch, allUsers, reduXprofile, setCurrentPage, setSinglePost, currentPage} = props
     const {post, profile} = props
 
     let authorProfile = allUsers.find(user => user._id === post.authorId)
@@ -25,7 +24,7 @@ const Post = props => {
         return (
             <>
             {postText.split(/\s+/).map(word => {
-    
+
                 if(word.startsWith('#')){
                     return (
                         <button
@@ -34,17 +33,16 @@ const Post = props => {
                         >
                         {word}
                         </button>)
-                } 
+                }
                 else if(word.startsWith('@')){
                     const mentioned = allUsers.find(user=> user.name === word.toLowerCase().substring(1))
-    
+
                     let style={}
-    
+
                     if(mentioned){
                         style = {background:mentioned.color, color: 'black'}
                     }
-    
-    
+
                     return (<button
                                 style={style}
                                 className='hashtag'
@@ -52,7 +50,7 @@ const Post = props => {
                                 {word}
                                 </button>)
                 }
-    
+
                 else {
                     return word + ' '
                 }
@@ -62,16 +60,14 @@ const Post = props => {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
     const postClick = async () => {
-        const res = await singlepostRequest(post._id)
-        console.log('single page post')
-        console.log(res)
+        await setSinglePost(post._id)
         setCurrentPage('single-page')
     }
 
     const hashtagClick = hashtag => {
-        console.log('hashtag', hashtag)
+        setCurrentPage('posts')
+        setSinglePost(null)
         setSearch(hashtag)
     }
 
@@ -96,9 +92,14 @@ const Post = props => {
         <div className='post-footer'>
             <div className='date-comments'>
                 <p className='date'>{getFullDate(post.date)}</p>
+
+                {
+                currentPage==='posts'? 
                 <el onClick={postClick} className='comments'>
                     Comments
-                </el>
+                </el> : ''
+                }
+
             </div>
             {reduXprofile && reduXprofile._id === post.authorId?
             <DeleteButton {...{
@@ -127,7 +128,8 @@ const mapStateToProps = state => {
     return {
         allPosts: state.mongoDb.allPosts,
         allUsers: state.mongoDb.allUsers,
-        reduXprofile: state.profile
+        reduXprofile: state.profile,
+        currentPage: state.page.currentPage
     }
 }
 
@@ -135,7 +137,8 @@ const mapDispatchToProps = dispatch => {
     return {
         setSearch: text => dispatch(setSearchAction(text)),
         setCurrentPage: page => dispatch(setCurrentPageAction(page)),
-        updateAllPosts: () => dispatch(updateAllPostsAction())
+        updateAllPosts: () => dispatch(updateAllPostsAction()),
+        setSinglePost: postId => dispatch(setSinglePostAction(postId))
     }
 }
 
