@@ -65,7 +65,11 @@ const SinglePage = props => {
 
     const allComments = singlePost.comments?
                         singlePost.comments.map(comment=>{
-                            const author = allUsers.find(user=> user._id === comment.authorId)
+
+                            let author
+                            if(allUsers){
+                                author = allUsers.find(user=> user._id === comment.authorId)
+                            }
 
                             return (
                             <div className='single-comment' style={{borderRight: `10px solid ${author.color}`}}>
@@ -75,7 +79,7 @@ const SinglePage = props => {
                                 </div>
 
                                 {
-                                comment.authorId === profile._id ?
+                                profile && (comment.authorId === profile._id) ?
                                 <button
                                     className='delete-comment'
                                     onClick={e=>{
