@@ -46,7 +46,6 @@ const SinglePage = props => {
                 )
 
     const handleDeleteComment = async commentId => {
-        console.log(commentId)
         const commentPayload = {
             token: profile.token,
             postId: singlePost._id,

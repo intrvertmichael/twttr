@@ -13,7 +13,6 @@ const Register = props => {
 
     // when submit button is pressed
     const handleSubmit = event => {
-        console.log(registerInfo)
         event.preventDefault()
 
         const everythingNotFilled = !registerInfo || !registerInfo.name || !registerInfo.password || !registerInfo.rePassword || !registerInfo.color;

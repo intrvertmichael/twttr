@@ -33,11 +33,7 @@ const LogIn = props => {
             console.log('Log in was successful')
 
             const userProfile = allUsers.find(user=> user._id === response._id)
-            console.log('-> ', userProfile, response.token)
-            // if(_.isEmpty(reduXprofile)){
-                setProfile({...userProfile, token: response.token})
-            // }
-
+            setProfile({...userProfile, token: response.token})
             setCurrentPage('posts');
             setErrorMessage(null)
             localStorage.setItem('storediD', response._id);
