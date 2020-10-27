@@ -15,7 +15,8 @@ mongoPostRouter.get('/posts', async (request, response) => {
             authorId: post.authorId,
             payload: post.payload,
             date: post.date,
-            likes: post.likes
+            likes: post.likes,
+            comments: post.comments
         }
     }))
 })

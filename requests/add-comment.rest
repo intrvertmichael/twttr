@@ -1,0 +1,8 @@
+POST http://localhost:3000/api/comments
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmODczNDZhZWIzMjM3MDAxNzM2N2UzMyIsImlhdCI6MTYwMzczMjgwNn0.LyQje8jgq8Pwvyy8-ogCeoK6GDYtRXEjLlXxyf0FpOo",
+    "_id": "5f9450ad1a6988391dbff011",
+    "message":"This is my first comment."
+}

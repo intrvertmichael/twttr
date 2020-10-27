@@ -35,6 +35,7 @@ export const setSearchResultsAction = (payload) => {
 		})
 	}
 }
+
 export const setSinglePostAction = (postId) => {
 	if(postId){
 		return async (dispatch, getState) => {

@@ -69,3 +69,18 @@ export const singlepostRequest = async (postInfo) => {
     .catch(err => message = `Error: ${err.response.data}`)
     return message!==''? message : response.data;
 }
+
+export const addCommentRequest = async (postInfo) => {
+    let message = '' ;
+    const response = await axios.post(`/api/comments`, postInfo)
+    .catch(err => message = `Error: ${err.response.data}`)
+    return message!==''? message : response.data;
+}
+
+export const deleteCommentRequest = async (postInfo) => {
+    let message = '' ;
+    const response = await axios.post(`/api/deletecomment`, postInfo)
+    .catch(err => message = `Error: ${err.response.data}`)
+    return message!==''? message : response.data;
+}
+

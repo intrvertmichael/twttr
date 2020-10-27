@@ -86,7 +86,7 @@ const Post = props => {
             {
             currentPage==='posts'?
             <el onClick={postClick} className='comments'>
-                <label> 1 </label>
+                <label> {post.comments?post.comments.length:0} </label>
                 <FaRegCommentAlt className='commentbox'/>
             </el> : ''
             }

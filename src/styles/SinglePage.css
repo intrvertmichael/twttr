@@ -4,4 +4,29 @@
     font-size: 16px;
     box-sizing: border-box;
     border: none;
+    border-top: 1px solid black;
+}
+
+.single-comment{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px 30px 40px 30px;
+    border-top: 1px solid black;
+    color: #969696;
+    position: relative;
+}
+
+.single-comment span {
+    color: black;
+    text-transform: capitalize;
+}
+
+.delete-comment {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
 }

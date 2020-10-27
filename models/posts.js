@@ -6,6 +6,7 @@ const postSchema = new mongoose.Schema({
     color: {type: String },
     payload: { type: String },
     likes: { type: Array },
+    comments: { type: Array },
     date: { type: Date }
 })
 

@@ -11,6 +11,7 @@ const loginRouter = require('./controllers/login')
 const searchRouter = require('./controllers/hashtags')
 const likesRouter = require('./controllers/likes')
 const singlePageRouter = require('./controllers/singlepost')
+const commentsRouter = require('./controllers/comments')
 const path = require('path');
 
 const app = express()
@@ -46,6 +47,7 @@ app.use("/api", loginRouter)
 app.use("/api", searchRouter)
 app.use("/api", likesRouter)
 app.use("/api", singlePageRouter)
+app.use("/api", commentsRouter)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT,() => console.log('listening on port:', PORT));
