@@ -20,3 +20,22 @@
     cursor: pointer;
     margin-bottom: 0px;
 }
+
+.test {
+    width: 100%;
+    height: 200px;
+    padding: 30px;
+    font-family: Helvetica, Arial, sans-serif;
+    display: block;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+
+.test[placeholder]:empty:before {
+    content: attr(placeholder);
+    color: #555; 
+}
+
+.test[placeholder]:empty:focus:before {
+    content: "";
+}

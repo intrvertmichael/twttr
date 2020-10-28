@@ -5,64 +5,56 @@ import {connect} from 'react-redux'
 import {setCurrentPageAction, setErrorMessageAction} from '../../reduxStore/actions/page'
 
 const Compose = props => {
-    const {reduXprofile, setCurrentPage, setErrorMessage} = props
-    const [compose, setCompose] = useState('');
-    const textAreaEl = useRef();
+    const {reduXprofile, setCurrentPage, setErrorMessage, allUsers} = props
+    const [compose, setCompose] = useState(' ');
     const tweetLength = 120;
 
-    const handleSubmit = async e =>{
-        e.preventDefault()
-        const correctLength = compose.trim().length > 2 && compose.trim().length < tweetLength;
 
-        if(correctLength){
-            server_composeRequest();
-        } else {
-            setErrorMessage('Error: Text is not the right length')
-        }
+    const handleTextAreaKey = e => {
+        setCompose(compose + e.target.value)
     }
 
-    const server_composeRequest = async () => {
-        const response = await composeRequest({
-            token : reduXprofile.token,
-            payload : compose.trim()
-        })
-
-        if(response !== 'OK'){
-            setErrorMessage(response)
-        }
-        else {
-            console.log('Post was created.')
-            setCurrentPage('posts')
-        }
-    }
-
+    const [html, setHTML] = useState()
+    const [wordLength, setwordLength] = useState(0);
+    const textAreaEl = useRef();
 
     return (
-        <form className='composeForm' onSubmit={handleSubmit}>
-            <textarea
-                type='text'
-                name="text"
-                placeholder="Enter your message"
-                ref={textAreaEl}
-                onChange={ e => {
-                    setCompose(e.target.value)
-                    if(compose.trim().length>tweetLength){
-                        textAreaEl.current.style.backgroundColor = "red";
-                    } else {
-                        textAreaEl.current.style.backgroundColor = "white";
+        <div
+            contentEditable = 'true'
+            className = 'test'
+            placeholder = 'type something here'
+            ref = {textAreaEl}
+            onKeyUp = { e => {
+                textAreaEl.current.focus()
+                const inputText = textAreaEl.current.innerText
+
+                const arr = inputText.split(' ').map(word=> {
+                    if(word.startsWith('#')){
+                        return (
+                        <div>
+                        <button>{word}</button>
+                        <span> </span>
+                        </div>
+                        )
                     }
-                }}
-            />
-            <div className='btns'>
-                <button name="cancel" className='submit' onClick={e => {
-                    e.preventDefault()
-                    setErrorMessage(null)
-                    setCurrentPage('posts')
-                }}>Cancel</button>
-                <button type='submit' name="submit" className='submit'>Submit</button>
-            </div>
-        </form>
+                    else {
+                        return `${word} `
+                    }
+                })
+
+                console.log(arr)
+
+                const info = <p> {arr} </p>
+                console.log(info)
+                setHTML('')
+                setHTML(info)
+            }
+            }
+        >
+        {html}
+        </div>
     )
+
 }
 
 const mapStateToProps = state => {
