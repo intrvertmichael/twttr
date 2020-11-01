@@ -25,7 +25,7 @@ Hashtags are an important part of twitter. They help label posts for future refe
 ## Search
 On the bottom of the sidebar is a search field. Hashtags can be search with plain hashtag name or by using the # symbol infront of name. You can also search for more than one hashtag at a time. If you want to narrow your search to posts that only include those hashtags then you need to use either the & symbol or the word 'and'.
 
-![Comments Page](./readme-images/comments.png)
+![Comments Page](./readme-images/new-comments.png)
 
 ## Comments and Likes
 Every post is able to keep track of comments and likes. The likes are kept as an array that includes the user's id to let me know if the person has liked the post before. The comments are also kept as an array including the comment author's id so the appropriate user can delete their own comment.
