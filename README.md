@@ -12,7 +12,7 @@ In order to create this app I used React and Redux in the front end, and Node an
 ## Entry Page
 When you go on the web app the first thing you see is the list of posts from all users. The posts can be written after signing up for an account or logging in with a previous account with the buttons on the sidebar. On the bottom of the search bar is a searchfield that can be used to look for posts with a specific hashtag.
 
-![Back End](./readme-images/back-end.png)
+![Back End](./readme-images/new-back-end.png)
 
 ## Backend Authorization
 The passwords are encrypted so no plain password is stored on the Database which will never be known by anyone other than the user. Once logged in a token from the Database is stored locally in order for you to stay logged in even after the page being closed or refreshed. What is really being sent back from the server is a token and the userId. The token will be used to take any actions from the website and the userId will be used to display your profile information on the appropriate places in the app.
