@@ -1,48 +1,41 @@
-import {getPostsRequest, getUsersRequest} from '../../components/utilities/Requests'
-
-export const addPostsAction = (posts) => {
-	return (dispatch, getState) => {
-		dispatch({
-			type: 'ADD_POSTS',
-			payload: posts
-		})
-	}
-}
-
-export const addUsersAction = (users) => {
-	return (dispatch, getState) => {
-		dispatch({
-			type: 'ADD_USERS',
-			payload: users
-		})
-	}
-}
+import {getPostsRequest, getUsersRequest, deleteRequest, likeRequest, dislikeRequest} from '../../components/utilities/Requests'
 
 export const updateAllPostsAction = () => {
 	return async (dispatch, getState) => {
-		const requestedPosts =  await getPostsRequest()
+		const response =  await getPostsRequest()
 
-		// if(typeof requestedPosts === 'string'){
-		// 	setErrorMessage('There was a connection error with the DB.')
-		// 	reduXaddPosts([])
-		// }
+		if(typeof response === 'string'){
+			console.log(response)
+			dispatch({
+				type: 'UPDATE_ALL_POSTS',
+				payload: []
+			})
 
-
-		dispatch({
-			type: 'UPDATE_ALL_POSTS',
-			payload: requestedPosts
-		})
+			dispatch({
+				type: 'SET_ERROR_MESSAGE',
+				message: response
+			})
+		}
+		else {
+			console.log('Posts were updated.')
+			dispatch({
+				type: 'UPDATE_ALL_POSTS',
+				payload: response
+			})
+		}
 	}
 }
 
 export const updateAllUsersAction = () => {
 	return async (dispatch, getState) => {
-		const requestedUsers =  await getUsersRequest()
+		let requestedUsers =  await getUsersRequest()
 
-		// if(typeof requestedPosts === 'string'){
-		// 	setErrorMessage('There was a connection error with the DB.')
-		// 	reduXaddPosts([])
-		// }
+		if(typeof requestedPosts === 'string'){
+			console.log('There was a connection error with the DB.')
+			requestedUsers= []
+		}
+
+		// console.log(requestedUsers)
 
 		const storediD = localStorage.getItem('storediD');
 		const storedToken = localStorage.getItem('storedToken');
@@ -59,5 +52,63 @@ export const updateAllUsersAction = () => {
 			type: 'UPDATE_ALL_USERS',
 			payload: requestedUsers
 		})
+	}
+}
+
+//
+// SINGLE POST
+//
+
+export const deletePostAction = (tokenPostInfo) => {
+	return async (dispatch, getState) => {
+
+		const response =  await deleteRequest(tokenPostInfo)
+
+		if(response !== 'OK'){
+			console.log(response)
+		}
+		else {
+			console.log('Post was successfully deleted.')
+			dispatch({
+				type: 'SET_CURRENT_PAGE',
+				currentPage: 'posts'
+			})
+		}
+	}
+}
+
+export const addLikeAction = (tokenPostInfo) => {
+	return async (dispatch, getState) => {
+
+		const response = await likeRequest(tokenPostInfo)
+
+		if(response !== 'OK'){
+			console.log(response)
+			dispatch({
+				type: 'SET_ERROR_MESSAGE',
+				message: response
+			})
+		}
+		else {
+			console.log('Like was added.')
+		}
+	}
+}
+
+export const removeLikeAction = (tokenPostInfo) => {
+	return async (dispatch, getState) => {
+
+		const response = await dislikeRequest(tokenPostInfo)
+
+		if(response !== 'OK'){
+			console.log(response)
+			dispatch({
+				type: 'SET_ERROR_MESSAGE',
+				message: response
+			})
+		}
+		else {
+			console.log('Like was removed.')
+		}
 	}
 }

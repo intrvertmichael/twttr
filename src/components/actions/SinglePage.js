@@ -53,7 +53,7 @@ const SinglePage = props => {
         }
 
         const response = await deleteCommentRequest(commentPayload)
-        console.log('response', response)
+
         if(response !== 'OK'){
             console.log(response)
         }

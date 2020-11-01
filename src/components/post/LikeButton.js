@@ -1,54 +1,12 @@
 import React from 'react'
 import { FaRegHeart } from "react-icons/fa"
-import {likeRequest, dislikeRequest} from '../utilities/Requests'
 import {connect} from 'react-redux'
-import {updateAllPostsAction} from '../../reduxStore/actions/mongoDb'
+import {updateAllPostsAction, addLikeAction, removeLikeAction} from '../../reduxStore/actions/mongoDb'
 import {setSinglePostAction} from '../../reduxStore/actions/page'
 
 const LikeButton = props => {
     const {reduXprofile, updateAllPosts, currentPage, setSinglePost} = props
-    const {post} = props;
-
-    const server_AddLike = async (e) => {
-        e.preventDefault()
-        const response = await likeRequest({
-            token:reduXprofile.token,
-            _id:post._id
-        })
-
-        if(response !== 'OK'){ console.log(response) }
-        else {
-            console.log('Like was added.')
-            if(currentPage==='posts'){
-                updateAllPosts()
-            }
-            else if(currentPage==='single-page') {
-                await setSinglePost(post._id)
-            }
-        }
-    }
-
-    const server_RemoveLike = async (e) => {
-        e.preventDefault()
-
-        const response = await dislikeRequest({
-            token:reduXprofile.token,
-            _id:post._id
-        })
-
-        if(response !== 'OK'){
-            console.log(response)
-        }
-        else {
-            console.log('Like was removed.')
-            if(currentPage==='posts'){
-                updateAllPosts()
-            }
-            else if(currentPage==='single-page') {
-                await setSinglePost(post._id)
-            }
-        }
-    }
+    const {post, addLikeRequest, removeLikeRequest} = props;
 
     // if user is able to like, make it red
     let style = {};
@@ -66,12 +24,26 @@ const LikeButton = props => {
     }
 
     return (
-        <button className="like" onClick={event=>{
+        <button className="like" onClick={ async event => {
             if(userDidntLikedBefore){
-                server_AddLike(event)
+                await addLikeRequest({
+                    token:reduXprofile.token,
+                    _id:post._id
+                })
             }
             else if(userLikedBefore){
-                server_RemoveLike(event)
+                await removeLikeRequest({
+                    token:reduXprofile.token,
+                    _id:post._id
+                })
+            }
+
+            // reload the page
+            if(currentPage === 'posts'){
+                await updateAllPosts()
+            }
+            else if(currentPage === 'single-page') {
+                await setSinglePost(post._id)
             }
         }} style={style}>
             <label>{post.likes.length}</label>
@@ -91,6 +63,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         updateAllPosts: () => dispatch(updateAllPostsAction()),
+        addLikeRequest: (tokenPostInfo) => dispatch(addLikeAction(tokenPostInfo)),
+        removeLikeRequest: (tokenPostInfo) => dispatch(removeLikeAction(tokenPostInfo)),
         setSinglePost: postId => dispatch(setSinglePostAction(postId))
     }
 }

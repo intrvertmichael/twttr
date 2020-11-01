@@ -47,7 +47,17 @@ const Sidebar = props =>{
         ){
         return(
         <>
-        {reduXcurrentPage!=='compose'? twitterLogo: ''}
+        {
+            reduXcurrentPage!=='compose'?
+            twitterLogo :
+            <div
+                className='profile-name compose-profile-name'
+                onClick={handleLogoClick}
+                style={{background: reduXprofile.color}}
+            >
+            {reduXprofile.name}
+            </div>
+        }
         <div className="page-label">
             {reduXcurrentPage==='log-in'? 'Log In': reduXcurrentPage}
         </div>
@@ -76,6 +86,7 @@ const Sidebar = props =>{
             removeProfile()
             localStorage.removeItem('storediD');
             localStorage.removeItem('storedToken');
+            setErrorMessage('You are now logged out. Hope to see you again soon.')
             setCurrentPage('posts')
             }}> Log Out</button>
 

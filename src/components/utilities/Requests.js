@@ -83,4 +83,3 @@ export const deleteCommentRequest = async (postInfo) => {
     .catch(err => message = `Error: ${err.response.data}`)
     return message!==''? message : response.data;
 }
-

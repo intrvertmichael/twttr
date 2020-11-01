@@ -39,3 +39,12 @@
 .test[placeholder]:empty:focus:before {
     content: "";
 }
+
+.test span {
+    padding: 5px;
+    cursor: initial;
+}
+
+span.mention {
+    background: lightblue;
+}

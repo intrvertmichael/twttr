@@ -1,43 +1,26 @@
 import React, {useState} from 'react';
 import _ from 'lodash'
-import {logInRequest} from '../utilities/Requests'
 import '../../styles/LogIn.css';
 
 import {connect} from 'react-redux'
-import {setProfileAction} from '../../reduxStore/actions/profile'
+import {setProfileAction, logInAction} from '../../reduxStore/actions/profile'
 import {setCurrentPageAction, setErrorMessageAction} from '../../reduxStore/actions/page'
 
 
 const LogIn = props => {
-    const {allUsers, setProfile, setCurrentPage, setErrorMessage} = props
-    // const {addErrorMessage} = props
+    const {setCurrentPage, setErrorMessage, logInRequest} = props
     const [loginInfo, setLoginInfo] = useState();
 
-    const handleSubmit = async event =>{
+    const handleSubmit = event =>{
         event.preventDefault()
         const everythingNotFilled = !loginInfo || !loginInfo.name || !loginInfo.password;
 
         if(everythingNotFilled){
             setErrorMessage('Error: You have to fill out both fields')
-        } else {
-            server_LogInRequest()
         }
-    }
-
-    const server_LogInRequest = async () => {
-        const response = await logInRequest(loginInfo)
-        if(typeof(response)=='string'){
-            console.log(response)
-            setErrorMessage(response)
-        } else {
-            console.log('Log in was successful')
-
-            const userProfile = allUsers.find(user=> user._id === response._id)
-            setProfile({...userProfile, token: response.token})
-            setCurrentPage('posts');
-            setErrorMessage(null)
-            localStorage.setItem('storediD', response._id);
-            localStorage.setItem('storedToken', response.token);
+        else {
+			setErrorMessage(null)
+            logInRequest(loginInfo)
         }
     }
 
@@ -91,6 +74,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setProfile: profile => dispatch(setProfileAction(profile)),
+        logInRequest: profile => dispatch(logInAction(profile)),
         setCurrentPage: page => dispatch(setCurrentPageAction(page)),
         setErrorMessage: message => dispatch(setErrorMessageAction(message))
     }

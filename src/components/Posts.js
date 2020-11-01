@@ -12,7 +12,7 @@ const Posts = props => {
     let postsToShow = allPosts;
     if(searchResults) { postsToShow = searchResults }
 
-    if(!_.isEmpty(postsToShow)){
+    if(!_.isEmpty(postsToShow) && typeof postsToShow !=='string'){
         return (
             <ul>
             {
@@ -29,7 +29,7 @@ const Posts = props => {
     } else {
             return (
                 <div className='emptyPosts'>
-                    <img src='https://media.giphy.com/media/26hkhPJ5hmdD87HYA/giphy.gif' alt='none found'/>
+                    {/* <img src='https://media.giphy.com/media/26hkhPJ5hmdD87HYA/giphy.gif' alt='none found'/> */}
                     <p>Unfortunately there are no posts</p>
             </div>)
     }

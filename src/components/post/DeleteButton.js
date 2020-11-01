@@ -1,33 +1,20 @@
 import React from 'react'
-import {deleteRequest} from '../utilities/Requests'
 import {connect} from 'react-redux'
-import {updateAllPostsAction} from '../../reduxStore/actions/mongoDb'
+import {updateAllPostsAction, deletePostAction} from '../../reduxStore/actions/mongoDb'
 import {setCurrentPageAction} from '../../reduxStore/actions/page'
 
 const DeleteButton = props => {
-    const {reduXprofile, updateAllPosts, setCurrentPage} = props
+    const {reduXprofile, updateAllPosts, deletePostRequest} = props
     const {post} = props
 
     // handle delete button pressed
     const handleDeleteClick = async e => {
         e.preventDefault()
-        server_DeleteRequest()
-    }
-
-    const server_DeleteRequest = async () => {
-        const response =  await deleteRequest({
+        await deletePostRequest({
             token:reduXprofile.token,
             _id:post._id
         })
-
-        if(response !== 'OK'){
-            console.log(response)
-        }
-        else {
-            console.log('Post was successfully deleted.')
-            updateAllPosts()
-            setCurrentPage('posts')
-        }
+        updateAllPosts()
     }
 
     return (
@@ -50,6 +37,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         updateAllPosts: () => dispatch(updateAllPostsAction()),
+        deletePostRequest: (tokenPostInfo) => dispatch(deletePostAction(tokenPostInfo)),
         setCurrentPage: page => dispatch(setCurrentPageAction(page))
     }
 }

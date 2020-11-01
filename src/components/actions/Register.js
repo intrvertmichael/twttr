@@ -1,13 +1,12 @@
 import React, {useState, useRef} from 'react';
 import { TwitterPicker } from 'react-color';
 import {connect} from 'react-redux'
-import {registerRequest} from '../utilities/Requests'
 import '../../styles/Register.css';
-import {setProfileAction} from '../../reduxStore/actions/profile'
+import {setProfileAction, registerUserAction} from '../../reduxStore/actions/profile'
 import {setCurrentPageAction, setErrorMessageAction} from '../../reduxStore/actions/page'
 
 const Register = props => {
-    const {setProfile, setCurrentPage, setErrorMessage} = props
+    const {registerUser, setCurrentPage, setErrorMessage} = props
     const [registerInfo, setRegisterInfo] = useState();
     const rePasswordEl = useRef();
 
@@ -34,21 +33,10 @@ const Register = props => {
             }
             else {
                 rePasswordEl.current.style.backgroundColor = "white";
-                server_RegisterRequest()
+                setErrorMessage('')
+                setCurrentPage('posts')
+                registerUser(registerInfo)
             }
-        }
-    }
-
-    // send request to register user
-    const server_RegisterRequest = async () =>{
-        const response = await registerRequest(registerInfo)
-        if(typeof(response)=='string'){
-            console.log(response)
-            setErrorMessage(response)
-        } else {
-            console.log('Log in was successful')
-            setProfile(response)
-            setCurrentPage('posts')
         }
     }
 
@@ -129,6 +117,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setProfile: profile => dispatch(setProfileAction(profile)),
+        registerUser: profile => dispatch(registerUserAction(profile)) ,
         setCurrentPage: page => dispatch(setCurrentPageAction(page)),
         setErrorMessage: message => dispatch(setErrorMessageAction(message))
     }

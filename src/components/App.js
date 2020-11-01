@@ -13,7 +13,7 @@ import Compose from './actions/Compose'
 import Errors from './utilities/Errors'
 
 import {connect} from 'react-redux'
-import {addPostsAction, addUsersAction, updateAllPostsAction, updateAllUsersAction} from '../reduxStore/actions/mongoDb'
+import {updateAllPostsAction, updateAllUsersAction} from '../reduxStore/actions/mongoDb'
 import {setProfileAction} from '../reduxStore/actions/profile'
 import {setErrorMessageAction} from '../reduxStore/actions/page'
 
@@ -69,7 +69,7 @@ const App = props => {
 }
 
 const mapStateToProps = state => {
-  console.log(state)
+  // console.log(state)
 
   return {
     reduXprofile: state.profile,
@@ -81,8 +81,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    reduXaddPosts: posts => dispatch(addPostsAction(posts)),
-    reduXaddUsers: users => dispatch(addUsersAction(users)),
     setProfile: profile => dispatch(setProfileAction(profile)),
     setErrorMessage: message => dispatch(setErrorMessageAction(message)),
     updateAllPosts: () => dispatch(updateAllPostsAction()),
