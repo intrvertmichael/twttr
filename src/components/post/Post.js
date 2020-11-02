@@ -10,7 +10,11 @@ const Post = props => {
     const {setSearch, allUsers, reduXprofile, setCurrentPage, setSinglePost, currentPage, getUserPosts} = props
     const {post} = props
 
-    let authorProfile = allUsers.find(user => user._id === post.authorId)
+    let authorProfile
+
+    if(allUsers){
+        authorProfile = allUsers.find(user => user._id === post.authorId)
+    }
 
     if(!authorProfile){
         authorProfile = {
@@ -47,6 +51,12 @@ const Post = props => {
                         <button
                             style={style}
                             className='hashtag'
+                            onClick={()=>{
+                                getUserPosts(mentioned._id)
+                                if(currentPage !== 'posts'){
+                                    setCurrentPage('posts')
+                                }
+                            }}
                         >
                         {word}
                         </button>)
