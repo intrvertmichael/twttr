@@ -49,7 +49,6 @@ export const getUserPostsAction = (authorId) => {
 		}
 		else {
 			console.log('User\'s Posts were retreived.')
-			console.log(response)
 			dispatch({
 				type: 'SET_SEARCH_RESULTS',
 				payload: response
