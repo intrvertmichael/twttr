@@ -17,7 +17,6 @@ export const updateAllPostsAction = () => {
 			})
 		}
 		else {
-			console.log('Posts were updated.')
 			dispatch({
 				type: 'UPDATE_ALL_POSTS',
 				payload: response

@@ -1,120 +1,77 @@
-import React, {useState, useRef, useEffect} from 'react'
-import {connect} from 'react-redux'
+import React, {useState, useRef} from 'react'
+import {composeRequest} from '../utilities/Requests'
 import '../../styles/Compose.css';
-
+import {connect} from 'react-redux'
 import {setCurrentPageAction, setErrorMessageAction} from '../../reduxStore/actions/page'
 
 const Compose = props => {
+    const {reduXprofile, setCurrentPage, setErrorMessage} = props
+    const [compose, setCompose] = useState('');
+    const textAreaEl = useRef();
+    const tweetLength = 120;
 
-    const [html, setHTML] = useState()
-    const [caretPos, setCaretPos] = useState(0)
-    const [caretNode, setCaretNode] = useState(0)
-    const textAreaEl = useRef()
+    const handleSubmit = async e =>{
+        e.preventDefault()
+        const correctLength = compose.trim().length > 2 && compose.trim().length < tweetLength
 
-    const getCaretPosition = shift => {
-        console.log('-> get Caret position')
-
-        if (window.getSelection && window.getSelection().getRangeAt) {
-            var range = window.getSelection().getRangeAt(0);
-            var selectedObj = window.getSelection();
-            var childNodes = selectedObj.anchorNode.parentNode.childNodes;
-
-            console.log('selectedObj.anchorNode', selectedObj.anchorNode)
-
-            for (var i = 0; i < childNodes.length; i++) {
-                if (childNodes[i] === selectedObj.anchorNode) {
-                    console.log('childnode: ', i, childNodes[i])
-                    console.log(
-                        'nodeType: ',
-                        childNodes[i].nodeType
-                    )
-                    // figured out node type is different for text
-                    // and for span but coming out as if its the same
-                    // on console of el it comes out as an object
-
-                    setCaretNode(i)
-                }
-            }
-
-            console.log('offset: ', range.startOffset)
-            console.log('')
-
-            setCaretPos(range.startOffset + shift)
+        if(correctLength){
+            server_composeRequest()
+        } else {
+            setErrorMessage('Error: Text is not the right length')
         }
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const setCaret = () => {
-        console.log('-> set Caret')
-        var el = textAreaEl.current
-        var range = document.createRange()
-        var sel = window.getSelection()
+    const server_composeRequest = async () => {
+        const response = await composeRequest({
+            token : reduXprofile.token,
+            payload : compose.trim()
+        })
 
-        console.log(textAreaEl)
-        console.log('el.childNodes[caretNode]: ', el.childNodes[caretNode])
-        console.log('caretPos', caretPos)
-        console.log('')
-
-        range.setStart(el.childNodes[caretNode], caretPos)
-        range.collapse(true)
-
-        sel.removeAllRanges()
-        sel.addRange(range)
-    }
-
-    useEffect(() => {
-        // if textArea has childnodes setCaret
-        // to position before re-render
-        if(textAreaEl.current.childNodes.length>0){
-            setCaret()
+        if(response !== 'OK'){
+            setErrorMessage(response)
         }
-    }, [html, setCaret])
-
-    let shift = 0
+        else {
+            console.log('Post was created.')
+            setCurrentPage('posts')
+        }
+    }
 
     return (
-        <div
-            contentEditable = 'true'
-            className = 'test'
-            placeholder = 'type something here'
-            ref = {textAreaEl}
-            dangerouslySetInnerHTML={{__html: html}}
-            onKeyUp = { e => {
-
-                const inputText = textAreaEl.current.innerText
-
-                // if @ or # should shift after re-rendering
-                console.log(e.keyCode)
-                if(e.keyCode === 51 || e.keyCode === 50){
-                    shift -= 1
+    <form className='composeForm' onSubmit={handleSubmit}>
+        <textarea
+            type='text'
+            name="text"
+            placeholder="Enter your message"
+            ref={textAreaEl}
+            onChange={ e => {
+                setCompose(e.target.value)
+                if(compose.trim().length>tweetLength){
+                    textAreaEl.current.style.backgroundColor = "red";
                 }
-
-                // composing final JSX
-                let final = ''
-
-                inputText.split(/\s+/).forEach( word => {
-                    if(word.startsWith('#')){
-                        final += `<span class='hashtag'>${word}</span> `
-                    }
-                    else if(word.startsWith('@')){
-                        final += `<span class='mention'>${word}</span> `
-                    }
-                    else {
-                        final += `${word} `
-                    }
-                })
-
-                if(e.keyCode === 32 ){
-                } else {
-                    setHTML(final)
-                    getCaretPosition(shift)
+                else {
+                    textAreaEl.current.style.backgroundColor = "white";
                 }
-
-            }
-            }
+            }}
         />
-    )
 
+        <div className='btns'>
+            <button
+                name="cancel"
+                className='submit'
+                onClick={e => {
+                e.preventDefault()
+                setErrorMessage(null)
+                setCurrentPage('posts')
+            }}>
+                Cancel
+            </button>
+
+            <button type='submit' name="submit" className='submit'>
+                Submit
+            </button>
+        </div>
+    </form>
+    )
 }
 
 const mapStateToProps = state => {

@@ -69,7 +69,7 @@ const App = props => {
 }
 
 const mapStateToProps = state => {
-  // console.log(state)
+  console.log(state)
 
   return {
     reduXprofile: state.profile,
