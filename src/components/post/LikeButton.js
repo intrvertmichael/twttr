@@ -2,11 +2,11 @@ import React from 'react'
 import { FaRegHeart } from "react-icons/fa"
 import {connect} from 'react-redux'
 import {updateAllPostsAction, addLikeAction, removeLikeAction} from '../../reduxStore/actions/mongoDb'
-import {setSinglePostAction} from '../../reduxStore/actions/page'
+import {setSinglePostAction, setErrorMessageAction} from '../../reduxStore/actions/page'
 
 const LikeButton = props => {
     const {reduXprofile, updateAllPosts, currentPage, setSinglePost} = props
-    const {post, addLikeRequest, removeLikeRequest} = props;
+    const {post, addLikeRequest, removeLikeRequest, setErrorMessage} = props;
 
     // if user is able to like, make it red
     let style = {};
@@ -25,7 +25,10 @@ const LikeButton = props => {
 
     return (
         <button className="like" onClick={ async event => {
-            if(userDidntLikedBefore){
+            if(!reduXprofile){
+                setErrorMessage('Please log in to be able to like a post')
+            }
+            else if(userDidntLikedBefore){
                 await addLikeRequest({
                     token:reduXprofile.token,
                     _id:post._id
@@ -65,7 +68,8 @@ const mapDispatchToProps = dispatch => {
         updateAllPosts: () => dispatch(updateAllPostsAction()),
         addLikeRequest: (tokenPostInfo) => dispatch(addLikeAction(tokenPostInfo)),
         removeLikeRequest: (tokenPostInfo) => dispatch(removeLikeAction(tokenPostInfo)),
-        setSinglePost: postId => dispatch(setSinglePostAction(postId))
+        setSinglePost: postId => dispatch(setSinglePostAction(postId)),
+        setErrorMessage: message => dispatch(setErrorMessageAction(message))
     }
 }
 
