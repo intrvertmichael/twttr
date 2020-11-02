@@ -3,11 +3,11 @@ import {connect} from 'react-redux'
 import {FaRegCommentAlt} from 'react-icons/fa'
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
-import {setSearchAction, setCurrentPageAction, setSinglePostAction} from '../../reduxStore/actions/page'
+import {setSearchAction, setCurrentPageAction, setSinglePostAction, getUserPostsAction} from '../../reduxStore/actions/page'
 import {updateAllPostsAction} from '../../reduxStore/actions/mongoDb'
 
 const Post = props => {
-    const {setSearch, allUsers, reduXprofile, setCurrentPage, setSinglePost, currentPage} = props
+    const {setSearch, allUsers, reduXprofile, setCurrentPage, setSinglePost, currentPage, getUserPosts} = props
     const {post} = props
 
     let authorProfile = allUsers.find(user => user._id === post.authorId)
@@ -75,7 +75,15 @@ const Post = props => {
     return (
     <li className='post'>
         <div className='post-header'>
-            <div className='info-name'>
+            <div
+                className='info-name'
+                onClick={()=>{
+                    getUserPosts(authorProfile._id)
+                    if(currentPage !== 'posts'){
+                        setCurrentPage('posts')
+                    }
+                }}
+                >
                 <div
                     className='icon-color'
                     style={{background:authorProfile.color}}
@@ -135,6 +143,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setSearch: text => dispatch(setSearchAction(text)),
+        getUserPosts: authorId => dispatch(getUserPostsAction(authorId)),
         setCurrentPage: page => dispatch(setCurrentPageAction(page)),
         updateAllPosts: () => dispatch(updateAllPostsAction()),
         setSinglePost: postId => dispatch(setSinglePostAction(postId))

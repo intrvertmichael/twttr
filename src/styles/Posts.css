@@ -87,6 +87,7 @@ post-header
 .info-name{
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .icon-color {

@@ -1,4 +1,4 @@
-import {singlepostRequest} from '../../components/utilities/Requests'
+import {singlepostRequest, userPostsRequest} from '../../components/utilities/Requests'
 
 export const setCurrentPageAction = (page) => {
 	return (dispatch, getState) => {
@@ -33,6 +33,28 @@ export const setSearchResultsAction = (payload) => {
 			type: 'SET_SEARCH_RESULTS',
 			payload: payload
 		})
+	}
+}
+
+export const getUserPostsAction = (authorId) => {
+	return async (dispatch, getState) => {
+		const response =  await userPostsRequest({authorId:authorId})
+
+		if(typeof response === 'string'){
+			console.log(response)
+			dispatch({
+				type: 'SET_ERROR_MESSAGE',
+				message: response
+			})
+		}
+		else {
+			console.log('User\'s Posts were retreived.')
+			console.log(response)
+			dispatch({
+				type: 'SET_SEARCH_RESULTS',
+				payload: response
+			})
+		}
 	}
 }
 

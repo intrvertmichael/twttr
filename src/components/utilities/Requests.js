@@ -63,6 +63,13 @@ export const searchRequest = async (postInfo) => {
     return message!==''? message : response.data;
 }
 
+export const userPostsRequest = async (authorId) => {
+    let message = '' ;
+    const response = await axios.post('/api/userPosts', authorId)
+    .catch(err => message = `Error: ${err.response.data}`)
+    return message!==''? message : response.data;
+}
+
 export const singlepostRequest = async (postInfo) => {
     let message = '' ;
     const response = await axios.get(`/api/post/${postInfo}`)
