@@ -13,8 +13,12 @@ const Post = props => {
     let authorProfile
 
     if(allUsers && post){
-        const foundUser = allUsers.filter(user => user._id === post.authorId)
-        authorProfile = foundUser[0]
+        try{
+            const foundUser = allUsers.filter(user => user._id === post.authorId)
+            authorProfile= foundUser[0]
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     if(!authorProfile){
