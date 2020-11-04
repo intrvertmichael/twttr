@@ -9,8 +9,8 @@ import '../styles/App.css';
 import '../styles/MediaQueries.css';
 
 import Posts from './Posts'
-import Compose from './actions/Compose'
-import HighlightedCompose from './actions/HighlightedCompose'
+// import Compose from './actions/Compose'
+import HighlightedCompose from './HighlightedCompose/HC'
 import Errors from './utilities/Errors'
 
 import {connect} from 'react-redux'

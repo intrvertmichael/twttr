@@ -42,3 +42,32 @@
     background: lightgray;
     color: black;
 }
+
+.suggestions {
+    background: #ededed;
+    color: #848484;
+    padding: 30px;
+    font-size: 14px;
+    border-bottom: 1px solid black;
+}
+
+.suggestions li {
+    display: inline;
+    padding: 0px 5px;
+}
+
+.suggestions li:after {
+    content: " or";
+}
+
+.suggestions li:first-child {
+    padding-left: 0px;
+}
+
+.suggestions li:first-child:after {
+    content: "";
+}
+
+.suggestions li:last-child:after {
+    content: "";
+}
