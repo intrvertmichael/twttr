@@ -2,7 +2,12 @@ import {getPostsRequest, getUsersRequest, deleteRequest, likeRequest, dislikeReq
 
 export const updateAllPostsAction = () => {
 	return async (dispatch, getState) => {
-		const response =  await getPostsRequest()
+		let response
+		try {
+			response =  await getPostsRequest()
+		} catch(e) {
+			console.log(e);
+		}
 
 		if(typeof response === 'string'){
 			console.log(response)

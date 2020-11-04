@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import _ from 'lodash'
 import '../../styles/LogIn.css';
 
 import {connect} from 'react-redux'
