@@ -32,7 +32,13 @@ export const updateAllPostsAction = () => {
 
 export const updateAllUsersAction = () => {
 	return async (dispatch, getState) => {
-		let requestedUsers =  await getUsersRequest()
+
+		let requestedUsers
+		try {
+			requestedUsers =  await getUsersRequest()
+		} catch(e) {
+			console.log(e);
+		}
 
 		if(typeof requestedPosts === 'string'){
 			console.log('There was a connection error with the DB.')
