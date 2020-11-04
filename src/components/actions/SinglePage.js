@@ -68,7 +68,11 @@ const SinglePage = props => {
 
                             let author
                             if(allUsers){
-                                author = allUsers.find(user=> user._id === comment.authorId)
+                                try {
+                                    author = allUsers.find(user=> user._id === comment.authorId)
+                                } catch (error) {
+                                    console.error(error);
+                                }
                             }
 
                             return (

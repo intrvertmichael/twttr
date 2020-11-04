@@ -51,7 +51,12 @@ export const updateAllUsersAction = () => {
 		const storedToken = localStorage.getItem('storedToken');
 
 		if(storediD){
-			const f = requestedUsers.find(user=> user._id === storediD)
+			let f
+			try {
+				f = requestedUsers.find(user=> user._id === storediD)
+			} catch (error) {
+				console.error(error);
+			}
 			dispatch({
 				type: 'ADD_PROFILE',
 				payload: {...f, token:storedToken}

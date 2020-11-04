@@ -27,7 +27,13 @@ export const logInAction = (profile) => {
 		} else {
 			console.log('Log in was successful')
 			const allUsers = getState().mongoDb.allUsers
-			const userProfile = allUsers.find(user=> user._id === response._id)
+
+			let userProfile
+			try {
+				userProfile = allUsers.find(user=> user._id === response._id)
+			} catch (error) {
+				console.error(error);
+			}
 
 			localStorage.setItem('storediD', response._id);
 			localStorage.setItem('storedToken', response.token);

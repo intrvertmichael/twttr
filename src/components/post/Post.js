@@ -44,7 +44,12 @@ const Post = props => {
                         </button>)
                 }
                 else if(word.startsWith('@')){
-                    const mentioned = allUsers.find(user=> user.name === word.toLowerCase().substring(1))
+                    let mentioned
+                    try {
+                        mentioned = allUsers.find(user=> user.name === word.toLowerCase().substring(1))
+                    } catch (error) {
+                        console.error(error);
+                    }
 
                     let style={}
 
