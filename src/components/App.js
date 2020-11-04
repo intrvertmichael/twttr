@@ -10,6 +10,7 @@ import '../styles/MediaQueries.css';
 
 import Posts from './Posts'
 import Compose from './actions/Compose'
+import HighlightedCompose from './actions/HighlightedCompose'
 import Errors from './utilities/Errors'
 
 import {connect} from 'react-redux'
@@ -23,7 +24,7 @@ const App = props => {
   useEffect(() => {
     updateAllUsers()
     updateAllPosts()
-  }, [reduXcurrentPage])
+  }, [reduXcurrentPage, updateAllPosts, updateAllUsers])
 
 
   // depending on currentPage show adequate component;
@@ -38,7 +39,8 @@ const App = props => {
       break;
 
     case 'compose':
-      currentComponent = <Compose />
+      // currentComponent = <Compose />
+      currentComponent = <HighlightedCompose />
       break;
 
     case 'single-page':
@@ -69,7 +71,7 @@ const App = props => {
 }
 
 const mapStateToProps = state => {
-  console.log(state)
+  // console.log(state)
 
   return {
     reduXprofile: state.profile,

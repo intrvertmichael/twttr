@@ -12,7 +12,7 @@ const Post = props => {
 
     let authorProfile
 
-    if(allUsers){
+    if(allUsers && post){
         authorProfile = allUsers.find(user => user._id === post.authorId)
     }
 

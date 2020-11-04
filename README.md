@@ -32,7 +32,7 @@ On the bottom of the sidebar is a search field. Hashtags can be search with plai
 ## Comments and Likes
 Every post is able to keep track of comments and likes. The likes are kept as an array that includes the user's id to let me know if the person has liked the post before. The comments are also kept as an array including the comment author's id so the appropriate user can delete their own comment.
 
--> add a picture of new compose with text highlighting
+![Compose Page](./readme-images/newcompose.gif)
 
 ## Compose
-In order to write a tweet you must first be logged in then the compose button will appear. Compose started off as a basic text field but after adding the highlighting on the posts for hashtags and mentions I decided to add the hightlighting inside of the compose to be shown in real time as the post is being written. This way if the person you are trying to mention already exists they will be suggested for more accurate mentioning. The same will happen with the hashtags.
+In order to write a tweet you must first be logged in then the compose button will appear. Compose started off as a basic text field but after adding the highlighting on the posts for hashtags and mentions I decided to add the hightlighting inside of the compose to be shown in real time as the post is being written.

@@ -1,0 +1,44 @@
+.highlighted-compose {
+}
+
+.highlighted-compose-textArea {
+    width: 100%;
+    border: none;
+    height: 200px;
+    padding: 30px;
+    font-family: Helvetica, Arial, sans-serif;
+    display: block;
+    resize: none;
+    font-size: 20px;
+    line-height: 30px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.highlighted-compose-textArea[placeholder]:empty:before {
+    content: attr(placeholder);
+    color: #555;
+}
+
+.highlighted-compose-textArea[placeholder]:empty:focus:before {
+    content: "";
+}
+
+.highlighted-compose-textArea a {
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
+}
+
+.highlighted-compose-textArea a.hashtag {
+    border: none;
+    background:  #e4e4e4;
+    color: #929292;
+}
+
+.highlighted-compose-textArea a.mention {
+    background: lightgray;
+    color: black;
+}
