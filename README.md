@@ -36,3 +36,19 @@ Every post is able to keep track of comments and likes. The likes are kept as an
 
 ## Compose
 In order to write a tweet you must first be logged in then the compose button will appear. Compose started off as a basic text field but after adding the highlighting on the posts for hashtags and mentions I decided to add the hightlighting inside of the compose to be shown in real time as the post is being written.
+
+![MongoDb Page](./readme-images/mongo.png)
+
+## Setup for testing
+To run this project in your local project is very simple.
+All you need to do is:
+- Clone the project to your local machine.
+- Run npm i to install all of the npm packages that are used.
+- Before testing the app you need to have or create a MongoDb cluster. During this setup process you will create a username, password, and dbName that will be added to the api key. If you need help on how to setup this process check out [THIS tutorial](https://docs.atlas.mongodb.com/connect-to-cluster/).
+- After you will need to come up with a string to encrypt and decrypt the tokens that will be used in the app. This string will be stored in the .env file and never seen by anyone other in order to keep a layer of security.
+- Create a .env file in the root of the folder that has the keys stored to access the database and for the encryption of the token. The name of these keys must be 'MONGO_URL' for the Mongo api key and 'JWT_KEY' for the token key.
+- Run 'npm run build' to build a production build that can be used to test the website.
+- Then run 'npm run dev' to start up the server and local build.
+
+> Enjoy and please leave some feedback on anything that's broken or can be improved. -Michael.
+
