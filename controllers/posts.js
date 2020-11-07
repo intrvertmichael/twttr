@@ -26,6 +26,7 @@ mongoPostRouter.get('/posts', async (request, response) => {
 // - - - - - - - - - - - - - - - - - - - - - - -
 // create a post
 mongoPostRouter.post('/posts', async (request, response) => {
+
     if(!request.body.token){
         response
         .status(401)
@@ -51,7 +52,7 @@ mongoPostRouter.post('/posts', async (request, response) => {
 
 
         // create hashtag
-        const allHashtags = request.body.payload.split(' ').filter(word => {
+        const allHashtags = request.body.payload.split(/\s+/).filter(word => {
             if(word.startsWith('#')){
                 return word
             }
@@ -97,7 +98,8 @@ mongoPostRouter.post('/delete', async (request, response)=>{
     const decodedToken = jwt.verify(request.body.token, process.env.JWT_KEY)
     if(decodedToken.id){
         const post = await Post.findById(request.body._id)
-        const allHashtags = post.payload.split(' ').filter(word => {
+
+        const allHashtags = post.payload.split(/\s+/).filter(word => {
             if(word.startsWith('#')){
                 return word
             }
