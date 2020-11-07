@@ -27,7 +27,7 @@ const Posts = props => {
                     {
                     searchText?
                     `Clear Search for ${searchText}` :
-                    `Clear Search`
+                    `Back to All Posts`
                     }
                 </div> : ''
             }

@@ -118,7 +118,7 @@ const TextArea = props => {
                 setSuggested(null)
                 setMentionHash('')
 
-        } else if (hashtagTakingAction && e.keyCode === 32) { // space
+        } else if (hashtagTakingAction && e.key.match(/\s+/)) { // space
             setHashtagValue(mentionHash)
             setSuggested(null)
             setMentionHash('')
@@ -178,7 +178,7 @@ const TextArea = props => {
             setMentionHash('')
         }
 
-        else if (mentionTakingAction && e.keyCode === 32) { // space
+        else if (mentionTakingAction && e.key.match(/\s+/)) { // space
             setMentionValue(mentionHash)
             setSuggested(null)
             setMentionHash('')

@@ -3,7 +3,7 @@ import React, {useEffect} from 'react'
 import LogIn from './actions/LogIn'
 import Sidebar from './sidebar/Sidebar'
 import Register from './actions/Register'
-import SinglePage from './actions/SinglePage'
+import SinglePage from './singlePost/SinglePage'
 
 import '../styles/App.css';
 import '../styles/MediaQueries.css';

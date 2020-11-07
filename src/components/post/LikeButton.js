@@ -26,7 +26,7 @@ const LikeButton = props => {
     return (
         <button className="like" onClick={ async event => {
             if(!reduXprofile){
-                setErrorMessage('Please log in to be able to like a post')
+                setErrorMessage('Please Register or Log In to be able to get the full experience')
             }
             else if(userDidntLikedBefore){
                 await addLikeRequest({
