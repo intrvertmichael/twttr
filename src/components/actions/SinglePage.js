@@ -1,14 +1,15 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {addCommentRequest, deleteCommentRequest} from '../utilities/Requests'
-import {setSinglePostAction} from '../../reduxStore/actions/page'
+import {setSinglePostAction, setCurrentPageAction, setSearchAction} from '../../reduxStore/actions/page'
 
 import Post from '../post/Post'
 import '../../styles/SinglePage.css'
 
 const SinglePage = props => {
     const [commentText, setCommentText] = useState()
-    const {singlePost, profile, allUsers, setSinglePost} = props
+    const {singlePost, profile, allUsers} = props
+    const {setSinglePost, setCurrentPage, setSearch} = props
 
     const handleComment = async e => {
         e.preventDefault()
@@ -100,6 +101,14 @@ const SinglePage = props => {
 
     return (
         <div>
+
+            <div className='clear-page' onClick={()=>{
+                setSearch(null)
+                setCurrentPage('posts')
+                }}>
+                Back to All Posts
+            </div>
+
             <Post post={singlePost} />
 
             <div className='comments-page'>
@@ -122,7 +131,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setSinglePost: postId => dispatch(setSinglePostAction(postId))
+        setSearch: results => dispatch(setSearchAction(results)),
+        setSinglePost: postId => dispatch(setSinglePostAction(postId)),
+        setCurrentPage: page => dispatch(setCurrentPageAction(page))
     }
 }
 

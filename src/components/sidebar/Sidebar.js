@@ -1,16 +1,16 @@
-import React, {useState} from 'react'
+import React from 'react'
 import _ from 'lodash'
 import '../../styles/Sidebar.css';
 import Search from './Search'
 import {connect} from 'react-redux'
 import {FaTwitter} from 'react-icons/fa'
-import {setProfileAction, removeProfileAction} from '../../reduxStore/actions/profile'
+import {removeProfileAction} from '../../reduxStore/actions/profile'
 import {setCurrentPageAction, setErrorMessageAction, setSearchAction, setSearchResultsAction} from '../../reduxStore/actions/page'
 
 const Sidebar = props =>{
-    const {removeProfile, reduXprofile, reduXcurrentPage, setCurrentPage, setSearch, setSearchResults, setErrorMessage} = props
+    const {reduXprofile, reduXcurrentPage} = props
+    const {removeProfile, setCurrentPage, setSearch, setSearchResults, setErrorMessage} = props
 
-    const searchField = <Search />
 
     const handleLogoClick = e =>{
         e.preventDefault()
@@ -21,6 +21,7 @@ const Sidebar = props =>{
     }
 
     const twitterLogo = <div className='page-logo' onClick={handleLogoClick}> <FaTwitter/> </div>
+    const searchField = <Search />
 
 
     // if not logged in and posts page
@@ -30,10 +31,10 @@ const Sidebar = props =>{
     ){
         return (
         <>
-        {twitterLogo}
-        <button className="login-btn" onClick={()=>setCurrentPage('log-in')}>Log In </button>
-        <button className="register-btn" onClick={()=>setCurrentPage('register') }>Register </button>
-        {searchField}
+            {twitterLogo}
+            <button className="login-btn" onClick={()=>setCurrentPage('log-in')}>Log In </button>
+            <button className="register-btn" onClick={()=>setCurrentPage('register') }>Register </button>
+            {searchField}
         </>
         )
     }
@@ -47,7 +48,7 @@ const Sidebar = props =>{
         ){
         return(
         <>
-        {
+            {
             reduXcurrentPage!=='compose'?
             twitterLogo :
             <div
@@ -57,10 +58,10 @@ const Sidebar = props =>{
             >
             {reduXprofile.name}
             </div>
-        }
-        <div className="page-label">
+            }
+            <div className="page-label">
             {reduXcurrentPage==='log-in'? 'Log In': reduXcurrentPage}
-        </div>
+            </div>
         </>
         )
     }
@@ -106,7 +107,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setProfile: profile => dispatch(setProfileAction(profile)),
         removeProfile: () => dispatch(removeProfileAction()),
         setCurrentPage: page => dispatch(setCurrentPageAction(page)),
         setSearch: text => dispatch(setSearchAction(text)),

@@ -99,6 +99,7 @@ const Post = props => {
                 className='info-name'
                 onClick={()=>{
                     getUserPosts(authorProfile._id)
+                    setSearch(null)
                     if(currentPage !== 'posts'){
                         setCurrentPage('posts')
                     }

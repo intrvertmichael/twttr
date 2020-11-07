@@ -4,9 +4,11 @@ import _ from 'lodash'
 import Post from './post/Post'
 import '../styles/Posts.css';
 import {connect} from 'react-redux'
+import {setSearchResultsAction, setSearchAction} from '../reduxStore/actions/page'
 
 const Posts = props => {
     const {allPosts, searchResults} = props
+    const {setSearchResults, setSearch, searchText} = props
     const {addPost} = props
 
     let postsToShow = allPosts;
@@ -15,6 +17,21 @@ const Posts = props => {
     if(!_.isEmpty(postsToShow) && typeof postsToShow !=='string'){
         return (
             <ul>
+
+            {
+                searchResults?
+                <div className='clear-page' onClick={()=>{
+                    setSearch(null)
+                    setSearchResults(null)
+                    }}>
+                    {
+                    searchText?
+                    `Clear Search for ${searchText}` :
+                    `Clear Search`
+                    }
+                </div> : ''
+            }
+
             {
                 postsToShow.slice(0).reverse().map(post => <Post
                         key={post._id}
@@ -38,13 +55,16 @@ const Posts = props => {
 
 const mapStateToProps = state => {
     return {
-        allPosts:state.mongoDb.allPosts,
-        searchResults:state.page.searchResults
+        allPosts: state.mongoDb.allPosts,
+        searchResults: state.page.searchResults,
+        searchText: state.page.search
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        setSearchResults: results => dispatch(setSearchResultsAction(results)),
+        setSearch: results => dispatch(setSearchAction(results))
     }
 }
 
