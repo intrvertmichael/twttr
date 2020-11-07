@@ -5,7 +5,7 @@ const Suggestions = props => {
 
     return (
         <div className='suggestions'>
-            <li>Maybe:</li> {suggested.map( user => <li>{user.name}</li> )}
+            <li>Maybe:</li> {suggested.map( user => <li>@{user.name}</li> )}
         </div>
     )
 }

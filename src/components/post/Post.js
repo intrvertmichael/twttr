@@ -40,7 +40,7 @@ const Post = props => {
                             onClick={()=>hashtagClick(word)}
                             className='hashtag'
                         >
-                        {word}
+                        {`${word} `}
                         </button>)
                 }
                 else if(word.startsWith('@')){
@@ -68,7 +68,7 @@ const Post = props => {
                                 }
                             }}
                         >
-                        {word}
+                        {`${word} `}
                         </button>)
                 }
 

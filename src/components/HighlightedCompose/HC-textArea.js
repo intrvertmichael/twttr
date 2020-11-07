@@ -14,17 +14,22 @@ const TextArea = props => {
 
     const textAreaEl = useRef();
 
-    // hashtag
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// FORMATTING HASHTAG AND MENTION IN TEXT AREA
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // HASHTAG
     useEffect(()=>{
         if(hashtagValue){
             document.designMode = "on"
-            for (let i = 0; i <= hashtagValue.length; i++) {
+            for (let i = 0; i <= hashtagValue.length + 1 ; i++) {
                 document.execCommand("delete", false, "")
             }
             document.execCommand(
                 "insertHTML",
                 false,
-                `<a href='/' class='hashtag'>${hashtagValue}</a>`
+                `<a href='/' class='hashtag'>#${hashtagValue}</a>`
             );
             document.execCommand("insertText", false, " ")
             document.designMode = "off"
@@ -35,15 +40,16 @@ const TextArea = props => {
         }
     }, [hashtagValue])
 
-    // mention
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // MENTION
     useEffect(()=>{
         if(mentionValue){
             document.designMode = "on"
-            for (let i = 0; i <= mentionValue.length; i++) {
+            for (let i = 0; i <= mentionValue.length + 1 ; i++) {
                 document.execCommand("delete", false, "")
             }
 
-            const userFound = allUsers.filter(user=> user.name === mentionValue.substring(1))
+            const userFound = allUsers.filter(user=> user.name === mentionValue)
             const user = userFound[0]
             const exists = userFound.length > 0
 
@@ -53,7 +59,7 @@ const TextArea = props => {
             document.execCommand(
                 "insertHTML",
                 false,
-                `<a href='/' class='mention' style=${userStyle}>${mentionValue}</a>`
+                `<a href='/' class='mention' style=${userStyle}>@${mentionValue}</a>`
             );
             document.execCommand("insertText", false, " ")
             document.designMode = "off"
@@ -64,73 +70,158 @@ const TextArea = props => {
         }
     }, [allUsers, mentionValue])
 
+
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// SUGGESTIONS
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     const [mentionHash, setMentionHash] = useState('')
+
     useEffect(()=>{
-        console.log(mentionHash)
-        if(mentionHash.length>0 && allUsers){
+
+        // console.log(mentionHash)
+
+        if(mentionTakingAction && mentionHash.length>0 && allUsers){
             const possible = allUsers.filter( user => user.name.startsWith(mentionHash))
             console.log(possible)
             setSuggested(possible)
-        } else {
+        }
+
+        else {
             setSuggested(null)
         }
-    }, [allUsers, mentionHash, setSuggested])
+
+    }, [allUsers, mentionHash, mentionTakingAction, setSuggested])
+
+
+
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// HANDLING KEY UP
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     const handleKeyUp = e => {
-        const container = textAreaEl.current
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         // # HASHTAG
         if (e.keyCode === 51) { // #
             setHashtagTakingAction(true)
-        } else if (hashtagTakingAction && e.keyCode === 8 && hashtagValue && hashtagValue.length === 1) { // backspace
-
+        } else if (
+            hashtagTakingAction &&
+            e.keyCode === 8 &&
+            hashtagValue &&
+            hashtagValue.length === 1
+            ) { // backspace
                 setHashtagTakingAction(false)
                 setHashtagValue(null)
                 setSuggested(null)
                 setMentionHash('')
 
         } else if (hashtagTakingAction && e.keyCode === 32) { // space
-            container.innerText.split(/\s+/).forEach((word) => {
-                if (word.startsWith("#")) { setHashtagValue(word) }
-            })
+            setHashtagValue(mentionHash)
             setSuggested(null)
             setMentionHash('')
         } else if (hashtagTakingAction) { // while hashtag is being written
-            // setSuggested(e.key)
+            if(e.keyCode === 8){ // backspace
+                setMentionHash(mentionHash.slice(0, -1))
+            } else {
+                const letter = e.key.toLowerCase()
+                const isLetter =  letter.match(/[a-z]/i)
+
+                if(
+                    isLetter &&
+                    e.keyCode !== 16 &&
+                    e.keyCode !== 16 && // is not shift
+                    e.keyCode !== 91 && // is not meta/command
+                    e.keyCode !== 37 && // is not left
+                    e.keyCode !== 38 && // is not up
+                    e.keyCode !== 39 && // is not right
+                    e.keyCode !== 40    // is not down
+                    ){
+                    setMentionHash(mentionHash + letter)
+                }
+
+                else if(
+                    e.keyCode === 16 || // is shift
+                    e.keyCode === 37 || // is left
+                    e.keyCode === 38 || // is up
+                    e.keyCode === 39 || // is right
+                    e.keyCode === 40    // is down
+                    ) { } // do nothing
+
+                else {
+                    setMentionTakingAction(false)
+                    setSuggested(null)
+                    setMentionHash('')
+                    setHashtagValue(null)
+                }
+            }
         }
+
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         // @ MENTION
         if (e.keyCode === 50) { // @
             setMentionTakingAction(true)
-        } else if (mentionTakingAction && e.keyCode === 8 && mentionValue && mentionValue.length === 1) { // backspace
+        }
 
+        else if (
+            mentionTakingAction &&
+            e.keyCode === 8 &&
+            mentionValue &&
+            mentionValue.length === 1
+            ) { // backspace
             setMentionTakingAction(false)
             setMentionValue(null)
             setSuggested(null)
             setMentionHash('')
+        }
 
-        } else if (mentionTakingAction && e.keyCode === 32) { // space
-            container.innerText.split(/\s+/).forEach((word) => {
-                if (word.startsWith("@")) {
-                    setMentionValue(word)
-                }
-                setSuggested(null)
-                setMentionHash('')
-            })
-        } else if (mentionTakingAction) { // while mention is being written
+        else if (mentionTakingAction && e.keyCode === 32) { // space
+            setMentionValue(mentionHash)
+            setSuggested(null)
+            setMentionHash('')
+        }
 
-            if(e.keyCode === 8){
+        else if (mentionTakingAction) { // while mention is being written
+
+            if(e.keyCode === 8){ // backspace
                 setMentionHash(mentionHash.slice(0, -1))
             } else {
-                const isLetter =  /^[a-zA-Z0-9_.-]*$/.test(e.key.toLowerCase())
-                if(isLetter && e.keyCode !== 16){ // is  letter and not shift
-                    const letter = e.key;
+                const letter = e.key.toLowerCase()
+                const isLetter =  letter.match(/[a-z]/i)
+
+                if(
+                    isLetter &&
+                    e.keyCode !== 16 && // is not shift
+                    e.keyCode !== 91 && // is not meta/command
+                    e.keyCode !== 37 && // is not left
+                    e.keyCode !== 38 && // is not up
+                    e.keyCode !== 39 && // is not right
+                    e.keyCode !== 40    // is not down
+                    ){
                     setMentionHash(mentionHash + letter)
+                }
+
+                else if(
+                    e.keyCode === 16 || // is shift
+                    e.keyCode === 37 || // is left
+                    e.keyCode === 38 || // is up
+                    e.keyCode === 39 || // is right
+                    e.keyCode === 40    // is down
+                    ) { } // do nothing
+
+                else {
+                    setMentionTakingAction(false)
+                    setSuggested(null)
+                    setMentionHash('')
+                    setMentionValue(null)
                 }
             }
         }
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 
         setCompose(textAreaEl.current.innerText)
     }
