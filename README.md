@@ -14,7 +14,7 @@ When you go on the web app the first thing you see is the list of posts from all
 
 
 ## Backend Authorization
-![Back End](./readme-images/new-back-end.png)
+![Back End](./readme-images/back-end.png)
 The passwords are encrypted so no plain password is stored on the Database which will never be known by anyone other than the user. Once logged in a token from the Database is stored locally in order for you to stay logged in even after the page being closed or refreshed. What is really being sent back from the server is a token and the userId. The token will be used to take any actions from the website and the userId will be used to display your profile information on the appropriate places in the app.
 
 
@@ -29,18 +29,19 @@ On the bottom of the sidebar is a search field. Hashtags can be search with plai
 
 
 ## Comments and Likes
-![Comments Page](./readme-images/new-comments.png)
+![Comments Page](./readme-images/comments.png)
 Every post is able to keep track of comments and likes. The likes are kept as an array that includes the user's id to let me know if the person has liked the post before. The comments are also kept as an array including the comment author's id so the appropriate user can delete their own comment.
 
 
 ## Compose
-![Compose Page](./readme-images/newcompose.gif)
-In order to write a tweet you must first be logged in then the compose button will appear. Compose started off as a basic text field but after adding the highlighting on the posts for hashtags and mentions I decided to add the hightlighting inside of the compose to be shown in real time as the post is being written.
+![Compose Page](./readme-images/compose.gif)
+In order to write a tweet you must first be logged in then the compose button will appear. Compose started off as a basic text field but after adding the highlighting on the posts for hashtags and mentions I decided to add the hightlighting inside of the compose to be shown in real time as the post is being written. When you start typing out a mention suggestions will also appear to help you make sure you are typing the person's name with correct spelling.
 
 
 ## Setup for testing
 ![MongoDb Page](./readme-images/mongo.png)
 To run this project in your local project is very simple.
+
 All you need to do is:
 - Clone the project to your local machine.
 - Run npm i to install all of the npm packages that are used.
@@ -50,5 +51,5 @@ All you need to do is:
 - Run 'npm run build' to build a production build that can be used to test the website.
 - Then run 'npm run dev' to start up the server and local build.
 
-> Enjoy and please leave some feedback on anything that's broken or can be improved. -Michael.
+> Enjoy and please leave some feedback on anything that's broken or can be improved.
 

@@ -23,6 +23,14 @@ async (err, count)=> {
         response.status(401).send('user already exists');
     }
 
+    // check for empty spaces in username and password
+    else if (
+        request.body.name.split('').includes(' ') ||
+        request.body.password.split('').includes(' ')
+        ){
+        response.status(401).send('usernames and passwords cannot include blank spaces');
+    }
+
     // if does not exist then create user.
     else {
         const passwordHash = await bcrypt.hash(request.body.password, 10)
