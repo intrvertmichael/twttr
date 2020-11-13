@@ -4,10 +4,11 @@ import {connect} from 'react-redux'
 import '../../styles/Register.css';
 import {setProfileAction, registerUserAction} from '../../reduxStore/actions/profile'
 import {setCurrentPageAction, setErrorMessageAction} from '../../reduxStore/actions/page'
+import tinycolor from 'tinycolor2'
 
 const Register = props => {
     const {registerUser, setCurrentPage, setErrorMessage} = props
-    const [registerInfo, setRegisterInfo] = useState();
+    const [registerInfo, setRegisterInfo] = useState({color:'#e0e0e0'});
     const rePasswordEl = useRef();
 
     // when submit button is pressed
@@ -23,6 +24,9 @@ const Register = props => {
             const passwordsDontMatch = registerInfo.password !== registerInfo.rePassword
 
             const nameHasBlank = registerInfo.name.split('').includes(' ')
+            const nameIsTooLong = registerInfo.name.length > 20;
+            const profileColor = tinycolor(registerInfo.color);
+            console.log('dark?: ', profileColor.isDark())
 
             if(passwordsDontMatch){
                 rePasswordEl.current.style.backgroundColor = "#FFE1E1";
@@ -31,10 +35,18 @@ const Register = props => {
             else if(nameHasBlank) {
                 setErrorMessage('Error: Name can\'t have any spaces')
             }
+            else if(nameIsTooLong) {
+                setErrorMessage('Error: Name can\'t be that long')
+            }
+            else if (profileColor.isDark()){
+                setRegisterInfo({
+                    ...registerInfo,
+                    color : '#e0e0e0'
+                })
+                setErrorMessage('Error: Please choose a lighter color')
+            }
             else {
                 rePasswordEl.current.style.backgroundColor = "white";
-                setErrorMessage('')
-                setCurrentPage('posts')
                 registerUser(registerInfo)
             }
         }
@@ -53,7 +65,7 @@ const Register = props => {
                 type='text'
                 name="name"
                 placeholder="Enter your name"
-                onChange={(e)=> setRegisterInfo({
+                onChange ={ e => setRegisterInfo({
                     ...registerInfo,
                     name : e.target.value.toLowerCase().trim()
                 })}
@@ -78,19 +90,21 @@ const Register = props => {
                 })}
             />
 
-            <div className='color-btns'>
+            <div className='color-btns' style={{background: registerInfo.color}}>
                 <div className='color-btns-label'>
                     <p> Choose a color: </p>
                 </div>
                 <div className='color-btns-choices'>
                 <TwitterPicker
                     triangle='hide'
-                    onChangeComplete={(color, event)=>{
+                    color = {registerInfo.color}
+                    onChange = { (color, event) => {
                         setRegisterInfo({
                             ...registerInfo,
                             color : color.hex
                         })
-                }}/>
+                    }}
+                />
                 </div>
             </div>
 

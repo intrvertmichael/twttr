@@ -48,7 +48,7 @@ const Post = props => {
                     try {
                         mentioned = allUsers.find(user=> user.name === word.toLowerCase().substring(1))
                     } catch (error) {
-                        console.error(error);
+                        console.log(error);
                     }
 
                     let style={}

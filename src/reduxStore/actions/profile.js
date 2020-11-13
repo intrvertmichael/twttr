@@ -62,11 +62,22 @@ export const registerUserAction = (profile) => {
 				type: 'SET_ERROR_MESSAGE',
 				message: response
 			})
+
 		} else {
 			console.log('Registration was successful')
 			dispatch({
 				type: 'ADD_PROFILE',
 				payload: response
+			})
+
+			dispatch({
+				type: 'SET_CURRENT_PAGE',
+				currentPage: 'posts'
+			})
+
+			dispatch({
+				type: 'SET_ERROR_MESSAGE',
+				message: ''
 			})
 		}
 	}

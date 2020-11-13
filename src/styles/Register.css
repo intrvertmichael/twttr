@@ -29,13 +29,15 @@
 }
 .color-btns-label {
     width: 100%;
-    padding: 30px 0px;
-    padding-right: 0px;
+    padding: 0px;
+    display: flex;
+    align-items: center;
     box-sizing: border-box;
 }
 
 .color-btns-label p{
     padding: 0px 0px 0px 30px;
+    box-sizing: border-box;
     margin: 0px;
 }
 
