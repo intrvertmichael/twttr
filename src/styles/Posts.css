@@ -122,6 +122,7 @@ post-body
     line-height: 30px;
     margin: 0px;
     padding: 0px;
+    word-wrap: break-word;
 }
 
 .hashtag {

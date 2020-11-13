@@ -13,6 +13,7 @@
     line-height: 30px;
     outline: none;
     box-sizing: border-box;
+    overflow: scroll;
 }
 
 .highlighted-compose-textArea[placeholder]:empty:before {
