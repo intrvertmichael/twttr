@@ -55,7 +55,7 @@
 .sidebar button, .page-label {
     background: none;
     border: none;
-    border-top: 1px solid black;
+    border-bottom: 1px solid black;
     width: 100%;
     text-align: center;
     padding: 30px;
@@ -83,11 +83,11 @@
 
 .page-label {
     cursor: auto;
-    border-top: none;
+    border-bottom: none;
     text-transform: capitalize;
 }
 
 .login-btn{
-    border-top: none !important;
+    border-bottom: none !important;
 }
 

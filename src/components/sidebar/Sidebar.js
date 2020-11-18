@@ -32,8 +32,8 @@ const Sidebar = props =>{
         return (
         <>
             {twitterLogo}
+            <button className="register-btn" onClick={()=>setCurrentPage('register') }> Register </button>
             <button className="login-btn" onClick={()=>setCurrentPage('log-in')}>Log In </button>
-            <button className="register-btn" onClick={()=>setCurrentPage('register') }>Register </button>
             {searchField}
         </>
         )
