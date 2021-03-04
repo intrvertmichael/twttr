@@ -1,5 +1,6 @@
-
 ![Twitter Banner](./readme-images/twitter.jpg)
+
+See deployed version here ! [NodeTwttr on Heroku](https://nodetwttr.herokuapp.com) Please give it a few seconds for the heroku cold start time.
 
 # Twitter Clone
 After completing [FullStackOpen](https://fullstackopen.com/en/) I wanted to work on a project to put all the backend skills that I learned to practice. I decided to work on a Twitter clone. The project began with the simple functionality, but after completing the base functions I kept adding to it.
